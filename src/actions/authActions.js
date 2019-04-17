@@ -2,13 +2,18 @@ import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 import setAuthToken from '../utils/setAuthToken';
 import { AsyncStorage, Platform } from 'react-native';
-import { GET_ERRORS, SET_CURRENT_USER, CLEAR_ERRORS } from './types';
+import { GET_ERRORS, SET_CURRENT_USER, CLEAR_ERRORS, GET_SUCCESS, CLEAR_SUCCESS } from './types';
 
 // Register User
 export const registerUser = (userData) => dispatch => {
   axios
     .post('http://192.168.1.103:5000/api/users/register', userData)
-    .then(res => console.log(res.data))
+    .then(res => 
+      dispatch({
+        type: GET_SUCCESS,
+        payload: {data: 'Đăng ký thành công'}
+      })
+    )
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
@@ -55,6 +60,12 @@ export const setCurrentUser = decoded => {
 export const clearErrors = () => {
   return {
     type: CLEAR_ERRORS
+  };
+};
+
+export const clearSuccess = () => {
+  return {
+    type: CLEAR_SUCCESS
   };
 };
 

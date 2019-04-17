@@ -14,9 +14,9 @@ import {
 } from 'react-native';
 import { cacheFonts } from "../../helpers/AssetsCaching";
 import { Input, Button, Icon } from 'react-native-elements';
-
 import {LinearGradient} from "../../components/LinearGradient";
-
+import { registerUser, clearSuccess, clearErrors } from '../../actions/authActions';
+import { connect } from 'react-redux';
 // Enable LayoutAnimation on Android
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -27,30 +27,22 @@ const USER_TEACHER = require('../../../assets/images/teacher.png');
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 
-export default class LoginScreen3 extends Component {
+class LoginScreen2 extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      errors: {},
       isLoading: false,
-      selectedType: null,
       fontLoaded: false,
-      username: '',
+      role: '',
+      name: '',
       email: '',
       password: '',
-      confirmationPassword: '',
-      emailValid: true,
-      passwordValid: true,
-      usernameValid: true,
-      confirmationPasswordValid: true,
+      password2: '',
     };
 
     this.setSelectedType = this.setSelectedType.bind(this);
-    this.validateEmail = this.validateEmail.bind(this);
-    this.validatePassword = this.validatePassword.bind(this);
-    this.validateConfirmationPassword = this.validateConfirmationPassword.bind(
-      this
-    );
     this.signup = this.signup.bind(this);
   }
 
@@ -64,80 +56,55 @@ export default class LoginScreen3 extends Component {
     this.setState({ fontLoaded: true });
   }
 
+  componentWillReceiveProps(nextProps) {
+
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors, isLoading: false});
+    }
+
+    this.setState({ errors: nextProps.errors});
+
+    if (nextProps.success.data === "Đăng ký thành công") {
+      Alert.alert('Đăng ký thành công');
+      this.setState({ 
+        isLoading: false,
+        role: '',
+        name: '',
+        email: '',
+        password: '',
+        password2: ''
+      });
+      this.props.clearSuccess();
+    }
+
+  }
+
   signup() {
     LayoutAnimation.easeInEaseOut();
-    const usernameValid = this.validateUsername();
-    const emailValid = this.validateEmail();
-    const passwordValid = this.validatePassword();
-    const confirmationPasswordValid = this.validateConfirmationPassword();
-    if (
-      emailValid &&
-      passwordValid &&
-      confirmationPasswordValid &&
-      usernameValid
-    ) {
-      this.setState({ isLoading: true });
-      setTimeout(() => {
-        LayoutAnimation.easeInEaseOut();
-        this.setState({ isLoading: false });
-        Alert.alert('🎸', 'You rock');
-      }, 1500);
-    }
+    this.setState({ isLoading: true });
+    const newUser = {
+      name: this.state.name,
+      email: this.state.email,
+      password: this.state.password,
+      password2: this.state.password2,
+      role: this.state.role
+    };
+    this.props.registerUser(newUser);
+    this.props.clearErrors();
   }
 
-  validateUsername() {
-    const { username } = this.state;
-    const usernameValid = username.length > 0;
-    LayoutAnimation.easeInEaseOut();
-    this.setState({ usernameValid });
-    usernameValid || this.usernameInput.shake();
-    return usernameValid;
-  }
-
-  validateEmail() {
-    const { email } = this.state;
-    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    const emailValid = re.test(email);
-    LayoutAnimation.easeInEaseOut();
-    this.setState({ emailValid });
-    emailValid || this.emailInput.shake();
-    return emailValid;
-  }
-
-  validatePassword() {
-    const { password } = this.state;
-    const passwordValid = password.length >= 8;
-    LayoutAnimation.easeInEaseOut();
-    this.setState({ passwordValid });
-    passwordValid || this.passwordInput.shake();
-    return passwordValid;
-  }
-
-  validateConfirmationPassword() {
-    const { password, confirmationPassword } = this.state;
-    const confirmationPasswordValid = password === confirmationPassword;
-    LayoutAnimation.easeInEaseOut();
-    this.setState({ confirmationPasswordValid });
-    confirmationPasswordValid || this.confirmationPasswordInput.shake();
-    return confirmationPasswordValid;
-  }
-
-  setSelectedType = selectedType =>
-    LayoutAnimation.easeInEaseOut() || this.setState({ selectedType });
+  setSelectedType = role => LayoutAnimation.easeInEaseOut() || this.setState({ role });
 
   render() {
     const {
       isLoading,
-      selectedType,
       fontLoaded,
-      confirmationPassword,
-      email,
-      emailValid,
+      role,
+      name,
       password,
-      passwordValid,
-      confirmationPasswordValid,
-      username,
-      usernameValid,
+      password2,
+      email,
+      errors
     } = this.state;
 
     return !fontLoaded ? (
@@ -159,30 +126,30 @@ export default class LoginScreen3 extends Component {
               label="Học Viên"
               labelColor="#2CA75E"
               image={USER_STUDENT}
-              onPress={() => this.setSelectedType('child')}
-              selected={selectedType === 'child'} 
+              onPress={() => this.setSelectedType('student')}
+              selected={role === 'student'} 
             />
             <UserTypeItem
               label="Giáo Viên"
               labelColor="#36717F"
               image={USER_TEACHER}
               onPress={() => this.setSelectedType('teacher')}
-              selected={selectedType === 'teacher'}
+              selected={role === 'teacher'}
             />
           </View>
+          {errors.role && <Text style={styles.errorInputStyle}>{errors.role}</Text>}
           <View style={{ width: '80%', alignItems: 'center' }}>
             <FormInput
               refInput={input => (this.usernameInput = input)}
               icon="user"
-              value={username}
-              onChangeText={username => this.setState({ username })}
-              placeholder="Username"
+              value={name}
+              onChangeText={name => this.setState({ name })}
+              placeholder="Họ và Tên"
               returnKeyType="next"
               errorMessage={
-                usernameValid ? null : "Your username can't be blank"
+                errors.name && errors.name
               }
               onSubmitEditing={() => {
-                this.validateUsername();
                 this.emailInput.focus();
               }}
             />
@@ -195,10 +162,9 @@ export default class LoginScreen3 extends Component {
               keyboardType="email-address"
               returnKeyType="next"
               errorMessage={
-                emailValid ? null : 'Please enter a valid email address'
+                errors.email && errors.email
               }
               onSubmitEditing={() => {
-                this.validateEmail();
                 this.passwordInput.focus();
               }}
             />
@@ -207,41 +173,38 @@ export default class LoginScreen3 extends Component {
               icon="lock"
               value={password}
               onChangeText={password => this.setState({ password })}
-              placeholder="Password"
+              placeholder="Mật khẩu"
               secureTextEntry
               returnKeyType="next"
               errorMessage={
-                passwordValid ? null : 'Please enter at least 8 characters'
+                errors.password && errors.password
               }
               onSubmitEditing={() => {
-                this.validatePassword();
                 this.confirmationPasswordInput.focus();
               }}
             />
             <FormInput
               refInput={input => (this.confirmationPasswordInput = input)}
               icon="lock"
-              value={confirmationPassword}
-              onChangeText={confirmationPassword =>
-                this.setState({ confirmationPassword })
+              value={password2}
+              onChangeText={password2 =>
+                this.setState({ password2 })
               }
-              placeholder="Confirm Password"
+              placeholder="Xác nhận lại mật khẩu"
               secureTextEntry
               errorMessage={
-                confirmationPasswordValid
-                  ? null
-                  : 'The password fields are not identics'
+                errors.password2 && errors.password2
               }
               returnKeyType="go"
               onSubmitEditing={() => {
-                this.validateConfirmationPassword();
                 this.signup();
               }}
             />
           </View>
           <Button
             loading={isLoading}
-            title="SIGNUP"
+            loadingProps={{ size: 'small', color: 'white' }}
+            title="Đăng ký"
             containerStyle={{ flex: -1 }}
             buttonStyle={styles.signUpButton}
             linearGradientProps={{
@@ -252,22 +215,8 @@ export default class LoginScreen3 extends Component {
             ViewComponent={LinearGradient}
             titleStyle={styles.signUpButtonText}
             onPress={this.signup}
-            disabled={isLoading}
           />
         </KeyboardAvoidingView>
-        <View style={styles.loginHereContainer}>
-          <Text style={styles.alreadyAccountText}>
-            Already have an account.
-          </Text>
-          <Button
-            title="Login here"
-            titleStyle={styles.loginHereText}
-            containerStyle={{ flex: -1 }}
-            buttonStyle={{ backgroundColor: 'transparent' }}
-            underlayColor="transparent"
-            onPress={() => Alert.alert('🔥', 'You can login here')}
-          />
-        </View>
       </ScrollView>
     );
   }
@@ -400,19 +349,12 @@ const styles = StyleSheet.create({
     width: 250,
     borderRadius: 50,
     height: 45,
-  },
-  loginHereContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  alreadyAccountText: {
-    fontFamily: 'lightitalic',
-    fontSize: 12,
-    color: 'white',
-  },
-  loginHereText: {
-    color: '#FF9800',
-    fontFamily: 'lightitalic',
-    fontSize: 12,
-  },
+  }
 });
+
+const mapStateToProps = state => ({
+  errors: state.errors,
+  success: state.success
+});
+
+export default connect(mapStateToProps, { registerUser, clearErrors, clearSuccess })(LoginScreen2);
