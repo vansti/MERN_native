@@ -11,6 +11,7 @@ import { Input, Button, Icon } from 'react-native-elements';
 import { cacheFonts } from "../../helpers/AssetsCaching";
 import { loginUser, clearErrors } from '../../actions/authActions';
 import { connect } from 'react-redux';
+import isEmptyObj from '../../validation/is-empty'
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
@@ -25,7 +26,6 @@ class LoginScreen1 extends Component {
       fontLoaded: false,
       email: '',
       password: '',
-      login_failed: false,
       showLoading: false,
       errors: {}
     };
@@ -36,7 +36,7 @@ class LoginScreen1 extends Component {
       this.props.navigation.navigate('App');
     }
 
-    if (nextProps.errors) {
+    if (!isEmptyObj(nextProps.errors)) {
       this.setState({ errors: nextProps.errors, showLoading: false });
     }
   }
@@ -53,12 +53,10 @@ class LoginScreen1 extends Component {
   }
 
   submitLoginCredentials() {
-    const { showLoading } = this.state;
 
     this.setState({
-      showLoading: !showLoading,
+      showLoading: true,
     });
-
     const userData = {
       email: this.state.email,
       password: this.state.password

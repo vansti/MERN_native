@@ -17,6 +17,7 @@ import { Input, Button, Icon } from 'react-native-elements';
 import {LinearGradient} from "../../components/LinearGradient";
 import { registerUser, clearSuccess, clearErrors } from '../../actions/authActions';
 import { connect } from 'react-redux';
+import isEmptyObj from '../../validation/is-empty'
 // Enable LayoutAnimation on Android
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -58,7 +59,7 @@ class LoginScreen2 extends Component {
 
   componentWillReceiveProps(nextProps) {
 
-    if (nextProps.errors) {
+    if (!isEmptyObj(nextProps.errors)) {
       this.setState({ errors: nextProps.errors, isLoading: false});
     }
 
@@ -203,7 +204,6 @@ class LoginScreen2 extends Component {
           </View>
           <Button
             loading={isLoading}
-            loadingProps={{ size: 'small', color: 'white' }}
             title="Đăng ký"
             containerStyle={{ flex: -1 }}
             buttonStyle={styles.signUpButton}
