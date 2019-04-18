@@ -66,7 +66,7 @@ class LoginScreen2 extends Component {
     this.setState({ errors: nextProps.errors});
 
     if (nextProps.success.data === "Đăng ký thành công") {
-      Alert.alert('Đăng ký thành công');
+      Alert.alert('Thành công','Đăng ký thành công');
       this.setState({ 
         isLoading: false,
         role: '',

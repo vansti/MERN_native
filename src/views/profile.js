@@ -62,21 +62,23 @@ class Profile extends Component {
     }
 
     if (nextProps.success.data === "Thay đổi thành công") {
-      Alert.alert('Thay đổi thành công');
+      Alert.alert('Thành công','Thay đổi thành công');
       this.setState({isLoading: false})
+      this.props.clearSuccess();
     }
 
   }
 
   onSubmit = e => {
     e.preventDefault();
+    this.setState({isLoading: true});
     const profileData = {
       name: this.state.name,
       email: this.state.email,
       phone: this.state.phone
     };
     this.props.editProfile(profileData, this.state.file);
-    this.setState({isLoading: true})
+    this.props.clearErrors();
   }
 
   render() {
