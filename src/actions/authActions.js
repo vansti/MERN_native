@@ -3,11 +3,12 @@ import jwt_decode from 'jwt-decode';
 import setAuthToken from '../utils/setAuthToken';
 import { AsyncStorage, Platform } from 'react-native';
 import { GET_ERRORS, SET_CURRENT_USER, CLEAR_ERRORS, GET_SUCCESS, CLEAR_SUCCESS } from './types';
+import config from './config';
 
 // Register User
 export const registerUser = (userData) => dispatch => {
   axios
-    .post('http://192.168.1.103:5000/api/users/register', userData)
+    .post(config.ADDRESS + '/api/users/register', userData)
     .then(res => 
       dispatch({
         type: GET_SUCCESS,
@@ -26,7 +27,7 @@ export const registerUser = (userData) => dispatch => {
 export const loginUser = userData => dispatch => {
   // console.log(userData)
   axios
-    .post('http://192.168.1.103:5000/api/users/login', userData)
+    .post(config.ADDRESS + '/api/users/login', userData)
     .then(res => {
       // Save to localStorage
       const { token } = res.data;

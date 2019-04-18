@@ -10,7 +10,7 @@ const ProfileDrawerItem = createStackNavigator(
       screen: Profile,
 
       navigationOptions: ({ navigation }) => ({
-        title: 'Profile',
+        title: 'Thông tin cá nhân',
         headerLeft: (
           <Icon
             name="menu"
@@ -26,7 +26,7 @@ const ProfileDrawerItem = createStackNavigator(
 );
 
 ProfileDrawerItem.navigationOptions = {
-  drawerLabel: 'Profile',
+  drawerLabel: 'Thông cá nhân',
   drawerIcon: ({ tintColor }) => (
     <Icon
       name="person"

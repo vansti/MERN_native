@@ -66,7 +66,7 @@ const AppDrawer = createDrawerNavigator(
     },
   },
   {
-    initialRouteName: 'Components',
+    initialRouteName: 'Profile',
     contentOptions: {
       activeTintColor: '#548ff7',
       activeBackgroundColor: 'transparent',
