@@ -101,7 +101,7 @@ class LoginScreen1 extends Component {
                   placeholderTextColor="white"
                   errorStyle={{ textAlign: 'center', fontSize: 12 }}
                   errorMessage={
-                    errors.email && errors.email
+                    errors.email_login && errors.email_login
                   }
                 />
                 <Input
@@ -129,7 +129,7 @@ class LoginScreen1 extends Component {
                   placeholderTextColor="white"
                   errorStyle={{ textAlign: 'center', fontSize: 12 }}
                   errorMessage={
-                    errors.password && errors.password
+                    errors.password_login && errors.password_login
                   }
                 />
               </View>

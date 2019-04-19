@@ -20,10 +20,10 @@ export const editProfile = (userData, photo) => dispatch => {
         })
 
         axios.post(config.ADDRESS + '/api/users/edit-avatar', fd)
-        .then(data  => {
+        .then(res2  => {
           dispatch({
             type: GET_SUCCESS,
-            payload: {data: 'Thay đổi thành công'}
+            payload: res2.data
           })
           dispatch(getCurrentProfile());
         });
@@ -32,8 +32,9 @@ export const editProfile = (userData, photo) => dispatch => {
       {
         dispatch({
           type: GET_SUCCESS,
-          payload: {data: 'Thay đổi thành công'}
+          payload: res.data
         })
+        dispatch(getCurrentProfile());
       }
       
     })
