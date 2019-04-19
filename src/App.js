@@ -8,12 +8,13 @@ import { cacheAssets, cacheFonts } from "./helpers/AssetsCaching";
 import Components from './drawer/components';
 import Ratings from './drawer/ratings';
 import Pricing from './drawer/pricing';
-import Profile from './drawer/profile';
+import ProfileDrawerItem from './drawer/ProfileDrawerItem';
+import MyCourseDrawerItem from './drawer/MyCourseDrawerItem';
 import Lists from './drawer/lists';
 import Settings from './drawer/settings';
 import Logout from './drawer/Logout'
 
-import Login from './views/login';
+import Login from './views/Login';
 import LoadingScreen from './views/LoadingScreen';
 
 
@@ -42,7 +43,11 @@ const AppDrawer = createDrawerNavigator(
   {
     Profile: {
       path: '/profile',
-      screen: Profile,
+      screen: ProfileDrawerItem,
+    },
+    MyCourse: {
+      path: '/my-course',
+      screen: MyCourseDrawerItem,
     },
     Lists: {
       path: '/lists',
@@ -66,7 +71,7 @@ const AppDrawer = createDrawerNavigator(
     },
   },
   {
-    initialRouteName: 'Profile',
+    initialRouteName: 'MyCourse',
     contentOptions: {
       activeTintColor: '#548ff7',
       activeBackgroundColor: 'transparent',

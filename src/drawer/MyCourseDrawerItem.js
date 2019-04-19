@@ -2,15 +2,15 @@ import React from 'react';
 import { createStackNavigator } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 
-import Login from '../views/login';
+import MyCourse from '../views/MyCourse';
 
-const LoginDrawerItem = createStackNavigator(
+const MyCourseDrawerItem = createStackNavigator(
   {
-    Playground: {
-      screen: Login,
-
+    MyCourse: {
+      screen: MyCourse,
+      path: '/',
       navigationOptions: ({ navigation }) => ({
-        title: 'Login',
+        title: 'Khóa học của tôi',
         headerLeft: (
           <Icon
             name="menu"
@@ -25,11 +25,11 @@ const LoginDrawerItem = createStackNavigator(
   }
 );
 
-LoginDrawerItem.navigationOptions = {
-  drawerLabel: 'Login',
+MyCourseDrawerItem.navigationOptions = {
+  drawerLabel: 'Khóa học của tôi',
   drawerIcon: ({ tintColor }) => (
     <Icon
-      name="email"
+      name="book"
       size={30}
       iconStyle={{
         width: 30,
@@ -41,4 +41,4 @@ LoginDrawerItem.navigationOptions = {
   ),
 };
 
-export default LoginDrawerItem;
+export default MyCourseDrawerItem;

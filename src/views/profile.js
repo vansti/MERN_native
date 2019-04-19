@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { View, Image, StyleSheet, ScrollView, Alert, KeyboardAvoidingView } from 'react-native';
+import { View, Image, StyleSheet, ScrollView, Alert, BackHandler} from 'react-native';
 import {
   Input,
   Icon,
   Button,
   Text,
-  Divider 
+  Divider,
 } from 'react-native-elements';
 import { ImagePicker } from 'expo';
 import { connect } from 'react-redux';
@@ -46,8 +46,24 @@ class Profile extends Component {
 
   componentDidMount = () => {
     this.props.getCurrentProfile();
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
   }
 
+  handleBackButtonClick=()=> {
+    Alert.alert(
+      'Thoát Khỏi Ứng Dụng',
+      'Bạn có muốn thoát không?', [{
+          text: 'Cancel',
+          style: 'cancel'
+      }, {
+          text: 'OK',
+          onPress: () => BackHandler.exitApp()
+      }, ], {
+          cancelable: false
+      }
+   )
+   return true;
+  }
   componentWillReceiveProps(nextProps) {
 
     if (!isEmptyObj(nextProps.errors)) {
@@ -84,13 +100,7 @@ class Profile extends Component {
   render() {
     const { email, name, phone, photo, isLoading, errors } = this.state;
     return (
-      <ScrollView
-        scrollEnabled={false}
-        keyboardShouldPersistTaps="handled"
-      >
-        <KeyboardAvoidingView
-          behavior="position"
-        >
+      <ScrollView>
           <View style={styles.container}>
             <View style={{ alignItems: 'center', marginBottom: 16 }}>
               <Input
@@ -146,7 +156,7 @@ class Profile extends Component {
             <View style={{ alignItems: 'center' }}>
               <Image
                 source={{ uri: photo }}
-                style={{ marginLeft: 30, width: 200, height: 200, borderRadius: 100, marginBottom: 20, marginTop: 10 }}
+                style={{ marginLeft: 30, width: 200, height: 200, borderColor:'black', borderWidth: 1, borderRadius: 100, marginBottom: 20, marginTop: 10 }}
               />
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-around', }}>
@@ -170,7 +180,6 @@ class Profile extends Component {
                 />
             </View>
           </View>
-        </KeyboardAvoidingView>
       </ScrollView>
     );
   }

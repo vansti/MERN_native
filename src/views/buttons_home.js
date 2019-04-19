@@ -25,6 +25,10 @@ class Buttons extends Component {
             <Button
               title={`Welcome to\nReact Native Elements`}
               containerStyle={{ marginVertical: 10 }}
+              onPress={() => this.props.navigation.navigate('Button_Detail',{
+                itemId: 86,
+                otherParam: 'anything you want here',
+              })}
             />
             <Button
               title="LOG IN"

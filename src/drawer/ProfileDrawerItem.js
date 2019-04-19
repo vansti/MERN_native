@@ -2,11 +2,11 @@ import React from 'react';
 import { createStackNavigator } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 
-import Profile from '../views/profile';
+import Profile from '../views/Profile';
 
 const ProfileDrawerItem = createStackNavigator(
   {
-    Playground: {
+    Profile: {
       screen: Profile,
 
       navigationOptions: ({ navigation }) => ({
@@ -26,7 +26,7 @@ const ProfileDrawerItem = createStackNavigator(
 );
 
 ProfileDrawerItem.navigationOptions = {
-  drawerLabel: 'Thông cá nhân',
+  drawerLabel: 'Thông tin cá nhân',
   drawerIcon: ({ tintColor }) => (
     <Icon
       name="person"

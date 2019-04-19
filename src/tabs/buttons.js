@@ -10,10 +10,7 @@ const ButtonsTabView = ({ navigation }) => (
 );
 
 const ButtonsDetailTabView = ({ navigation }) => (
-  <ButtonsDetails
-    banner={`${navigation.state.params.name}s Profile`}
-    navigation={navigation}
-  />
+  <ButtonsDetails navigation={navigation} />
 );
 
 const ButtonsTab = createStackNavigator({

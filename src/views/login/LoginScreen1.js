@@ -33,6 +33,7 @@ class LoginScreen1 extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuthenticated) {
+      this.setState({showLoading: false})
       this.props.navigation.navigate('App');
     }
 

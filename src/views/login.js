@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
-import LoginScreen1 from './login/screen1';
-import LoginScreen2 from './login/screen2';
+import LoginScreen1 from './login/LoginScreen1';
+import LoginScreen2 from './login/LoginScreen2';
 
 export default class Login extends Component {
   render() {
