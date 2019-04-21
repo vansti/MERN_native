@@ -156,7 +156,7 @@ class Profile extends Component {
             <View style={{ alignItems: 'center' }}>
               <Image
                 source={{ uri: photo }}
-                style={{ marginLeft: 30, width: 200, height: 200, borderColor:'black', borderWidth: 1, borderRadius: 100, marginBottom: 20, marginTop: 10 }}
+                style={{ marginLeft: 30, width: 200, height: 200, borderColor:'rgba(241,240,241,1)', borderWidth: 1, borderRadius: 100, marginBottom: 20, marginTop: 10 }}
               />
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-around', }}>

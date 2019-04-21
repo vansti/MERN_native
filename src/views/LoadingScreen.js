@@ -4,6 +4,7 @@ import setAuthToken from '../utils/setAuthToken';
 import jwt_decode from 'jwt-decode';
 import { setCurrentUser } from '../actions/authActions';
 import { connect } from 'react-redux';
+import { NavigationEvents } from 'react-navigation';
 
 class LoadingScreen extends Component {
   componentDidMount() {
@@ -24,6 +25,7 @@ class LoadingScreen extends Component {
   render() {
     return (
       <View style={{ alignItems: 'center', flex: 1, justifyContent: 'center'}}>
+        <NavigationEvents onDidFocus={() => this.checkLoginAsync()} />
         <ActivityIndicator />
         <StatusBar barStyle="default" />
       </View>

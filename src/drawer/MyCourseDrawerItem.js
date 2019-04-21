@@ -1,8 +1,47 @@
 import React from 'react';
-import { createStackNavigator } from 'react-navigation';
+import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 
 import MyCourse from '../views/MyCourse';
+import ListsTab from '../tabs/lists';
+import Exercise from '../views/Exercise';
+import PeopleInCourse from '../views/PeopleInCourse';
+
+
+const MyCourse_Detail = createBottomTabNavigator(
+  {
+    Exercise: {
+      screen: Exercise,
+      path: '/exercise',
+      navigationOptions: {
+        tabBarLabel: 'Bài tập',
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name='book' size={30} type="font-awesome" color={tintColor} />
+        ),
+      },
+    },
+    People: {
+      screen: PeopleInCourse,
+      path: '/people',
+      navigationOptions: {
+        tabBarLabel: 'Mọi người',
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="users" size={30} type="font-awesome" color={tintColor} />
+        )
+      }
+    }
+  },
+  {
+    initialRouteName: 'Exercise',
+    animationEnabled: false,
+    swipeEnabled: true,
+    tabBarPosition: 'bottom',
+    tabBarOptions: {
+      activeTintColor: '#e91e63',
+      showIcon: true,
+    },
+  }
+);
 
 const MyCourseDrawerItem = createStackNavigator(
   {
@@ -20,8 +59,15 @@ const MyCourseDrawerItem = createStackNavigator(
             onPress={navigation.toggleDrawer}
           />
         ),
-      }),
+      })
     },
+    MyCourse_Detail: {
+      screen: MyCourse_Detail,
+      path: '/mycourse_detail',
+      navigationOptions: {
+        title: 'Chi tiết khóa học',
+      }
+    }
   }
 );
 
