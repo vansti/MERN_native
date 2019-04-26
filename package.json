@@ -21,6 +21,7 @@
     "react-art": "^16.8.3",
     "react-dom": "^16.8.3",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
+    "react-native-calendars": "^1.66.0",
     "react-native-elements": "^1.1.0",
     "react-native-gesture-handler": "1.0.17",
     "react-native-gesture-handler-web": "npm:react-native-gesture-handler@1.1.0",

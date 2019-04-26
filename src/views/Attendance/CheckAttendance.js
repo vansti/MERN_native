@@ -225,7 +225,7 @@ class CheckAttendance extends Component {
           <ActivityIndicator size="large" />
         </View>
         :
-        <View>
+        <View style={{marginBottom:20}}>
           <View style={styles.statusBar} />
           <View style={styles.navBar}>
             <Text style={styles.nameHeader}>Điểm danh ngày {moment().format('DD/MM/YYYY')}</Text>
