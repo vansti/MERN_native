@@ -10,6 +10,7 @@ import Ratings from './drawer/ratings';
 import Pricing from './drawer/pricing';
 import ProfileDrawerItem from './drawer/ProfileDrawerItem';
 import MyCourseDrawerItem from './drawer/MyCourseDrawerItem';
+import AttendanceDrawerItem from './drawer/AttendanceDrawerItem';
 import Lists from './drawer/lists';
 import Settings from './drawer/settings';
 import Logout from './drawer/Logout'
@@ -49,6 +50,10 @@ const AppDrawer = createDrawerNavigator(
       path: '/my-course',
       screen: MyCourseDrawerItem,
     },
+    Attendance:{
+      path: '/attendance',
+      screen: AttendanceDrawerItem,
+    },
     Lists: {
       path: '/lists',
       screen: Lists,
@@ -71,7 +76,7 @@ const AppDrawer = createDrawerNavigator(
     },
   },
   {
-    initialRouteName: 'MyCourse',
+    initialRouteName: 'Attendance',
     contentOptions: {
       activeTintColor: '#548ff7',
       activeBackgroundColor: 'transparent',

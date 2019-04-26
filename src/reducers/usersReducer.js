@@ -1,11 +1,16 @@
 import {
-  GET_USERS
+  GET_USERS,
+  USERS_LOADING
 } from '../actions/types';
 
 const initialState = {
   student: null,
-  users: null,
-  approve_list: null
+  users: {
+    students:[],
+    teachers:[]
+  },
+  approve_list: null,
+  loading: false
 };
 
 export default function(state = initialState, action) {
@@ -13,7 +18,13 @@ export default function(state = initialState, action) {
     case GET_USERS:
       return {
         ...state,
-        users: action.payload
+        users: action.payload,
+        loading: false        
+      }
+    case USERS_LOADING:
+      return {
+        ...state,
+        loading: true
       }
     default:
       return state;

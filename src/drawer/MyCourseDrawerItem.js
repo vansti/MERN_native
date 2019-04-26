@@ -3,7 +3,6 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 import { Icon } from 'react-native-elements';
 
 import MyCourse from '../views/MyCourse';
-import ListsTab from '../tabs/lists';
 import Exercise from '../views/Exercise';
 import PeopleInCourse from '../views/PeopleInCourse';
 

@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
-import { Dimensions, StyleSheet, View, Text, Linking, Alert, ScrollView, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, ScrollView, ActivityIndicator } from 'react-native';
 import { Card, ListItem } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { getUsers } from '../actions/userActions';
-import PropTypes from 'prop-types';
 import isEmptyObj from '../validation/is-empty';
-
-const SCREEN_WIDTH = Dimensions.get('window').width;
 
 class PeopleInCourse extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      users: null
+      users: {
+        students:[],
+        teachers:[]
+      },
+      loading: true
     };
   }
 
@@ -25,23 +26,87 @@ class PeopleInCourse extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (!isEmptyObj(nextProps.users)) {
-      const {users} = nextProps.users
-      this.setState({users: users})
+      const {users, loading} = nextProps.users
+      this.setState({
+        users,
+        loading
+      })
     }
   }
 
   render() {
-    const { users } = this.state
-    console.log(users)
+    const { students, teachers } = this.state.users
+    const { loading } = this.state
     return (
       <View style={{ flex: 1 }}>
-
+      {
+        loading
+        ?
+        <View style={styles.container}> 
+          <ActivityIndicator size="large" />
+        </View>
+        :
+        <ScrollView>
+          <View style={{ marginBottom: 20 }}>
+            <Card title="Giáo Viên">
+            {
+              teachers.length === 0
+              ? <Text>Chưa có giáo viên tham gia</Text>
+              :
+              teachers.map(user => {
+                return (
+                  <ListItem
+                    key={user._id}
+                    leftAvatar={{ rounded: true, source: { uri: user.photo } }}
+                    title={user.name}
+                    subtitle={user.email}
+                    containerStyle={{
+                      borderWidth: 1,
+                      borderColor: 'grey',
+                      borderRadius: 8,
+                      marginTop: 10
+                    }}
+                  />
+                );
+              })
+            }
+            </Card>
+            <Card title="Học Viên">
+            {
+              students.length === 0
+              ? <Text>Chưa có học viên</Text>
+              :
+              students.map(user => {
+                return (
+                  <ListItem
+                    key={user._id}
+                    leftAvatar={{ rounded: true, source: { uri: user.photo } }}
+                    title={user.name}
+                    subtitle={user.email}
+                    containerStyle={{
+                      borderWidth: 1,
+                      borderColor: 'grey',
+                      borderRadius: 8,
+                      marginTop: 10
+                    }}
+                  />
+                );
+              })
+            }
+            </Card>
+          </View>
+        </ScrollView>
+      }
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center'
+  }
 });
 
 const mapStateToProps = state => ({

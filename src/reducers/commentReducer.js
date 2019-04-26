@@ -1,21 +1,21 @@
 import {
-  GET_EXERCISE_LIST, EXERCISE_LOADING
+  GET_COMMENT, COMMENT_LOADING
 } from '../actions/types';
 
 const initialState = {
-  exercises: null,
+  exercise_comments: [],
   loading: false
 };
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case GET_EXERCISE_LIST:
+    case GET_COMMENT:
       return {
         ...state,
-        exercises: action.payload,
+        exercise_comments: action.payload,
         loading: false
       };
-    case EXERCISE_LOADING:
+    case COMMENT_LOADING:
       return {
         ...state,
         loading: true

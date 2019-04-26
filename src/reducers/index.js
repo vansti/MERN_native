@@ -6,6 +6,8 @@ import profileReducer from './profileReducer';
 import courseReducer from './courseReducer';
 import exerciseReducer from './exerciseReducer';
 import usersReducer from './usersReducer';
+import commentReducer from './commentReducer';
+import attendanceReducer from './attendanceReducer';
 
 export default combineReducers({
   auth: authReducer,
@@ -14,5 +16,7 @@ export default combineReducers({
   profile: profileReducer,
   courses: courseReducer,
   exercises: exerciseReducer,
-  users: usersReducer
+  users: usersReducer,
+  comments: commentReducer,
+  attendance: attendanceReducer
 });
