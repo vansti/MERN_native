@@ -1,5 +1,9 @@
 import {
-  GET_CURRENT_COURSES
+  GET_CURRENT_COURSES,
+  GET_ALL_COURSES,
+  ALLCOURSE_LOADING,
+  GET_COURSE_INFO,
+  GET_MANAGE_COURSES
 } from '../actions/types';
 
 const initialState = {
@@ -10,7 +14,8 @@ const initialState = {
   allcourses: [],
   currentcourses: null,
   studentcourses: null,
-  managecourses: null
+  managecourses: null,
+  loading: false
 };
 
 export default function(state = initialState, action) {
@@ -19,6 +24,29 @@ export default function(state = initialState, action) {
       return {
         ...state,
         currentcourses: action.payload,
+      };
+    case GET_ALL_COURSES:
+      return {
+        ...state,
+        allcourses: action.payload,
+        loading: false
+      };
+    case ALLCOURSE_LOADING:
+      return {
+        ...state,
+        loading: true
+      };
+    case GET_COURSE_INFO:
+      return {
+        ...state,
+        courseinfo: action.payload,
+        loading: false
+      };
+    case GET_MANAGE_COURSES:
+      return {
+        ...state,
+        managecourses: action.payload,
+        loading: false
       };
     default:
       return state;

@@ -40,7 +40,7 @@ class CheckAttendance extends Component {
       const { users, loading } = nextProps.users
 
       users.students.map(user => {
-        return user.isPresent = true;
+        return user.isPresent = false;
       })
 
       this.setState({
@@ -185,34 +185,34 @@ class CheckAttendance extends Component {
     if(!isEmptyObj(user) && !isEmptyObj(userAttendance)){
       StudentList = 
       <ScrollView>
-      <Button
-        title="Chỉnh sửa điểm danh"
-        loading={loadingSubmit2}
-        onPress = {this.submit2}
-        containerStyle = {{ marginHorizontal: 10, height: 50, width: 200 }}
-        titleStyle = {{ fontWeight: 'bold' }}
-      />
-      {
-        userAttendance.map(u => {
-          return (
-            <ListItem
-              key={u._id}
-              leftAvatar={{ rounded: true, source: { uri: u.userId.photo } }}
-              title={u.userId.name}
-              subtitle={u.userId.email}
-              containerStyle={{
-                borderRadius: 8,
-                marginTop: 10,
-                marginHorizontal: 10
-              }}
-              checkBox={{
-                checked: u.isPresent,
-                onPress: this.onCheck2.bind(this, u.userId._id)
-              }}
-            />
-          );
-        })
-      }
+        <Button
+          title="Chỉnh sửa điểm danh"
+          loading={loadingSubmit2}
+          onPress = {this.submit2}
+          containerStyle = {{ marginHorizontal: 10, height: 50, width: 200 }}
+          titleStyle = {{ fontWeight: 'bold' }}
+        />
+        {
+          userAttendance.map(u => {
+            return (
+              <ListItem
+                key={u._id}
+                leftAvatar={{ rounded: true, source: { uri: u.userId.photo } }}
+                title={u.userId.name}
+                subtitle={u.userId.email}
+                containerStyle={{
+                  borderRadius: 8,
+                  marginTop: 10,
+                  marginHorizontal: 10
+                }}
+                checkBox={{
+                  checked: u.isPresent,
+                  onPress: this.onCheck2.bind(this, u.userId._id)
+                }}
+              />
+            );
+          })
+        }
       </ScrollView>
     }
 

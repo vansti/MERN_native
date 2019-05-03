@@ -1,19 +1,15 @@
 import React, { Component } from 'react';
 import AppLoading from "./components/AppLoading";
-import { View, Image, Dimensions, TouchableOpacity, Text } from 'react-native';
+import { View, Image, Dimensions } from 'react-native';
 import { createAppContainer, createDrawerNavigator, DrawerItems, createStackNavigator } from 'react-navigation';
 import { cacheAssets, cacheFonts } from "./helpers/AssetsCaching";
 
-
-import Components from './drawer/components';
-import Ratings from './drawer/ratings';
-import Pricing from './drawer/pricing';
+import Logout from './drawer/Logout'
 import ProfileDrawerItem from './drawer/ProfileDrawerItem';
 import MyCourseDrawerItem from './drawer/MyCourseDrawerItem';
 import AttendanceDrawerItem from './drawer/AttendanceDrawerItem';
-import Lists from './drawer/lists';
-import Settings from './drawer/settings';
-import Logout from './drawer/Logout'
+import CourseListDrawerItem from './drawer/CourseListDrawerItem';
+import ManageCoursesDrawerItem from './drawer/ManageCoursesDrawerItem';
 
 import Login from './views/Login';
 import LoadingScreen from './views/LoadingScreen';
@@ -50,33 +46,21 @@ const AppDrawer = createDrawerNavigator(
       path: '/my-course',
       screen: MyCourseDrawerItem,
     },
+    CourseList:{
+      path: '/course-list',
+      screen: CourseListDrawerItem,
+    },
+    ManageCourses:{
+      path: '/manage-course',
+      screen: ManageCoursesDrawerItem,
+    },
     Attendance:{
       path: '/attendance',
       screen: AttendanceDrawerItem,
     },
-    Lists: {
-      path: '/lists',
-      screen: Lists,
-    },
-    Components: {
-      path: '/components',
-      screen: Components,
-    },
-    Ratings: {
-      path: '/ratings',
-      screen: Ratings,
-    },
-    Pricing: {
-      path: '/pricing',
-      screen: Pricing,
-    },
-    Settings: {
-      path: '/settings',
-      screen: Settings,
-    },
   },
   {
-    initialRouteName: 'Attendance',
+    initialRouteName: 'ManageCourses',
     contentOptions: {
       activeTintColor: '#548ff7',
       activeBackgroundColor: 'transparent',

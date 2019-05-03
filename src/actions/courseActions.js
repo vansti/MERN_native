@@ -3,7 +3,13 @@ import axios from 'axios';
 import { 
   CLEAR_ERRORS, 
   CLEAR_SUCCESS,       
-  GET_CURRENT_COURSES 
+  GET_CURRENT_COURSES,
+  GET_ALL_COURSES,
+  ALLCOURSE_LOADING,
+  GET_COURSE_INFO,
+  GET_ERRORS,
+  GET_SUCCESS,
+  GET_MANAGE_COURSES
 } from './types';
 
 import config from './config';
@@ -22,6 +28,107 @@ export const getCurentCourse = () => dispatch => {
     .catch(err =>
       dispatch({
         type: GET_CURRENT_COURSES,
+        payload: {}
+      })
+    );
+};
+
+// lấy hết khóa học chưa hết hạn ghi danh
+export const getAllCourse = () => dispatch => {
+  dispatch(setAllCourseLoading())
+  axios
+    .get(config.ADDRESS + '/api/courses/all-course')
+    .then(res =>
+      dispatch({
+        type: GET_ALL_COURSES,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_ALL_COURSES,
+        payload: {}
+      })
+    );
+};
+
+// lấy thông tin chi tiết của 1 khóa học
+export const getCourseInfo = (courseId) => dispatch => {
+  dispatch(setAllCourseLoading())
+  axios
+    .get(`${config.ADDRESS}/api/courses/course-info/${courseId}`)
+    .then(res =>
+      dispatch({
+        type: GET_COURSE_INFO,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_COURSE_INFO,
+        payload: {}
+      })
+    );
+};
+
+export const setAllCourseLoading = () => {
+  return {
+    type: ALLCOURSE_LOADING
+  };
+};
+
+// Enroll Course
+export const enrollCourse = (courseId) => dispatch => {
+  axios
+    .post(config.ADDRESS + '/api/courses/enroll-course/' + courseId)
+    .then(res =>{
+      dispatch({
+        type: GET_SUCCESS,
+        payload: {data: 'Đã ghi danh thành công'}
+      })
+      dispatch(getCourseInfo(courseId))
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+// Unenroll Course
+export const unenrollCourse = (courseId) => dispatch => {
+  axios
+    .post(config.ADDRESS + '/api/courses/unenroll-course/' + courseId)
+    .then(res =>{
+      dispatch({
+        type: GET_SUCCESS,
+        payload: {data: 'Đã hủy ghi danh thành công'}
+      })
+      dispatch(getCourseInfo(courseId))
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+// lấy tất cả các khóa học
+export const getManageCourses = () => dispatch => {
+  dispatch(setAllCourseLoading())
+  axios
+    .get(`${config.ADDRESS}/api/courses/manage-courses`)
+    .then(res =>
+      dispatch({
+        type: GET_MANAGE_COURSES,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_MANAGE_COURSES,
         payload: {}
       })
     );
