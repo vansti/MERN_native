@@ -14,7 +14,7 @@ const initialState = {
   allcourses: [],
   currentcourses: [],
   studentcourses: null,
-  managecourses: null,
+  managecourses: [],
   loading: false
 };
 
