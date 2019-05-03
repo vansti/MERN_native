@@ -1,8 +1,9 @@
 import React from 'react';
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 
 import ManageCourses from '../views/ManageCourses';
+import ApproveStudent from '../views/ApproveStudent';
 
 const ManageCoursesDrawerItem = createStackNavigator(
   {
@@ -21,6 +22,13 @@ const ManageCoursesDrawerItem = createStackNavigator(
           />
         ),
       })
+    },
+    ApproveStudent: {
+      screen: ApproveStudent,
+      path: '/approve-student',
+      navigationOptions: {
+        title: 'Chi tiết điểm danh',
+      }
     }
   }
 );

@@ -12,7 +12,7 @@ const initialState = {
     course_detail: {}
   },
   allcourses: [],
-  currentcourses: null,
+  currentcourses: [],
   studentcourses: null,
   managecourses: null,
   loading: false
@@ -24,6 +24,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         currentcourses: action.payload,
+        loading: false
       };
     case GET_ALL_COURSES:
       return {

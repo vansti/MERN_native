@@ -17,6 +17,7 @@ import config from './config';
 
 // get curent user courses
 export const getCurentCourse = () => dispatch => {
+  dispatch(setAllCourseLoading())
   axios
     .get(config.ADDRESS + '/api/courses/current')
     .then(res =>
@@ -130,6 +131,24 @@ export const getManageCourses = () => dispatch => {
       dispatch({
         type: GET_MANAGE_COURSES,
         payload: {}
+      })
+    );
+};
+
+// join course
+export const joinCourse = (courseId) => dispatch => {
+  axios
+    .post(config.ADDRESS + '/api/courses/join-course/' + courseId)
+    .then(res =>{
+      dispatch({
+        type: GET_SUCCESS,
+        payload: res.data
+      })
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
       })
     );
 };

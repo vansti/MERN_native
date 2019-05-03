@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
-import { Dimensions, StyleSheet, View, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
+import { Dimensions, StyleSheet, View, Text, ScrollView, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import { getCurentCourse } from '../actions/courseActions'; 
-import isEmptyObj from '../validation/is-empty';
 import PropTypes from 'prop-types';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
+const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 class MyCourse extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentcourses: null
+      currentcourses: [], 
+      loading: true
     };
     this.handleClickCourse = this.handleClickCourse.bind(this);
   }
@@ -21,8 +22,12 @@ class MyCourse extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!isEmptyObj(nextProps.courses)) {
-      this.setState({currentcourses : nextProps.courses.currentcourses})
+    if (nextProps.courses) {
+      const { currentcourses, loading } = nextProps.courses
+      this.setState({ 
+        currentcourses, 
+        loading 
+      });
     }
   }
 
@@ -31,52 +36,7 @@ class MyCourse extends Component {
   } 
 
   render() {
-    const { currentcourses } = this.state
-    var CourseListTable = <Text>Loading</Text>
-    if(currentcourses !== null){
-
-      if(currentcourses.length === 0)
-      {
-        CourseListTable = <Text>Bạn hiện không có khóa học nào</Text>
-      }
-      else{
-        CourseListTable = 
-          currentcourses.map(course=>
-            <TouchableOpacity key={course._id} onPress={this.handleClickCourse.bind(this, course._id)}>
-              <View
-                style={{
-                  height: 60,
-                  marginHorizontal: 10,
-                  marginTop: 10,
-                  backgroundColor: 'white',
-                  borderRadius: 5,
-                  alignItems: 'center',
-                  flexDirection: 'row',
-                }}
-              >
-                <View style={{ flex: 2, flexDirection: 'row', alignItems: 'center' }}>
-                  <View style={{ marginLeft: 15 }}>
-                    <Image
-                      source={{ uri: course.coursePhoto }}
-                      style={{ width: 50, height: 50, borderColor:'rgba(241,240,241,1)', borderWidth: 1, borderRadius: 5 }}
-                    />
-                  </View>
-                  <Text
-                    style={{
-                      fontSize: 15,
-                      marginLeft: 10,
-                      color: 'gray',
-                    }}
-                  >
-                    {course.title}
-                  </Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-          )
-      }
-    }
-    
+    const { currentcourses, loading } = this.state
 
     return (
       <View style={{ flex: 1, backgroundColor: 'rgba(241,240,241,1)' }}>
@@ -84,9 +44,56 @@ class MyCourse extends Component {
         <View style={styles.navBar}>
           <Text style={styles.nameHeader}>Danh sách</Text>
         </View>
-        <ScrollView>
-          {CourseListTable}
-        </ScrollView>
+        {
+          loading
+          ?
+          <View style={styles.container}> 
+            <ActivityIndicator size="large" />
+          </View>
+          :
+          <ScrollView style={{height: SCREEN_HEIGHT - 30}}>
+            {
+              currentcourses.length === 0
+              ?
+              <Text>Bạn hiện không có khóa học nào</Text>
+              :
+              currentcourses.map(course=>
+                <TouchableOpacity key={course._id} onPress={this.handleClickCourse.bind(this, course._id)}>
+                  <View
+                    style={{
+                      height: 60,
+                      marginHorizontal: 10,
+                      marginTop: 10,
+                      backgroundColor: 'white',
+                      borderRadius: 5,
+                      alignItems: 'center',
+                      flexDirection: 'row',
+                    }}
+                  >
+                    <View style={{ flex: 2, flexDirection: 'row', alignItems: 'center' }}>
+                      <View style={{ marginLeft: 15 }}>
+                        <Image
+                          source={{ uri: course.coursePhoto }}
+                          style={{ width: 50, height: 50, borderColor:'rgba(241,240,241,1)', borderWidth: 1, borderRadius: 5 }}
+                        />
+                      </View>
+                      <Text
+                        style={{
+                          fontSize: 15,
+                          marginLeft: 10,
+                          color: 'gray',
+                        }}
+                      >
+                        {course.title}
+                      </Text>
+                    </View>
+                  </View>
+                </TouchableOpacity>
+              )
+            }
+          </ScrollView>
+        }
+
       </View>
     );
   }
