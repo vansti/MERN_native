@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Dimensions, StyleSheet, View, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
+import { Dimensions, StyleSheet, View, Text, ScrollView, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import { getCurentCourse } from '../actions/courseActions'; 
 import PropTypes from 'prop-types';
