@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import AppLoading from "./components/AppLoading";
-import { View, Image, Dimensions } from 'react-native';
-import { createAppContainer, createDrawerNavigator, DrawerItems, createStackNavigator } from 'react-navigation';
+import { Dimensions } from 'react-native';
+import { createAppContainer, createDrawerNavigator, createStackNavigator } from 'react-navigation';
 import { cacheAssets, cacheFonts } from "./helpers/AssetsCaching";
 
-import Logout from './drawer/Logout'
 import ProfileDrawerItem from './drawer/ProfileDrawerItem';
 import MyCourseDrawerItem from './drawer/MyCourseDrawerItem';
 import AttendanceDrawerItem from './drawer/AttendanceDrawerItem';
@@ -14,27 +13,9 @@ import ManageCoursesDrawerItem from './drawer/ManageCoursesDrawerItem';
 import Login from './views/Login';
 import LoadingScreen from './views/LoadingScreen';
 
-
+import CustomDrawerContentComponent from './CustomDrawerContentComponent';
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
-
-const CustomDrawerContentComponent = props => (
-  <View style={{ flex: 1, backgroundColor: '#43484d' }}>
-    <View
-      style={{ marginTop: 40, justifyContent: 'center', alignItems: 'center' }}
-    >
-      <Image
-        source={require('./images/e-icon.png')}
-        style={{ width: 50, height: 50}}
-        resizeMode="contain"
-      />
-    </View>
-    <View style={{ marginLeft: 10 }}>
-      <DrawerItems {...props} />
-    </View>
-    <Logout navigation={props.navigation}/>
-  </View>
-);
 
 const AppDrawer = createDrawerNavigator(
   {
@@ -60,7 +41,7 @@ const AppDrawer = createDrawerNavigator(
     },
   },
   {
-    initialRouteName: 'ManageCourses',
+    initialRouteName: 'MyCourse',
     contentOptions: {
       activeTintColor: '#548ff7',
       activeBackgroundColor: 'transparent',

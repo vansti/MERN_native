@@ -16,6 +16,7 @@ class PeopleInCourse extends Component {
       },
       loading: true
     };
+    this.handlePressStudentInfo = this.handlePressStudentInfo.bind(this);
   }
 
   componentDidMount = () => {
@@ -33,6 +34,10 @@ class PeopleInCourse extends Component {
       })
     }
   }
+
+  handlePressStudentInfo(studentId){
+    this.props.navigation.navigate('StudentInfo',{ studentId: studentId })
+  } 
 
   render() {
     const { students, teachers } = this.state.users
@@ -83,6 +88,7 @@ class PeopleInCourse extends Component {
                     leftAvatar={{ rounded: true, source: { uri: user.photo } }}
                     title={user.name}
                     subtitle={user.email}
+                    onPress={this.handlePressStudentInfo.bind(this, user._id)}
                     containerStyle={{
                       borderWidth: 1,
                       borderColor: 'grey',

@@ -65,12 +65,10 @@ class MyCourse extends Component {
                       marginHorizontal: 10,
                       marginTop: 10,
                       backgroundColor: 'white',
-                      borderRadius: 5,
-                      alignItems: 'center',
-                      flexDirection: 'row',
+                      borderRadius: 5
                     }}
                   >
-                    <View style={{ flex: 2, flexDirection: 'row', alignItems: 'center' }}>
+                    <View style={{ flex:2, flexDirection: 'row', alignItems: 'center' }}>
                       <View style={{ marginLeft: 15 }}>
                         <Image
                           source={{ uri: course.coursePhoto }}
@@ -81,6 +79,8 @@ class MyCourse extends Component {
                         style={{
                           fontSize: 15,
                           marginLeft: 10,
+                          flex: 1, 
+                          flexWrap: 'wrap',
                           color: 'gray',
                         }}
                       >

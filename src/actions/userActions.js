@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { GET_USERS, USERS_LOADING, GET_APPROVE_LIST, GET_SUCCESS, GET_ERRORS, CLEAR_SUCCESS } from './types';
+import { GET_USERS, USERS_LOADING, GET_APPROVE_LIST, GET_SUCCESS, GET_ERRORS, CLEAR_SUCCESS, GET_STUDENT } from './types';
 import config from './config';
 
 // Get a list of users
@@ -56,6 +56,25 @@ export const approveStudent = (courseId, studentId) => dispatch => {
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data
+      })
+    );
+};
+
+// Get student info
+export const getStudent = (studentId) => dispatch => {
+  dispatch(setUsersLoading());
+  axios
+    .get(config.ADDRESS + '/api/users/' + studentId)
+    .then(res =>
+      dispatch({
+        type: GET_STUDENT,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_STUDENT,
+        payload: {}
       })
     );
 };

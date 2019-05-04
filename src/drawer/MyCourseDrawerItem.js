@@ -5,6 +5,8 @@ import { Icon } from 'react-native-elements';
 import MyCourse from '../views/MyCourse';
 import Exercise from '../views/Exercise';
 import PeopleInCourse from '../views/PeopleInCourse';
+import StudentInfo from '../views/StudentInfo';
+
 
 
 const MyCourse_Detail = createBottomTabNavigator(
@@ -65,6 +67,13 @@ const MyCourseDrawerItem = createStackNavigator(
       path: '/mycourse_detail',
       navigationOptions: {
         title: 'Chi tiết khóa học',
+      }
+    },
+    StudentInfo: {
+      screen: StudentInfo,
+      path: '/student-info',
+      navigationOptions: {
+        title: 'Thông tin học viên',
       }
     }
   }

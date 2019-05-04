@@ -7,6 +7,8 @@ Bản mobile và web app
 
 2. yarn install
 
-3. yarn native
+3. Sửa lại địa chỉ máy trong : src/actions/config.js
+
+4. yarn native
 
 ```

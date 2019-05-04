@@ -1,7 +1,8 @@
 import {
   GET_USERS,
   USERS_LOADING,
-  GET_APPROVE_LIST
+  GET_APPROVE_LIST,
+  GET_STUDENT
 } from '../actions/types';
 
 const initialState = {
@@ -35,6 +36,12 @@ export default function(state = initialState, action) {
         ...state,
         approve_list: action.payload,
         loading: false
+      };
+    case GET_STUDENT:
+      return {
+        ...state,
+        student: action.payload,
+        loading: false        
       };
     default:
       return state;

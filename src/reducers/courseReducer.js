@@ -3,7 +3,8 @@ import {
   GET_ALL_COURSES,
   ALLCOURSE_LOADING,
   GET_COURSE_INFO,
-  GET_MANAGE_COURSES
+  GET_MANAGE_COURSES,
+  GET_STUDENT_COURSES
 } from '../actions/types';
 
 const initialState = {
@@ -13,7 +14,7 @@ const initialState = {
   },
   allcourses: [],
   currentcourses: [],
-  studentcourses: null,
+  studentcourses: [],
   managecourses: [],
   loading: false
 };
@@ -30,6 +31,12 @@ export default function(state = initialState, action) {
       return {
         ...state,
         allcourses: action.payload,
+        loading: false
+      };
+    case GET_STUDENT_COURSES:
+      return {
+        ...state,
+        studentcourses: action.payload,
         loading: false
       };
     case ALLCOURSE_LOADING:

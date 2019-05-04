@@ -9,7 +9,8 @@ import {
   GET_COURSE_INFO,
   GET_ERRORS,
   GET_SUCCESS,
-  GET_MANAGE_COURSES
+  GET_MANAGE_COURSES,
+  GET_STUDENT_COURSES
 } from './types';
 
 import config from './config';
@@ -70,12 +71,6 @@ export const getCourseInfo = (courseId) => dispatch => {
         payload: {}
       })
     );
-};
-
-export const setAllCourseLoading = () => {
-  return {
-    type: ALLCOURSE_LOADING
-  };
 };
 
 // Enroll Course
@@ -151,6 +146,31 @@ export const joinCourse = (courseId) => dispatch => {
         payload: err.response.data
       })
     );
+};
+
+// get student courses by student id
+export const getStudentCourse = (studentId) => dispatch => {
+  dispatch(setAllCourseLoading())
+  axios
+    .get(config.ADDRESS + '/api/courses/' + studentId)
+    .then(res =>
+      dispatch({
+        type: GET_STUDENT_COURSES,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_STUDENT_COURSES,
+        payload: {}
+      })
+    );
+};
+
+export const setAllCourseLoading = () => {
+  return {
+    type: ALLCOURSE_LOADING
+  };
 };
 
 // Clear errors
