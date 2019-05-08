@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import { getStudent } from '../actions/userActions';
 import { getStudentCourse } from '../actions/courseActions';
 import StudentAbsentList from './StudentAbsentList';
+import StudentPointList from './StudentPointList';
+
 
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
@@ -139,11 +141,7 @@ class StudentInfo extends Component {
                     <Divider style={{ backgroundColor: 'grey', marginTop: 10 }} />
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10, marginBottom: 10 }}>
                       <StudentAbsentList courseId={course._id} studentId={studentId} />
-                      <Button
-                        backgroundColor='#03A9F4'
-                        containerStyle={{marginLeft: 20}}
-                        title=' Xem điểm số' 
-                      />
+                      <StudentPointList courseId={course._id} studentId={studentId} />
                     </View>
                   </View>
                 </View>
