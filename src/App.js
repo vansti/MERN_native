@@ -9,6 +9,8 @@ import MyCourseDrawerItem from './drawer/MyCourseDrawerItem';
 import AttendanceDrawerItem from './drawer/AttendanceDrawerItem';
 import CourseListDrawerItem from './drawer/CourseListDrawerItem';
 import ManageCoursesDrawerItem from './drawer/ManageCoursesDrawerItem';
+import DashboardDrawerItem from './drawer/DashboardDrawerItem';
+
 
 import Login from './views/Login';
 import LoadingScreen from './views/LoadingScreen';
@@ -19,6 +21,10 @@ const WINDOW_WIDTH = Dimensions.get('window').width;
 
 const AppDrawer = createDrawerNavigator(
   {
+    Dashboard: {
+      path: '/dashboard',
+      screen: DashboardDrawerItem,
+    },
     Profile: {
       path: '/profile',
       screen: ProfileDrawerItem,
@@ -41,7 +47,7 @@ const AppDrawer = createDrawerNavigator(
     },
   },
   {
-    initialRouteName: 'MyCourse',
+    initialRouteName: 'Dashboard',
     contentOptions: {
       activeTintColor: '#548ff7',
       activeBackgroundColor: 'transparent',

@@ -9,7 +9,7 @@ class CustomDrawerContentComponent extends Component {
   render() {
     const { role } = this.props.auth.user
     const { items, ...rest } = this.props;
-    const studentItems = items.filter(item => item.key === "Profile" || item.key === "MyCourse" || item.key === "CourseList" );
+    const studentItems = items.filter(item => item.key === "Dashboard" || item.key === "Profile" || item.key === "MyCourse" || item.key === "CourseList" );
 
     return (
       <View style={{ flex: 1, backgroundColor: '#43484d' }}>
