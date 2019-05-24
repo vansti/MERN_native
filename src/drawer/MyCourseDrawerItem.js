@@ -3,19 +3,20 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 import { Icon } from 'react-native-elements';
 
 import MyCourse from '../views/MyCourse';
-import Exercise from '../views/Exercise';
+// import Exercise from '../views/Exercise';
 import PeopleInCourse from '../views/PeopleInCourse';
 import StudentInfo from '../views/StudentInfo';
-
+import LessonList from '../views/LessonList';
+import Lesson from '../views/Lesson';
 
 
 const MyCourse_Detail = createBottomTabNavigator(
   {
-    Exercise: {
-      screen: Exercise,
-      path: '/exercise',
+    LessonList: {
+      screen: LessonList,
+      path: '/lessonlist',
       navigationOptions: {
-        tabBarLabel: 'Bài tập',
+        tabBarLabel: 'Bài học',
         tabBarIcon: ({ tintColor }) => (
           <Icon name='book' size={30} type="font-awesome" color={tintColor} />
         ),
@@ -33,7 +34,7 @@ const MyCourse_Detail = createBottomTabNavigator(
     }
   },
   {
-    initialRouteName: 'Exercise',
+    initialRouteName: 'LessonList',
     animationEnabled: false,
     swipeEnabled: true,
     tabBarPosition: 'bottom',
@@ -74,6 +75,13 @@ const MyCourseDrawerItem = createStackNavigator(
       path: '/student-info',
       navigationOptions: {
         title: 'Thông tin học viên',
+      }
+    },
+    Lesson: {
+      screen: Lesson,
+      path: '/lesson',
+      navigationOptions: {
+        title: 'Nội dung bài học',
       }
     }
   }

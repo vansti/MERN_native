@@ -42,7 +42,7 @@ class MyCourseAttendance extends Component {
       <View style={{ flex: 1, backgroundColor: 'rgba(241,240,241,1)' }}>
         <View style={styles.statusBar} />
         <View style={styles.navBar}>
-          <Text style={styles.nameHeader}>Danh sách</Text>
+          <Text style={styles.nameHeader}>Chọn khóa học</Text>
         </View>
         {
           loading

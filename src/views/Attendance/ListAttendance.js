@@ -4,7 +4,9 @@ import { ListItem, Button, SearchBar } from 'react-native-elements';
 import { connect } from 'react-redux';
 import isEmptyObj from '../../validation/is-empty'; 
 import { Calendar } from 'react-native-calendars';
-import { getAttendance } from '../../actions/attendanceActions';
+import { getAttendance, getTodayAttendance } from '../../actions/attendanceActions';
+import { getSchedule } from '../../actions/scheduleAtions';
+import 'moment/locale/vi';
 
 var moment = require('moment');
 const SCREEN_WIDTH = Dimensions.get('window').width;
@@ -14,30 +16,45 @@ class ListAttendance extends Component {
     super(props);
 
     this.state = {
+      events: [],
+      loadingEvent :true,
       attendance: [],
-      loading: true,
+      loadingAttendance: true,
       highlightDates: {},
       selectDate: null,
       users: [],
       intialUsers: [],
-      search: ''
+      search: '',
+      loadingUserAttendance: true
     };
   }
 
   componentDidMount = () => {
     const { navigation } = this.props;
     const courseId = navigation.getParam('courseId', 'NO-ID');
+    this.setState({courseId})
+    this.props.getSchedule(courseId);
     this.props.getAttendance(courseId);
   }
 
   componentWillReceiveProps(nextProps) {
+
+    const { schedule, loading } = nextProps.schedule
+    if(!isEmptyObj(schedule))
+      this.setState({ 
+        events: schedule.events,
+        loadingEvent: loading
+      });
+    this.setState({
+      loadingEvent: loading 
+    });  
 
     if (!isEmptyObj(nextProps.attendance)) {
       const { loading, attendance } = nextProps.attendance
 
       this.setState({
         attendance,
-        loading
+        loadingAttendance: loading
       })
 
       var dateList = {};
@@ -57,6 +74,23 @@ class ListAttendance extends Component {
       this.setState({
         highlightDates: dateList
       })
+    }
+
+    if (!isEmptyObj(nextProps.attendance)) {
+      const { loading, today_attendance } = nextProps.attendance
+
+      if(today_attendance === null)
+        this.setState({
+          intialUsers: [],
+          users: [],
+          loadingUserAttendance: loading
+        })
+      else
+        this.setState({
+          intialUsers: today_attendance.students,
+          users: today_attendance.students,
+          loadingUserAttendance: loading
+        })
     }
   }
 
@@ -87,94 +121,157 @@ class ListAttendance extends Component {
     });
   };
 
+  handleSelectDate(selectDate) {
+    var date = {
+      selectDate
+    };
+    console.log(date)
+    this.props.getTodayAttendance(this.state.courseId, date);
+    this.setState({
+      selectDate
+    });
+  }
+  
+  capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+  back=()=>{
+    this.setState({
+      selectDate: '',
+      users:[],
+      intialUsers:[]
+    })
+  }
+
   render() {
-    const { loading, highlightDates, selectDate, users, search, intialUsers } = this.state
+      const { loadingAttendance, highlightDates, selectDate, users, search, intialUsers, loadingEvent, events, loadingUserAttendance  } = this.state
     return (
       <View style={{ flex: 1 , backgroundColor: 'rgba(241,240,241,1)'}}>
       {
-        loading
+        selectDate
         ?
-        <View style={styles.container}> 
-          <ActivityIndicator size="large" />
+        <View>
+        {
+          loadingUserAttendance
+          ?
+          <View style={styles.container}> 
+            <ActivityIndicator size="large" />
+          </View>
+          :
+          <ScrollView>
+            <View style={{marginBottom:20}}>
+              <View style={styles.statusBar} />
+              <Button 
+                title="Trở về"
+                containerStyle = {{ marginHorizontal: 10, height: 50, width: 100 }}
+                titleStyle = {{ fontWeight: 'bold' }}
+                buttonStyle={{
+                  backgroundColor: 'green'
+                }}
+                icon={{
+                  name: 'arrow-left',
+                  type: 'font-awesome',
+                  color: 'white'
+                }}
+                onPress={this.back}
+              />
+              <View style={styles.navBar}>
+                <Text style={styles.nameHeader}>
+                  Bảng điểm danh { selectDate && <Text>{this.capitalizeFirstLetter(moment(selectDate).locale('vi').format("dddd, [ngày] DD [thg] MM, YYYY"))}</Text>}
+                </Text>
+              </View>
+              {
+                isEmptyObj(intialUsers)
+                ?
+                null
+                :
+                <View style={{marginBottom:20}}>
+                  <SearchBar
+                    placeholder="Email hoặc Họ Tên ..."
+                    platform="ios"
+                    onChangeText={this.updateSearch}
+                    value={search}
+                  />
+                  {
+                    users.map(user => {
+                      return (
+                        <ListItem
+                          key={user._id}
+                          leftAvatar={{ rounded: true, source: { uri: user.userId.photo } }}
+                          title={user.userId.name}
+                          subtitle={user.userId.email}
+                          containerStyle={{
+                            borderRadius: 8,
+                            marginTop: 10,
+                            marginHorizontal: 10
+                          }}
+                          badge = {
+                            user.isPresent
+                            ?
+                            {
+                              status: 'success',
+                              value: 'Hiện diện'
+                            }
+                            :
+                            {
+                              status: 'error',
+                              value: 'Vắng'
+                            }
+                          }
+                          
+                        />
+                      );
+                    })
+                  }
+                </View>
+              }
+            </View>
+          </ScrollView>
+        }
         </View>
         :
-        <ScrollView
-          keyboardShouldPersistTaps="handled"
-        >
-          <KeyboardAvoidingView
-            behavior="position"
-          >
-          <Calendar
-            markingType={'custom'}
-            markedDates={highlightDates}
-            onDayPress={(day) => {
-              this.setState({
-                selectDate: day.dateString
-              })
-            }}
-          />
-          {
-            selectDate
-            ?
-            <View style={styles.navBar}>
-              <Text style={styles.nameHeader}> Ngày {moment(selectDate).format('DD/MM/YYYY')}</Text>
-              <Button
-                title="Xem điểm danh"
-                onPress = {this.submit}
-                containerStyle={{ marginLeft: 10, height: 20, width: 150 }}
-                titleStyle={{ fontWeight: 'bold' }}
-              />
-            </View>
-            :
-            null
-          }
-          {
-            isEmptyObj(intialUsers)
-            ?
-            null
-            :
-            <View style={{marginBottom:20}}>
-              <SearchBar
-                placeholder="Email hoặc Họ Tên ..."
-                platform="ios"
-                onChangeText={this.updateSearch}
-                value={search}
-              />
+        <View>
+        {
+          loadingAttendance || loadingEvent
+          ?
+          <View style={styles.container}> 
+            <ActivityIndicator size="large" />
+          </View>
+          :
+          <ScrollView>
+            <Calendar
+              markingType={'custom'}
+              markedDates={highlightDates}
+              onDayPress={(day) => this.handleSelectDate(day.dateString)}
+            />
+            <View style={{margin: 10}}>
+              <View style={styles.navBar}>
+                <Text style={styles.nameHeader}>
+                  Hãy chọn ngày học
+                </Text>
+              </View>
               {
-                users.map(user => {
+                events.map(e => {
                   return (
                     <ListItem
-                      key={user._id}
-                      leftAvatar={{ rounded: true, source: { uri: user.userId.photo } }}
-                      title={user.userId.name}
-                      subtitle={user.userId.email}
+                      key={e._id}
+                      title={this.capitalizeFirstLetter(moment(e.date).locale('vi').format("dddd, [ngày] DD [thg] MM, YYYY"))}
+                      subtitle={'Bài học: ' + e.text}
                       containerStyle={{
                         borderRadius: 8,
                         marginTop: 10,
                         marginHorizontal: 10
                       }}
-                      badge = {
-                        user.isPresent
-                        ?
-                        {
-                          status: 'success',
-                          value: 'Hiện diện'
-                        }
-                        :
-                        {
-                          status: 'error',
-                          value: 'Vắng'
-                        }
-                      }
-                      
+                      onPress={this.handleSelectDate.bind(this, e.date)}
                     />
                   );
                 })
               }
             </View>
-          }
-          </KeyboardAvoidingView>
-        </ScrollView>
+          </ScrollView>
+        }
+        </View>
       }
       </View>
     );
@@ -183,8 +280,12 @@ class ListAttendance extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: 150,
     flex: 1,
     justifyContent: 'center'
+  },  
+  statusBar: {
+    height: 10,
   },
   navBar: {
     marginTop: 10,
@@ -195,12 +296,13 @@ const styles = StyleSheet.create({
   nameHeader: {
     marginTop: 5,
     color: 'black',
-    fontSize: 20,
+    fontSize: 15,
     marginLeft: 10,
   }
 });
 
 const mapStateToProps = state => ({
-  attendance: state.attendance
+  attendance: state.attendance,
+  schedule: state.schedule
 });
-export default connect(mapStateToProps, { getAttendance })(ListAttendance); 
+export default connect(mapStateToProps, { getAttendance, getSchedule, getTodayAttendance })(ListAttendance); 

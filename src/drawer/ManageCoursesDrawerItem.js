@@ -4,6 +4,7 @@ import { Icon } from 'react-native-elements';
 
 import ManageCourses from '../views/ManageCourses';
 import ApproveStudent from '../views/ApproveStudent';
+import ApproveTeacher from '../views/ApproveTeacher';
 
 const ManageCoursesDrawerItem = createStackNavigator(
   {
@@ -27,7 +28,14 @@ const ManageCoursesDrawerItem = createStackNavigator(
       screen: ApproveStudent,
       path: '/approve-student',
       navigationOptions: {
-        title: 'Chi tiết điểm danh',
+        title: 'Quản lý học viên',
+      }
+    },
+    ApproveTeacher: {
+      screen: ApproveTeacher,
+      path: '/approve-teacher',
+      navigationOptions: {
+        title: 'Quản lý giáo viên',
       }
     }
   }

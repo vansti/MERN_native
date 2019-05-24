@@ -42,6 +42,7 @@ class PeopleInCourse extends Component {
   render() {
     const { students, teachers } = this.state.users
     const { loading } = this.state
+    const { role } = this.props.auth.user
     return (
       <View style={{ flex: 1 }}>
       {
@@ -83,19 +84,36 @@ class PeopleInCourse extends Component {
               :
               students.map(user => {
                 return (
-                  <ListItem
-                    key={user._id}
-                    leftAvatar={{ rounded: true, source: { uri: user.photo } }}
-                    title={user.name}
-                    subtitle={user.email}
-                    onPress={this.handlePressStudentInfo.bind(this, user._id)}
-                    containerStyle={{
-                      borderWidth: 1,
-                      borderColor: 'grey',
-                      borderRadius: 8,
-                      marginTop: 10
-                    }}
-                  />
+                  <View key={user._id}>
+                  {
+                    role === 'student'
+                    ?
+                    <ListItem
+                      leftAvatar={{ rounded: true, source: { uri: user.photo } }}
+                      title={user.name}
+                      subtitle={user.email}
+                      containerStyle={{
+                        borderWidth: 1,
+                        borderColor: 'grey',
+                        borderRadius: 8,
+                        marginTop: 10
+                      }}
+                    />
+                    :
+                    <ListItem
+                      leftAvatar={{ rounded: true, source: { uri: user.photo } }}
+                      title={user.name}
+                      subtitle={user.email}
+                      onPress={this.handlePressStudentInfo.bind(this, user._id)}
+                      containerStyle={{
+                        borderWidth: 1,
+                        borderColor: 'grey',
+                        borderRadius: 8,
+                        marginTop: 10
+                      }}
+                    />
+                  }
+                  </View>
                 );
               })
             }
@@ -116,6 +134,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  users: state.users
+  users: state.users,
+  auth: state.auth
 });
 export default connect(mapStateToProps, { getUsers })(PeopleInCourse); 

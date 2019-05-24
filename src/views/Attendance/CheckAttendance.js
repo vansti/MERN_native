@@ -5,8 +5,11 @@ import { connect } from 'react-redux';
 import isEmptyObj from '../../validation/is-empty'; 
 import { getTodayAttendance, addAttendance, editAttendance, clearSuccess } from '../../actions/attendanceActions';
 import { getUsers } from '../../actions/userActions';
+import { getSchedule } from '../../actions/scheduleAtions';
+import 'moment/locale/vi';
 
 var moment = require('moment');
+
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
 class CheckAttendance extends Component {
@@ -14,6 +17,9 @@ class CheckAttendance extends Component {
     super(props);
 
     this.state = {
+      events: [],
+      loadingEvent :true,
+      selectDate: '',
       user:[],
       userAttendance:[],
       attendanceId:'',
@@ -24,6 +30,10 @@ class CheckAttendance extends Component {
       loadingSubmit2: false
     };
   }
+  
+  capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
 
   componentDidMount = () => {
     const { navigation } = this.props;
@@ -31,11 +41,21 @@ class CheckAttendance extends Component {
     this.setState({
       courseId
     })
-    this.props.getTodayAttendance(courseId);
-    this.props.getUsers(courseId);
+    this.props.getSchedule(courseId);
   }
 
   componentWillReceiveProps(nextProps) {
+
+    const { schedule, loading } = nextProps.schedule
+    if(!isEmptyObj(schedule))
+      this.setState({ 
+        events: schedule.events,
+        loadingEvent: loading
+      });
+    this.setState({
+      loadingEvent: loading 
+    });  
+
     if (!isEmptyObj(nextProps.users)) {
       const { users, loading } = nextProps.users
 
@@ -73,7 +93,10 @@ class CheckAttendance extends Component {
         'Điểm danh thành công'
       )
       this.props.clearSuccess();
-      this.props.getTodayAttendance(this.state.courseId);      
+      var date = {
+        selectDate: this.state.selectDate
+      };
+      this.props.getTodayAttendance(this.state.courseId, date);      
       this.setState({ loadingSubmit1: false, loadingSubmit2: false })
     }
 
@@ -104,11 +127,10 @@ class CheckAttendance extends Component {
   }
 
   submit = () => {
-    var today = moment().format('YYYY-MM-DD');
 
     var newAttendance = {
       courseId: this.state.courseId,
-      date: today,
+      date: this.state.selectDate,
       students: []
     };
 
@@ -143,21 +165,54 @@ class CheckAttendance extends Component {
 
   }
 
+  handleSelectDate(selectDate){
+    var date = {
+      selectDate
+    };
+    this.props.getTodayAttendance(this.state.courseId, date);
+    this.props.getUsers(this.state.courseId);
+    this.setState({selectDate})
+  }
+
+  back=()=>{
+    this.setState({
+      selectDate: '',
+      user:[],
+      userAttendance:[]
+    })
+  }
+
   render() {
-    const { user, userAttendance, loadingUser, loadingUserAttendance, loadingSubmit1, loadingSubmit2 } = this.state
+    const { user, userAttendance, loadingUser, loadingUserAttendance, loadingSubmit1, loadingSubmit2, loadingEvent, events, selectDate } = this.state
 
     var StudentList = <Text>Chưa có học viên ghi danh</Text>;
 
     if(!isEmptyObj(user) && isEmptyObj(userAttendance)){
       StudentList = 
-      <ScrollView>
-        <Button
-          title="Lưu điểm danh"
-          loading={loadingSubmit1}
-          onPress = {this.submit}
-          containerStyle={{ marginHorizontal: 10, height: 50, width: 200 }}
-          titleStyle={{ fontWeight: 'bold' }}
-        />
+      <View>
+        <View style={{flexDirection: 'row'}}>
+          <Button 
+            title="Trở về"
+            containerStyle = {{ marginHorizontal: 10, height: 50, width: 100 }}
+            titleStyle = {{ fontWeight: 'bold' }}
+            buttonStyle={{
+              backgroundColor: 'green'
+            }}
+            icon={{
+              name: 'arrow-left',
+              type: 'font-awesome',
+              color: 'white'
+            }}
+            onPress={this.back}
+          />
+          <Button
+            title="Lưu điểm danh"
+            loading={loadingSubmit1}
+            onPress = {this.submit}
+            containerStyle={{ marginHorizontal: 10, height: 50, width: 200 }}
+            titleStyle={{ fontWeight: 'bold' }}
+          />
+        </View>
         {
           user.map(u => {
             return (
@@ -179,19 +234,35 @@ class CheckAttendance extends Component {
             );
           })
         }
-      </ScrollView>
+      </View>
     }
 
     if(!isEmptyObj(user) && !isEmptyObj(userAttendance)){
       StudentList = 
       <ScrollView>
-        <Button
-          title="Chỉnh sửa điểm danh"
-          loading={loadingSubmit2}
-          onPress = {this.submit2}
-          containerStyle = {{ marginHorizontal: 10, height: 50, width: 200 }}
-          titleStyle = {{ fontWeight: 'bold' }}
-        />
+        <View style={{flexDirection: 'row'}}>
+          <Button 
+            title="Trở về"
+            containerStyle = {{ marginHorizontal: 10, height: 50, width: 100 }}
+            titleStyle = {{ fontWeight: 'bold' }}
+            buttonStyle={{
+              backgroundColor: 'green'
+            }}
+            icon={{
+              name: 'arrow-left',
+              type: 'font-awesome',
+              color: 'white'
+            }}
+            onPress={this.back}
+          />
+          <Button
+            title="Chỉnh sửa điểm danh"
+            loading={loadingSubmit2}
+            onPress = {this.submit2}
+            containerStyle = {{ marginHorizontal: 10, height: 50, width: 200 }}
+            titleStyle = {{ fontWeight: 'bold' }}
+          />
+        </View>
         {
           userAttendance.map(u => {
             return (
@@ -217,22 +288,62 @@ class CheckAttendance extends Component {
     }
 
     return (
-      <View style={{ flex: 1 , backgroundColor: 'rgba(241,240,241,1)'}}>
-      {
-        loadingUser || loadingUserAttendance
-        ?
-        <View style={styles.container}> 
-          <ActivityIndicator size="large" />
-        </View>
-        :
-        <View style={{marginBottom:20}}>
-          <View style={styles.statusBar} />
-          <View style={styles.navBar}>
-            <Text style={styles.nameHeader}>Điểm danh ngày {moment().format('DD/MM/YYYY')}</Text>
+      <View style={{ flex: 1 , backgroundColor: 'rgba(241,240,241,1)'}}>    
+        <ScrollView>
+          <View style={{marginBottom:20}}>
+            <View style={styles.statusBar} />
+            <View style={styles.navBar}>
+              <Text style={styles.nameHeader}>
+                Điểm danh { selectDate && <Text>{this.capitalizeFirstLetter(moment(selectDate).locale('vi').format("dddd, [ngày] DD [thg] MM, YYYY"))}</Text>}
+              </Text>
+            </View>
+            {
+              selectDate
+              ?
+              <View>
+              {
+                loadingUser || loadingUserAttendance
+                ?
+                <View style={styles.container}> 
+                  <ActivityIndicator size="large" />
+                </View>
+                :
+                StudentList
+              }
+              </View>
+              :
+              <View>
+              {
+                loadingEvent
+                ?
+                <View style={styles.container}> 
+                  <ActivityIndicator size="large" />
+                </View>
+                :
+                <View>
+                  {
+                    events.map(e => {
+                      return (
+                        <ListItem
+                          key={e._id}
+                          title={this.capitalizeFirstLetter(moment(e.date).locale('vi').format("dddd, [ngày] DD [thg] MM, YYYY"))}
+                          subtitle={'Bài học: ' + e.text}
+                          containerStyle={{
+                            borderRadius: 8,
+                            marginTop: 10,
+                            marginHorizontal: 10
+                          }}
+                          onPress={this.handleSelectDate.bind(this, e.date)}
+                        />
+                      );
+                    })
+                  }
+                </View>
+              }
+              </View>
+            }
           </View>
-          {StudentList}
-        </View>
-      }
+        </ScrollView>
       </View>
     );
   }
@@ -254,7 +365,7 @@ const styles = StyleSheet.create({
   },
   nameHeader: {
     color: 'black',
-    fontSize: 25,
+    fontSize: 18,
     marginLeft: 20,
   }
 });
@@ -262,6 +373,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => ({
   users: state.users,
   attendance: state.attendance,
-  success: state.success
+  success: state.success,
+  schedule: state.schedule
 });
-export default connect(mapStateToProps, { getTodayAttendance, getUsers, addAttendance, editAttendance, clearSuccess })(CheckAttendance); 
+export default connect(mapStateToProps, { getTodayAttendance, getUsers, addAttendance, editAttendance, clearSuccess, getSchedule })(CheckAttendance); 

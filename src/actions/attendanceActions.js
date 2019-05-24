@@ -74,10 +74,10 @@ export const getAttendance = (courseId) => dispatch => {
 };
 
 // Get Attendance
-export const getTodayAttendance = (courseId) => dispatch => {
+export const getTodayAttendance = (courseId, date) => dispatch => {
   dispatch(setAttendacneLoading());
   axios
-    .get(config.ADDRESS + '/api/attendance/get-today-attendance/' + courseId)
+    .post(config.ADDRESS + '/api/attendance/get-today-attendance/' + courseId, date)
     .then(res =>{
       dispatch({
         type: GET_TODAY_ATTENDANCE,

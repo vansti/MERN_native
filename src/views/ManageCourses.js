@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, ScrollView, ActivityIndicator, Text, Dimensions, Alert } from 'react-native';
+import { StyleSheet, View, ScrollView, ActivityIndicator, Text, Dimensions } from 'react-native';
 import { SearchBar, Card, Divider, Image, Button, Overlay } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { getManageCourses, joinCourse, clearSuccess } from '../actions/courseActions'; 
+import { getManageCourses } from '../actions/courseActions'; 
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 class ManageCourses extends Component {
@@ -13,10 +13,7 @@ class ManageCourses extends Component {
       intialManagecourses: [],
       loading: true,
       search: null,
-      isLoadingJoinCourse: false
     };
-    this.handleJoinCourse = this.handleJoinCourse.bind(this);
-    this.handleClickApprove = this.handleClickApprove.bind(this);
   }
 
   componentDidMount=()=>{
@@ -32,14 +29,6 @@ class ManageCourses extends Component {
         loading 
       });
     }
-
-    if (nextProps.success === "Tham gia khóa học thành công" || nextProps.success === "Đã tham gia vào khóa học này") {
-      Alert.alert('Thông báo', nextProps.success);
-      this.setState({
-        isLoadingJoinCourse: false
-      })
-      this.props.clearSuccess();
-    }
   }
 
   onSearch = search =>{
@@ -53,18 +42,16 @@ class ManageCourses extends Component {
     });
   }
 
-  handleJoinCourse(courseId){
-    this.props.joinCourse(courseId);
-    this.setState({isLoadingJoinCourse: true});
-  }
-
-  handleClickApprove(courseId){
+  handleClickApproveStudent(courseId){
     this.props.navigation.navigate('ApproveStudent',{ courseId: courseId })
   } 
 
+  handleClickApproveTeacher(courseId){
+    this.props.navigation.navigate('ApproveTeacher',{ courseId: courseId })
+  } 
+
   render() {
-    let { managecourses, loading, search, isLoadingJoinCourse } = this.state;
-    const { role } = this.props.auth.user;
+    let { managecourses, loading, search } = this.state;
     return (
       <View style={{ flex: 1 }}>
       {
@@ -103,33 +90,19 @@ class ManageCourses extends Component {
                     </Text>
                   </View>
                   <Divider style={{ backgroundColor: 'grey', marginTop: 10 }} />
-                  {
-                    role === 'teacher'
-                    ?
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
-                      <Button
-                        backgroundColor='#03A9F4'
-                        containerStyle={{marginLeft: 20}}
-                        onPress={this.handleJoinCourse.bind(this, course._id)}
-                        title=' Tham gia' 
-                      />
-                    </View>
-                    :
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
-                      <Button
-                        backgroundColor='#03A9F4'
-                        onPress={this.handleClickApprove.bind(this, course._id)}
-                        containerStyle={{marginLeft: 20}}
-                        title=' Phê duyệt' 
-                      />
-                      <Button
-                        backgroundColor='#03A9F4'
-                        containerStyle={{marginLeft: 20}}
-                        onPress={this.handleJoinCourse.bind(this, course._id)}
-                        title=' Tham gia' 
-                      />
-                    </View>
-                  }
+                  <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
+                    <Button
+                      backgroundColor='#03A9F4'
+                      onPress={this.handleClickApproveStudent.bind(this, course._id)}
+                      title=' Quản lý học viên' 
+                    />
+                    <Button
+                      backgroundColor='#03A9F4'
+                      onPress={this.handleClickApproveTeacher.bind(this, course._id)}
+                      containerStyle={{marginLeft: 20}}
+                      title=' Quản lý giáo viên' 
+                    />
+                  </View>
                 </Card>
               )
             }
@@ -137,14 +110,6 @@ class ManageCourses extends Component {
           </ScrollView>
         </View>
       }
-        <Overlay
-          isVisible={isLoadingJoinCourse}
-          windowBackgroundColor="rgba(255, 255, 255, .5)"
-          width= {100}
-          height= {70}
-        >
-          <ActivityIndicator style={{marginTop:10}}/>
-        </Overlay>
       </View>
     );
   }
@@ -159,7 +124,6 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   courses: state.courses,
-  success: state.success,
   auth: state.auth
 });
-export default connect(mapStateToProps, { getManageCourses, joinCourse, clearSuccess })(ManageCourses); 
+export default connect(mapStateToProps, { getManageCourses })(ManageCourses); 
