@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, StyleSheet, ScrollView, Alert, BackHandler} from 'react-native';
+import { View, Image, StyleSheet, ScrollView, Alert, BackHandler, ActivityIndicator } from 'react-native';
 import {
   Input,
   Icon,
@@ -11,6 +11,7 @@ import { ImagePicker } from 'expo';
 import { connect } from 'react-redux';
 import { editProfile, getCurrentProfile, clearErrors, clearSuccess } from '../actions/profileActions';
 import isEmptyObj from '../validation/is-empty';
+import { NavigationEvents } from 'react-navigation';
 
 class Profile extends Component {
   state = {
@@ -20,7 +21,8 @@ class Profile extends Component {
     photo: null,
     file: null,
     isLoading: false,
-    errors:{}
+    errors:{},
+    loading: true
   };
 
   handleChoosePhoto = async () => {
@@ -72,8 +74,11 @@ class Profile extends Component {
 
     this.setState({ errors: nextProps.errors});
 
-    if (nextProps.profile.profile) {
-      const profile = nextProps.profile.profile
+    const { loading } = nextProps.profile
+    this.setState({ loading })
+
+    if (!isEmptyObj(nextProps.profile.profile)) {
+      const { profile } = nextProps.profile
       this.setState({name: profile.name, email: profile.email, phone: profile.phone, photo: profile.photo})
     }
 
@@ -98,9 +103,17 @@ class Profile extends Component {
   }
 
   render() {
-    const { email, name, phone, photo, isLoading, errors } = this.state;
+    const { email, name, phone, photo, isLoading, errors, loading } = this.state;
     return (
       <ScrollView>
+        <NavigationEvents onDidFocus={() => this.componentDidMount()} />
+        {
+          loading
+          ?
+          <View style={styles.container}> 
+            <ActivityIndicator size="large" />
+          </View>
+          :
           <View style={styles.container}>
             <View style={{ alignItems: 'center', marginBottom: 16 }}>
               <Input
@@ -180,6 +193,7 @@ class Profile extends Component {
                 />
             </View>
           </View>
+        }        
       </ScrollView>
     );
   }

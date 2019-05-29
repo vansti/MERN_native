@@ -116,7 +116,7 @@ class StudentAbsentList extends Component {
                               element.event
                               ? 
                               <Text>
-                                {element.event.text}
+                                {element.event.lessonId.text}
                               </Text>
                               :
                               'Chưa cập nhật'

@@ -19,6 +19,7 @@ export const IS_DO_QUIZ_LOADING = 'IS_DO_QUIZ_LOADING';
 
 //Attendance
 export const GET_PROFILE = 'GET_PROFILE';
+export const PROFILE_LOADING = 'PROFILE_LOADING';
 export const GET_ATTENDANCE = 'GET_ATTENDANCE';
 export const CLEAR_ATTENDANCE = 'CLEAR_ATTENDANCE';
 //User

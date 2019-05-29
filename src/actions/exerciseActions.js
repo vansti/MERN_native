@@ -8,9 +8,45 @@ import {
   GET_COMMENT,
   COMMENT_LOADING,
   GET_ERRORS,
-  GET_SUCCESS
+  GET_SUCCESS,
+  GET_EXERPOINT
 } from './types';
 
+export const getExercisePoint = (id) => dispatch => {
+  dispatch(setExercisesLoading());
+  axios
+    .get(config.ADDRESS +`/api/exercises/exercisePointOP/${id}`)
+    .then(res => {
+      dispatch({
+        type: GET_EXERPOINT,
+        payload: res.data
+      })
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_EXERPOINT,
+        payload: {}
+      }
+    ))
+}
+
+// Add Point
+export const addPoint= (newPoint) => dispatch => {
+  axios
+    .post(config.ADDRESS +'/api/exercises/add-point', newPoint)
+    .then(res =>{
+      dispatch({
+        type: GET_SUCCESS,
+        payload: res.data
+      })
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
 
 export const getExerciseList = (courseId) => dispatch => {
   dispatch(setExercisesLoading());

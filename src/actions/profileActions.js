@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { GET_ERRORS, GET_PROFILE, CLEAR_ERRORS, GET_SUCCESS, CLEAR_SUCCESS} from './types';
+import { GET_ERRORS, GET_PROFILE, CLEAR_ERRORS, GET_SUCCESS, CLEAR_SUCCESS, PROFILE_LOADING } from './types';
 
 import config from './config';
 
@@ -48,8 +48,7 @@ export const editProfile = (userData, photo) => dispatch => {
 
 // Get Profle
 export const getCurrentProfile = () => dispatch => {
-  dispatch(clearErrors());
-  dispatch(clearSuccess());
+  dispatch(setProfileLoading());
   axios
     .get(config.ADDRESS + '/api/users/current')
     .then(res =>
@@ -105,5 +104,11 @@ export const getSuccess = () => dispatch => {
 export const clearSuccess = () => {
   return {
     type: CLEAR_SUCCESS
+  };
+};
+
+export const setProfileLoading = () => {
+  return {
+    type: PROFILE_LOADING
   };
 };

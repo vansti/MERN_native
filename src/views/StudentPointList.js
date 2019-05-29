@@ -63,7 +63,7 @@ class StudentPointList extends Component {
         <Button
           backgroundColor='#03A9F4'
           containerStyle={{marginLeft: 20}}
-          title=' Xem Điểm số' 
+          title=' Xem điểm số' 
           onPress={this.onOpenOverlay}
         />
         <Overlay isVisible={this.state.isVisible} fullScreen={true}>

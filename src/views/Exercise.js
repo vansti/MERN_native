@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import isEmptyObj from '../validation/is-empty'; 
 import moment from "moment";
 import Comment from './Comment';
+import { NavigationEvents } from 'react-navigation';
 
 class Exercise extends Component {
   constructor(props) {
@@ -49,6 +50,7 @@ class Exercise extends Component {
     const { exercises, loading } = this.state
     return (
       <View style={{ flex: 1 }}>
+        <NavigationEvents onDidFocus={() => this.componentDidMount()} />
       {
         loading
         ?

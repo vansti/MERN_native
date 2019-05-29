@@ -10,7 +10,7 @@ const DashboardDrawerItem = createStackNavigator(
       screen: Dashboard,
       path: '/',
       navigationOptions: ({ navigation }) => ({
-        title: 'Trang chủ',
+        title: 'Trang chủ ',
         headerLeft: (
           <Icon
             name="menu"
@@ -26,7 +26,7 @@ const DashboardDrawerItem = createStackNavigator(
 );
 
 DashboardDrawerItem.navigationOptions = {
-  drawerLabel: 'Trang chủ',
+  drawerLabel: 'Trang chủ ',
   drawerIcon: ({ tintColor }) => (
     <Icon
       name="home"

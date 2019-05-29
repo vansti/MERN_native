@@ -9,7 +9,54 @@ class CustomDrawerContentComponent extends Component {
   render() {
     const { role } = this.props.auth.user
     const { items, ...rest } = this.props;
-    const studentItems = items.filter(item => item.key === "Dashboard" || item.key === "Profile" || item.key === "MyCourse" || item.key === "CourseList" );
+    let Items;
+
+    switch (role) {
+      case 'student': Items =  
+        items.filter(
+          item => 
+            item.key === "Dashboard" || 
+            item.key === "Profile" || 
+            item.key === "CourseList" ||
+            item.key === "MyInfo" ||
+            item.key === "MyCourse"            
+        );
+        break;
+      case 'teacher': Items =  
+        items.filter(item => 
+          item.key === "Dashboard" || 
+          item.key === "Profile" || 
+          item.key === "Attendance" ||
+          item.key === "MyCourse"            
+        );
+        break;
+      case 'advisor': Items = 
+        items.filter(item => 
+          item.key === "Dashboard" || 
+          item.key === "Profile" || 
+          item.key === "ManageCourses" 
+        );
+        break;
+      case 'ministry': Items =  
+        items.filter(item => 
+          item.key === "Dashboard" || 
+          item.key === "Profile" || 
+          item.key === "ViewCourse" || 
+          item.key === "ViewAttendance" 
+        );
+        break;  
+      case 'admin': Items =  
+        items.filter(item => 
+          item.key === "Dashboard" || 
+          item.key === "Profile" || 
+          item.key === "ViewCourse" || 
+          item.key === "ManageCourses" || 
+          item.key === "Attendance" || 
+          item.key === "ViewAttendance" 
+        );
+        break;     
+      default: Items =  items;break;
+    }
 
     return (
       <View style={{ flex: 1, backgroundColor: '#43484d' }}>
@@ -24,13 +71,7 @@ class CustomDrawerContentComponent extends Component {
             />
           </View>
           <View style={{ marginLeft: 10 }}>
-          {
-            role === 'student'
-            ?
-            <DrawerItems items={studentItems} {...rest} />
-            :
-            <DrawerItems {...this.props} />
-          }
+          <DrawerItems items={Items} {...rest} />
           </View>
           <Logout navigation={this.props.navigation}/>
         </ScrollView>

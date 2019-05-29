@@ -1,9 +1,11 @@
 import {
-  GET_PROFILE
+  GET_PROFILE,
+  PROFILE_LOADING
 } from '../actions/types';
 
 const initialState = {
-  profile: null
+  profile: null,
+  loading: false
 };
 
 export default function(state = initialState, action) {
@@ -12,6 +14,12 @@ export default function(state = initialState, action) {
       return {
         ...state,
         profile: action.payload,
+        loading: false
+      };
+    case PROFILE_LOADING:
+      return {
+        ...state,
+        loading: true
       };
     default:
       return state;

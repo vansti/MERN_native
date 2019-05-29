@@ -13,7 +13,7 @@ class Logout extends Component {
     return (
       <View style={{ marginTop: 40 }}>
         <Button
-          title="Đăng xuất"
+          title="Đăng xuất "
           icon={{
             name: 'sign-out',
             type: 'font-awesome',

@@ -3,6 +3,7 @@ import { Dimensions, StyleSheet, View, Text, ScrollView, Image, TouchableOpacity
 import { connect } from 'react-redux';
 import { getCurentCourse } from '../actions/courseActions'; 
 import PropTypes from 'prop-types';
+import { NavigationEvents } from 'react-navigation';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
@@ -39,10 +40,11 @@ class MyCourse extends Component {
     const { currentcourses, loading } = this.state
 
     return (
-      <View style={{ flex: 1, backgroundColor: 'rgba(241,240,241,1)' }}>
+      <View style={{ flex: 1, backgroundColor: '#DCDCDC' }}>
+        <NavigationEvents onDidFocus={() => this.componentDidMount()} />
         <View style={styles.statusBar} />
         <View style={styles.navBar}>
-          <Text style={styles.nameHeader}>Danh sách khóa học</Text>
+          <Text style={styles.nameHeader}>Danh sách khóa học của tôi</Text>
         </View>
         {
           loading
@@ -72,7 +74,7 @@ class MyCourse extends Component {
                       <View style={{ marginLeft: 15 }}>
                         <Image
                           source={{ uri: course.coursePhoto }}
-                          style={{ width: 50, height: 50, borderColor:'rgba(241,240,241,1)', borderWidth: 1, borderRadius: 5 }}
+                          style={{ width: 50, height: 50, borderColor:'#A9A9A9', borderWidth: 1, borderRadius: 5 }}
                         />
                       </View>
                       <Text
@@ -81,7 +83,7 @@ class MyCourse extends Component {
                           marginLeft: 10,
                           flex: 1, 
                           flexWrap: 'wrap',
-                          color: 'gray',
+                          color: '#2F4F4F',
                         }}
                       >
                         {course.title}
@@ -111,7 +113,7 @@ const styles = StyleSheet.create({
   },
   nameHeader: {
     color: 'black',
-    fontSize: 25,
+    fontSize: 20,
     marginLeft: 20,
   }
 });

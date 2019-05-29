@@ -3,6 +3,7 @@ import { StyleSheet, View, ScrollView, ActivityIndicator, Text, Dimensions, Aler
 import { ListItem, Divider, Button, Overlay } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { getApproveList, clearSuccess, approveStudent } from '../actions/userActions'; 
+import { NavigationEvents } from 'react-navigation';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
@@ -53,6 +54,7 @@ class ApproveStudent extends Component {
     let { approve_list, loading, isLoadingApprove }  = this.state;
     return (
       <View style={{ flex: 1, backgroundColor: 'rgba(241,240,241,1)' }}>
+        <NavigationEvents onDidFocus={() => this.componentDidMount()} />
       {
         loading
         ?

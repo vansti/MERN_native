@@ -4,7 +4,9 @@ import {
   Text,
   View,
   ImageBackground,
-  Dimensions
+  Dimensions,
+  ScrollView, 
+  KeyboardAvoidingView
 } from 'react-native';
 import { Input, Button, Icon } from 'react-native-elements';
 
@@ -73,67 +75,71 @@ class LoginScreen1 extends Component {
         <ImageBackground source={BG_IMAGE} style={styles.bgImage}>
           {this.state.fontLoaded ? (
             <View style={styles.loginView}>
-              <View style={styles.loginInput}>
-                <Input
-                  leftIcon={
-                    <Icon
-                      name="user-o"
-                      type="font-awesome"
-                      color="rgba(171, 189, 219, 1)"
-                      size={25}
+              <ScrollView scrollEnabled={false} keyboardShouldPersistTaps="handled" >
+                <KeyboardAvoidingView behavior="position" >
+                  <View style={styles.loginInput}>
+                    <Input
+                      leftIcon={
+                        <Icon
+                          name="user-o"
+                          type="font-awesome"
+                          color="rgba(171, 189, 219, 1)"
+                          size={25}
+                        />
+                      }
+                      containerStyle={{ marginVertical: 10 }}
+                      onChangeText={email => this.setState({ email })}
+                      value={email}
+                      inputStyle={{ marginLeft: 10, color: 'white' }}
+                      keyboardAppearance="light"
+                      placeholder="Email"
+                      autoFocus={false}
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      keyboardType="email-address"
+                      returnKeyType="next"
+                      ref={input => (this.emailInput = input)}
+                      onSubmitEditing={() => {
+                        this.passwordInput.focus();
+                      }}
+                      blurOnSubmit={false}
+                      placeholderTextColor="white"
+                      errorStyle={{ textAlign: 'center', fontSize: 12 }}
+                      errorMessage={
+                        errors.email_login && errors.email_login
+                      }
                     />
-                  }
-                  containerStyle={{ marginVertical: 10 }}
-                  onChangeText={email => this.setState({ email })}
-                  value={email}
-                  inputStyle={{ marginLeft: 10, color: 'white' }}
-                  keyboardAppearance="light"
-                  placeholder="Email"
-                  autoFocus={false}
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  keyboardType="email-address"
-                  returnKeyType="next"
-                  ref={input => (this.emailInput = input)}
-                  onSubmitEditing={() => {
-                    this.passwordInput.focus();
-                  }}
-                  blurOnSubmit={false}
-                  placeholderTextColor="white"
-                  errorStyle={{ textAlign: 'center', fontSize: 12 }}
-                  errorMessage={
-                    errors.email_login && errors.email_login
-                  }
-                />
-                <Input
-                  leftIcon={
-                    <Icon
-                      name="lock"
-                      type="font-awesome"
-                      color="rgba(171, 189, 219, 1)"
-                      size={25}
+                    <Input
+                      leftIcon={
+                        <Icon
+                          name="lock"
+                          type="font-awesome"
+                          color="rgba(171, 189, 219, 1)"
+                          size={25}
+                        />
+                      }
+                      containerStyle={{ marginVertical: 10 }}
+                      onChangeText={password => this.setState({ password })}
+                      value={password}
+                      inputStyle={{ marginLeft: 10, color: 'white' }}
+                      secureTextEntry={true}
+                      keyboardAppearance="light"
+                      placeholder="Mật khẩu"
+                      autoCapitalize="none"
+                      autoCorrect={false}
+                      keyboardType="default"
+                      returnKeyType="done"
+                      ref={input => (this.passwordInput = input)}
+                      blurOnSubmit={true}
+                      placeholderTextColor="white"
+                      errorStyle={{ textAlign: 'center', fontSize: 12 }}
+                      errorMessage={
+                        errors.password_login && errors.password_login
+                      }
                     />
-                  }
-                  containerStyle={{ marginVertical: 10 }}
-                  onChangeText={password => this.setState({ password })}
-                  value={password}
-                  inputStyle={{ marginLeft: 10, color: 'white' }}
-                  secureTextEntry={true}
-                  keyboardAppearance="light"
-                  placeholder="Mật khẩu"
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  keyboardType="default"
-                  returnKeyType="done"
-                  ref={input => (this.passwordInput = input)}
-                  blurOnSubmit={true}
-                  placeholderTextColor="white"
-                  errorStyle={{ textAlign: 'center', fontSize: 12 }}
-                  errorMessage={
-                    errors.password_login && errors.password_login
-                  }
-                />
-              </View>
+                  </View>
+                </KeyboardAvoidingView>
+              </ScrollView>
               <Button
                 title="Đăng nhập"
                 activeOpacity={1}
@@ -149,7 +155,7 @@ class LoginScreen1 extends Component {
                   borderColor: 'white',
                   borderRadius: 30,
                 }}
-                containerStyle={{ marginVertical: 10 }}
+                containerStyle={{ marginBottom: 100 }}
                 titleStyle={{ fontWeight: 'bold', color: 'white' }}
               />
               <View style={styles.footerView}>
@@ -184,7 +190,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   loginView: {
-    marginTop: 200,
+    marginTop: 245,
     backgroundColor: 'transparent',
     width: 250,
     height: 400,
@@ -210,7 +216,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   footerView: {
-    marginTop: 20,
+    marginBottom: 20,
     flex: 0.5,
     justifyContent: 'center',
     alignItems: 'center',

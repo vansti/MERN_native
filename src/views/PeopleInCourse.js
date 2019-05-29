@@ -4,6 +4,7 @@ import { Card, ListItem } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { getUsers } from '../actions/userActions';
 import isEmptyObj from '../validation/is-empty';
+import { NavigationEvents } from 'react-navigation';
 
 class PeopleInCourse extends Component {
   constructor(props) {
@@ -45,6 +46,7 @@ class PeopleInCourse extends Component {
     const { role } = this.props.auth.user
     return (
       <View style={{ flex: 1 }}>
+        <NavigationEvents onDidFocus={() => this.componentDidMount()} />        
       {
         loading
         ?

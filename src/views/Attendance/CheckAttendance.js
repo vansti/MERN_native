@@ -6,6 +6,7 @@ import isEmptyObj from '../../validation/is-empty';
 import { getTodayAttendance, addAttendance, editAttendance, clearSuccess } from '../../actions/attendanceActions';
 import { getUsers } from '../../actions/userActions';
 import { getSchedule } from '../../actions/scheduleAtions';
+import { NavigationEvents } from 'react-navigation';
 import 'moment/locale/vi';
 
 var moment = require('moment');
@@ -289,6 +290,7 @@ class CheckAttendance extends Component {
 
     return (
       <View style={{ flex: 1 , backgroundColor: 'rgba(241,240,241,1)'}}>    
+        <NavigationEvents onDidFocus={() => this.componentDidMount()} />
         <ScrollView>
           <View style={{marginBottom:20}}>
             <View style={styles.statusBar} />

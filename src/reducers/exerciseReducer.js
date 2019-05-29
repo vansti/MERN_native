@@ -1,9 +1,17 @@
 import {
-  GET_EXERCISE_LIST, EXERCISE_LOADING
+  GET_EXERCISE_LIST,
+  GET_EXER, 
+  EXERCISE_LOADING,
+  GET_EXERPOINT,
+  // EXERCISE_LOADINGGET_EXERPOINT
 } from '../actions/types';
 
 const initialState = {
-  exercises: null,
+  studentSubmission:{
+    studentSubmission: []
+  },
+  exercises: [],
+  exercise: {},
   loading: false
 };
 
@@ -19,6 +27,17 @@ export default function(state = initialState, action) {
       return {
         ...state,
         loading: true
+      }
+    case GET_EXERPOINT:
+      return { 
+        ...state,
+        studentSubmission: action.payload,
+        loading: false
+      };
+    case GET_EXER:
+      return {
+        ...state,
+        exercise: action.payload,
       };
     default:
       return state;

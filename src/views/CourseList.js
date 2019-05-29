@@ -5,6 +5,7 @@ import { Card, Button, Icon, Divider } from 'react-native-elements';
 import { getAllCourse } from '../actions/courseActions'; 
 import isEmptyObj from '../validation/is-empty';
 import moment from "moment";
+import { NavigationEvents } from 'react-navigation';
 
 
 class CourseList extends Component {
@@ -40,6 +41,7 @@ class CourseList extends Component {
     const { allcourses, loading } = this.state
     return (
       <View style={{ flex: 1, backgroundColor: 'rgba(241,240,241,1)' }}>
+        <NavigationEvents onDidFocus={() => this.componentDidMount()} />
       {
         loading
         ?
@@ -70,14 +72,10 @@ class CourseList extends Component {
                 <Divider style={{ backgroundColor: 'grey', marginTop: 10 }} />
                   <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
                     <Icon type="font-awesome" name="clock-o" />
-                    <Text
-                      style={{
-                        marginLeft: 10
-                      }}
-                    >
+                    <Text  style={{ marginLeft: 5 }} >
                       Hạn đăng ký - 
                     </Text>
-                    <Text style={{color: 'grey'}}>{moment(course.enrollDeadline).format(" HH:mm [ngày] DD [thg] MM, YYYY.")}</Text>
+                    <Text style={styles.infoText}>{moment(course.enrollDeadline).format("HH:mm [ngày] DD [thg] MM, YYYY.")}</Text>
                   </View>
                 <Divider style={{ backgroundColor: 'grey', marginTop: 10 }} />
                 <Text style={{marginBottom: 10, marginTop: 10}}>
@@ -102,6 +100,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center'
+  },
+  infoText:{
+    color: 'grey',
+    flex: 1, 
+    flexWrap: 'wrap', 
+    marginLeft: 4
   }
 });
 

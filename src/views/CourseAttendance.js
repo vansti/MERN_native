@@ -1,43 +1,57 @@
 import React, { Component } from 'react';
 import { Dimensions, StyleSheet, View, Text, ScrollView, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { SearchBar } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { getCurentCourse } from '../actions/courseActions'; 
+import { getManageCourses } from '../actions/courseActions'; 
 import PropTypes from 'prop-types';
 import { NavigationEvents } from 'react-navigation';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 
-class MyCourseAttendance extends Component {
+class CourseAttendance extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentcourses: [], 
+      managecourses: [],
+      intialManagecourses: [], 
+      search: null,
       loading: true
     };
-    this.handleClickCourse = this.handleClickCourse.bind(this);
   }
 
   componentDidMount = () => {
-    this.props.getCurentCourse()
+    this.props.getManageCourses();
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.courses) {
-      const { currentcourses, loading } = nextProps.courses
+      const { managecourses, loading } = nextProps.courses
       this.setState({ 
-        currentcourses, 
+        intialManagecourses: managecourses,
+        managecourses, 
         loading 
       });
     }
   }
 
   handleClickCourse(courseId){
-    this.props.navigation.navigate('CheckAttendance',{ courseId: courseId })
+    this.props.navigation.navigate('ListAttendance',{ courseId: courseId })
   } 
 
+  onSearch = search =>{
+    var updatedList = JSON.parse(JSON.stringify(this.state.intialManagecourses));
+    updatedList = updatedList.filter((course)=>
+      course.title.toLowerCase().search(search.toLowerCase()) !== -1
+    );
+    this.setState({ 
+      managecourses: updatedList,
+      search 
+    });
+  }
+
   render() {
-    const { currentcourses, loading } = this.state
+    const { managecourses, loading, search } = this.state
 
     return (
       <View style={{ flex: 1, backgroundColor: 'rgba(241,240,241,1)' }}>
@@ -54,12 +68,18 @@ class MyCourseAttendance extends Component {
           </View>
           :
           <ScrollView style={{height: SCREEN_HEIGHT - 30}}>
+            <SearchBar
+              placeholder="Tên khóa học ..."
+              platform="ios"
+              value={search} 
+              onChangeText={this.onSearch}
+            />
             {
-              currentcourses.length === 0
+              managecourses.length === 0
               ?
-              <Text style={{marginLeft:10, marginTop:10}}>Bạn hiện không có khóa học nào</Text>
+              <Text style={{marginLeft:10, marginTop:10}}>Không có khóa học</Text>
               :
-              currentcourses.map(course=>
+              managecourses.map(course=>
                 <TouchableOpacity key={course._id} onPress={this.handleClickCourse.bind(this, course._id)}>
                   <View
                     style={{
@@ -118,12 +138,12 @@ const styles = StyleSheet.create({
   }
 });
 
-MyCourseAttendance.propTypes = {
-  getCurentCourse: PropTypes.func.isRequired,
+CourseAttendance.propTypes = {
+  getManageCourses: PropTypes.func.isRequired,
   courses: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
   courses: state.courses
 });
-export default connect(mapStateToProps, { getCurentCourse })(MyCourseAttendance); 
+export default connect(mapStateToProps, { getManageCourses })(CourseAttendance); 

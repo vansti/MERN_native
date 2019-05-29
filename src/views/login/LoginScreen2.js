@@ -23,7 +23,6 @@ UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
 
 const USER_STUDENT = require('../../../assets/images/student.png');
-const USER_TEACHER = require('../../../assets/images/teacher.png');
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
@@ -36,14 +35,13 @@ class LoginScreen2 extends Component {
       errors: {},
       isLoading: false,
       fontLoaded: false,
-      role: '',
+      role: 'student',
       name: '',
       email: '',
       password: '',
       password2: '',
     };
 
-    this.setSelectedType = this.setSelectedType.bind(this);
     this.signup = this.signup.bind(this);
   }
 
@@ -69,7 +67,7 @@ class LoginScreen2 extends Component {
       Alert.alert('Thành công','Đăng ký thành công');
       this.setState({ 
         isLoading: false,
-        role: '',
+        role: 'student',
         name: '',
         email: '',
         password: '',
@@ -88,13 +86,11 @@ class LoginScreen2 extends Component {
       email: this.state.email,
       password: this.state.password,
       password2: this.state.password2,
-      role: this.state.role
+      role: 'student'
     };
     this.props.registerUser(newUser);
     this.props.clearErrors();
   }
-
-  setSelectedType = role => LayoutAnimation.easeInEaseOut() || this.setState({ role });
 
   render() {
     const {
@@ -121,24 +117,15 @@ class LoginScreen2 extends Component {
           contentContainerStyle={styles.formContainer}
         >
           <Text style={styles.signUpText}>ĐĂNG KÝ</Text>
-          <Text style={styles.whoAreYouText}>Bạn là ai ?</Text>
+          <Text style={styles.whoAreYouText}>Tạo tài khoản nếu bạn là học viên</Text>
           <View style={styles.userTypesContainer}>
             <UserTypeItem
               label="Học Viên"
               labelColor="#2CA75E"
               image={USER_STUDENT}
-              onPress={() => this.setSelectedType('student')}
               selected={role === 'student'} 
             />
-            <UserTypeItem
-              label="Giáo Viên"
-              labelColor="#36717F"
-              image={USER_TEACHER}
-              onPress={() => this.setSelectedType('teacher')}
-              selected={role === 'teacher'}
-            />
           </View>
-          {errors.role && <Text style={styles.errorInputStyle}>{errors.role}</Text>}
           <View style={{ width: '80%', alignItems: 'center' }}>
             <FormInput
               refInput={input => (this.usernameInput = input)}

@@ -12,7 +12,7 @@ const ManageCoursesDrawerItem = createStackNavigator(
       screen: ManageCourses,
       path: '/',
       navigationOptions: ({ navigation }) => ({
-        title: 'Quản lý khóa học',
+        title: 'Quản lý khóa học ',
         headerLeft: (
           <Icon
             name="menu"
@@ -28,21 +28,21 @@ const ManageCoursesDrawerItem = createStackNavigator(
       screen: ApproveStudent,
       path: '/approve-student',
       navigationOptions: {
-        title: 'Quản lý học viên',
+        title: 'Quản lý học viên ',
       }
     },
     ApproveTeacher: {
       screen: ApproveTeacher,
       path: '/approve-teacher',
       navigationOptions: {
-        title: 'Quản lý giáo viên',
+        title: 'Quản lý giáo viên ',
       }
     }
   }
 );
 
 ManageCoursesDrawerItem.navigationOptions = {
-  drawerLabel: 'Quản lý khóa học',
+  drawerLabel: 'Quản lý khóa học ',
   drawerIcon: ({ tintColor }) => (
     <Icon
       name="wrench"

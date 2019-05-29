@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, ScrollView, Image, ActivityIndicator, Alert } from 'react-native';
+import { StyleSheet, View, Text, ScrollView, ActivityIndicator, Alert, Linking } from 'react-native';
 import { connect } from 'react-redux';
-import { Divider, Card, ListItem } from 'react-native-elements';
+import { Divider, Card, ListItem, Button } from 'react-native-elements';
 import isEmptyObj from '../validation/is-empty';
 import { getLessonIncourse } from '../actions/lessonActions'; 
 import moment from "moment";
 import HTML from 'react-native-render-html';
 import Comment from './Comment';
+import { NavigationEvents } from 'react-navigation';
+import { cacheFonts } from "../helpers/AssetsCaching";
 
 
 class Lesson extends Component {
@@ -23,7 +25,12 @@ class Lesson extends Component {
     this.handleGoToUrl = this.handleGoToUrl.bind(this);
   }
 
-  componentDidMount = () => {
+  async componentDidMount () {
+    await cacheFonts({
+      bold: require('../../assets/fonts/Montserrat-Bold.ttf'),
+      bold2: require('../../assets/fonts/Ubuntu-Bold.ttf')
+    });
+
     const { navigation } = this.props;
     const courseId = navigation.getParam('courseId', 'NO-ID');
     const lessonId = navigation.getParam('lessonId', 'NO-ID');
@@ -62,6 +69,10 @@ class Lesson extends Component {
     });
   }
 
+  handlePressScoreExercise(exerciseId){
+    this.props.navigation.navigate('ScoreExercise',{ exerciseId: exerciseId })
+  } 
+
   render() {
     const { 
       content, 
@@ -71,9 +82,10 @@ class Lesson extends Component {
       exercises,
       quizzes 
     } = this.state;
-    // const { role } = this.props.auth.user
+    const { role } = this.props.auth.user
     return (
       <View style={{flex: 1}}>
+        <NavigationEvents onDidFocus={() => this.componentDidMount()} />
       {
         loading
         ?
@@ -84,7 +96,7 @@ class Lesson extends Component {
         <ScrollView>
           <View style={{margin: 15}}>
             <View style={{ alignItems: 'center' }}>
-              <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
+              <Text style={{ fontSize: 20, fontFamily: 'bold2', color: '#F08080'}}>
                 {text}
               </Text>
             </View>
@@ -168,6 +180,24 @@ class Lesson extends Component {
                           )
                         }
                         <Divider style={{ backgroundColor: 'grey', marginTop: 10 }} />
+                        {
+                          role === 'teacher' || role === 'admin'
+                          ?
+                          <Button
+                            title="Chấm điểm"
+                            buttonStyle={{
+                              backgroundColor: 'grey',
+                              borderWidth: 2,
+                              borderColor: 'white',
+                              borderRadius: 30,
+                            }}
+                            containerStyle={{ marginVertical: 10, height: 50 }}
+                            titleStyle={{ fontWeight: 'bold' }}
+                            onPress={this.handlePressScoreExercise.bind(this, e._id)}
+                          />
+                          :
+                          null
+                        }
                         <Comment exercise={e}/>
                       </View>
                     </Card>
@@ -212,12 +242,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   title: {
-    textDecorationLine: 'underline',
-    fontWeight: 'bold'
+    fontFamily: 'bold',
+    color: '#4169E1',
+    fontSize: 15
   }
 });
 
 const mapStateToProps = state => ({
-  lesson: state.lesson
+  lesson: state.lesson,
+  auth: state.auth
 });
 export default connect(mapStateToProps, { getLessonIncourse })(Lesson); 

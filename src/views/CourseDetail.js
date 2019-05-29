@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, ScrollView, Image, ActivityIndicator, Alert } from 'react-native';
+import { StyleSheet, View, Text, ScrollView, Image, ActivityIndicator, Alert, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import { Button, Icon, Divider } from 'react-native-elements';
 import isEmptyObj from '../validation/is-empty';
 import { getCourseInfo, enrollCourse, unenrollCourse, clearSuccess } from '../actions/courseActions'; 
 import moment from "moment";
 import HTML from 'react-native-render-html';
+import { NavigationEvents } from 'react-navigation';
 
+const SCREEN_WIDTH = Dimensions.get('window').width;
 
 class CourseDetail extends Component {
   constructor(props) {
@@ -67,6 +69,7 @@ class CourseDetail extends Component {
     const { role } = this.props.auth.user
     return (
       <View style={{flex: 1}}>
+        <NavigationEvents onDidFocus={() => this.componentDidMount()} />
       {
         loading
         ?
@@ -74,7 +77,7 @@ class CourseDetail extends Component {
           <ActivityIndicator size="large" />
         </View>
         :
-        <ScrollView>
+        <ScrollView style={{width: SCREEN_WIDTH}}>
           <View style={{margin: 15}}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Image
@@ -125,48 +128,34 @@ class CourseDetail extends Component {
             </View>
             <Divider style={{ backgroundColor: 'grey', marginTop: 10 }} />
             <View style={{ flexDirection: 'row', marginTop: 10 }}>
-              <Icon type="font-awesome" name="hourglass" />
-              <Text
-                style={{
-                  marginLeft: 10
-                }}
-              >
-                Hạn đăng ký - 
+              <Text>
+                Hạn đăng ký -
               </Text>
-              <Text style={{color: 'grey'}}>{moment(courseinfo.course.enrollDeadline).format(" HH:mm [ngày] DD [thg] MM, YYYY.")}</Text>
+              <Text style={styles.infoText}>{moment(courseinfo.course.enrollDeadline).format("HH:mm [ngày] DD [thg] MM, YYYY.")}</Text>
             </View>
             <View style={{ flexDirection: 'row', marginTop: 10 }}>
-              <Icon type="font-awesome" name="usd" />
-              <Text
-                style={{
-                  marginLeft: 18
-                }}
-              >
-                Học phí - 
+              <Text>
+                Học phí -
               </Text>
-              <Text style={{color: 'grey'}}> {this.formatNumber(courseinfo.course_detail.fee)} VND.</Text>
+              <Text style={styles.infoText}>{this.formatNumber(courseinfo.course_detail.fee)} VND.</Text>
             </View>
             <View style={{ flexDirection: 'row', marginTop: 10 }}>
-              <Icon type="font-awesome" name="calendar" />
-              <Text
-                style={{
-                  marginLeft: 10
-                }}
-              >
-                Thời gian học - 
+              <Text>
+                Thời gian học -
               </Text>
-              <Text style={{color: 'grey'}}> {courseinfo.course_detail.studyTime}.</Text>
+              <Text style={styles.infoText}>{courseinfo.course_detail.studyTime}.</Text>
             </View>
             <View style={{ flexDirection: 'row', marginTop: 10 }}>
-              <Icon type="font-awesome" name="clock-o" />
-              <Text
-                style={{
-                  marginLeft: 12
-                }}
-              >
+              <Text>
                 Ngày khai giảng -
               </Text>
-              <Text style={{color: 'grey'}}>{moment(courseinfo.course_detail.openingDay).format(" HH:mm [ngày] DD [thg] MM, YYYY.")}</Text>
+              <Text style={styles.infoText}>{moment(courseinfo.course_detail.openingDay).format("HH:mm [ngày] DD [thg] MM, YYYY.")}</Text>
+            </View>
+            <View style={{ flexDirection: 'row', marginTop: 10 }}>
+              <Text>
+                Ngày kết thúc -
+              </Text>
+              <Text style={styles.infoText}>{moment(courseinfo.course_detail.endDay).format("HH:mm [ngày] DD [thg] MM, YYYY.")}</Text>
             </View>
             <Divider style={{ backgroundColor: 'grey', marginTop: 10 }} />
             <HTML html={courseinfo.course_detail.info} />
@@ -181,8 +170,15 @@ class CourseDetail extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    width: SCREEN_WIDTH,
     flex: 1,
     justifyContent: 'center'
+  },
+  infoText:{
+    color: 'grey',
+    flex: 1, 
+    flexWrap: 'wrap', 
+    marginLeft: 4
   }
 });
 

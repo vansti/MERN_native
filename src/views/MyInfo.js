@@ -12,7 +12,7 @@ import { NavigationEvents } from 'react-navigation';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
-class StudentInfo extends Component {
+class MyInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -26,8 +26,8 @@ class StudentInfo extends Component {
   }
 
   componentDidMount = () => {
-    const { navigation } = this.props;
-    const studentId = navigation.getParam('studentId', 'NO-ID');
+    const { id } = this.props.auth.user;
+    const studentId = id
     this.setState({ studentId });
     this.props.getStudent(studentId);
     this.props.getStudentCourse(studentId);
@@ -178,6 +178,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => ({
   users: state.users,
   courses: state.courses,
-  attendance: state.attendance
+  attendance: state.attendance,
+  auth: state.auth
 });
-export default connect(mapStateToProps, { getStudent, getStudentCourse })(StudentInfo); 
+export default connect(mapStateToProps, { getStudent, getStudentCourse })(MyInfo); 

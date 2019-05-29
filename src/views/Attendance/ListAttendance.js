@@ -6,6 +6,7 @@ import isEmptyObj from '../../validation/is-empty';
 import { Calendar } from 'react-native-calendars';
 import { getAttendance, getTodayAttendance } from '../../actions/attendanceActions';
 import { getSchedule } from '../../actions/scheduleAtions';
+import { NavigationEvents } from 'react-navigation';
 import 'moment/locale/vi';
 
 var moment = require('moment');
@@ -125,7 +126,6 @@ class ListAttendance extends Component {
     var date = {
       selectDate
     };
-    console.log(date)
     this.props.getTodayAttendance(this.state.courseId, date);
     this.setState({
       selectDate
@@ -148,6 +148,7 @@ class ListAttendance extends Component {
       const { loadingAttendance, highlightDates, selectDate, users, search, intialUsers, loadingEvent, events, loadingUserAttendance  } = this.state
     return (
       <View style={{ flex: 1 , backgroundColor: 'rgba(241,240,241,1)'}}>
+        <NavigationEvents onDidFocus={() => this.componentDidMount()} />
       {
         selectDate
         ?

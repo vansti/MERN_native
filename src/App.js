@@ -6,10 +6,13 @@ import { cacheAssets, cacheFonts } from "./helpers/AssetsCaching";
 
 import ProfileDrawerItem from './drawer/ProfileDrawerItem';
 import MyCourseDrawerItem from './drawer/MyCourseDrawerItem';
+import ViewCourseDrawerItem from './drawer/ViewCourseDrawerItem';
 import AttendanceDrawerItem from './drawer/AttendanceDrawerItem';
+import ViewAttendanceDrawerItem from './drawer/ViewAttendanceDrawerItem';
 import CourseListDrawerItem from './drawer/CourseListDrawerItem';
 import ManageCoursesDrawerItem from './drawer/ManageCoursesDrawerItem';
 import DashboardDrawerItem from './drawer/DashboardDrawerItem';
+import MyInfoDrawerItem from './drawer/MyInfoDrawerItem';
 
 
 import Login from './views/Login';
@@ -33,6 +36,10 @@ const AppDrawer = createDrawerNavigator(
       path: '/my-course',
       screen: MyCourseDrawerItem,
     },
+    ViewCourse: {
+      path: '/view-course',
+      screen: ViewCourseDrawerItem,
+    },
     CourseList:{
       path: '/course-list',
       screen: CourseListDrawerItem,
@@ -42,12 +49,20 @@ const AppDrawer = createDrawerNavigator(
       screen: ManageCoursesDrawerItem,
     },
     Attendance:{
-      path: '/attendance',
+      path: '/check-attendance',
       screen: AttendanceDrawerItem,
     },
+    ViewAttendance:{
+      path: '/list-attendance',
+      screen: ViewAttendanceDrawerItem,
+    },
+    MyInfo: {
+      path: '/my-info',
+      screen: MyInfoDrawerItem,
+    }
   },
   {
-    initialRouteName: 'ManageCourses',
+    initialRouteName: 'Dashboard',
     contentOptions: {
       activeTintColor: '#548ff7',
       activeBackgroundColor: 'transparent',

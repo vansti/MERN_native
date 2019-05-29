@@ -2,17 +2,16 @@ import React from 'react';
 import { createStackNavigator } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 
-import MyCourseAttendance from '../views/MyCourseAttendance';
-import CheckAttendance from '../views/Attendance/CheckAttendance';
-
+import CourseAttendance from '../views/CourseAttendance';
+import ListAttendance from '../views/Attendance/ListAttendance';
 
 const AttendanceDrawerItem = createStackNavigator(
   {
-    MyCourseAttendance: {
-      screen: MyCourseAttendance,
+    CourseAttendance: {
+      screen: CourseAttendance,
       path: '/',
       navigationOptions: ({ navigation }) => ({
-        title: 'Điểm danh ',
+        title: 'Lịch sử điểm danh ',
         headerLeft: (
           <Icon
             name="menu"
@@ -24,21 +23,21 @@ const AttendanceDrawerItem = createStackNavigator(
         ),
       })
     },
-    CheckAttendance: {
-      screen: CheckAttendance,
-      path: '/check-attendance',
+    ListAttendance: {
+      screen: ListAttendance,
+      path: '/list-attendance',
       navigationOptions: {
-        title: 'Chi tiết điểm danh ',
+        title: 'Chi tiết lịch sử điểm danh ',
       }
     }
   }
 );
 
 AttendanceDrawerItem.navigationOptions = {
-  drawerLabel: 'Điểm danh ',
+  drawerLabel: 'Lịch sử điểm danh ',
   drawerIcon: ({ tintColor }) => (
     <Icon
-      name="check"
+      name="history"
       size={30}
       iconStyle={{
         width: 30,

@@ -2,17 +2,15 @@ import React from 'react';
 import { createStackNavigator } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 
-import MyCourseAttendance from '../views/MyCourseAttendance';
-import CheckAttendance from '../views/Attendance/CheckAttendance';
+import MyInfo from '../views/MyInfo';
 
-
-const AttendanceDrawerItem = createStackNavigator(
+const MyInfoDrawerItem = createStackNavigator(
   {
-    MyCourseAttendance: {
-      screen: MyCourseAttendance,
-      path: '/',
+    MyInfo: {
+      screen: MyInfo,
+
       navigationOptions: ({ navigation }) => ({
-        title: 'Điểm danh ',
+        title: 'Thông tin cá nhân ',
         headerLeft: (
           <Icon
             name="menu"
@@ -22,23 +20,16 @@ const AttendanceDrawerItem = createStackNavigator(
             onPress={navigation.toggleDrawer}
           />
         ),
-      })
+      }),
     },
-    CheckAttendance: {
-      screen: CheckAttendance,
-      path: '/check-attendance',
-      navigationOptions: {
-        title: 'Chi tiết điểm danh ',
-      }
-    }
   }
 );
 
-AttendanceDrawerItem.navigationOptions = {
-  drawerLabel: 'Điểm danh ',
+MyInfoDrawerItem.navigationOptions = {
+  drawerLabel: 'Thông tin cá nhân ',
   drawerIcon: ({ tintColor }) => (
     <Icon
-      name="check"
+      name="user-circle-o"
       size={30}
       iconStyle={{
         width: 30,
@@ -50,4 +41,4 @@ AttendanceDrawerItem.navigationOptions = {
   ),
 };
 
-export default AttendanceDrawerItem;
+export default MyInfoDrawerItem;

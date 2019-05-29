@@ -11,7 +11,7 @@ const CourseListDrawerItem = createStackNavigator(
       screen: CourseList,
       path: '/',
       navigationOptions: ({ navigation }) => ({
-        title: 'Tất cả khóa học',
+        title: 'Tất cả khóa học ',
         headerLeft: (
           <Icon
             name="menu"
@@ -27,14 +27,14 @@ const CourseListDrawerItem = createStackNavigator(
       screen: CourseDetail,
       path: '/course_detail',
       navigationOptions: {
-        title: 'Thông tin khóa học',
+        title: 'Thông tin khóa học ',
       }
     }
   }
 );
 
 CourseListDrawerItem.navigationOptions = {
-  drawerLabel: 'Tất cả khóa học',
+  drawerLabel: 'Tất cả khóa học ',
   drawerIcon: ({ tintColor }) => (
     <Icon
       name="list"

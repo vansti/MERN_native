@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Linking, Alert, ScrollView, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, Text, ScrollView, ActivityIndicator } from 'react-native';
 import { Card, Divider, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { getSchedule } from '../actions/scheduleAtions';
-import isEmptyObj from '../validation/is-empty'; 
+import isEmptyObj from '../validation/is-empty';
+import { NavigationEvents } from 'react-navigation';
 import moment from "moment";
 import 'moment/locale/vi';
 
@@ -49,6 +50,7 @@ class LessonList extends Component {
 
     return (
       <View style={{ flex: 1 }}>
+        <NavigationEvents onDidFocus={() => this.componentDidMount()} />
       {
         loading
         ?

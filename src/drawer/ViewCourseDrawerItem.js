@@ -2,14 +2,11 @@ import React from 'react';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 
-import MyCourse from '../views/MyCourse';
-// import Exercise from '../views/Exercise';
+import ViewCourse from '../views/ViewCourse';
 import PeopleInCourse from '../views/PeopleInCourse';
 import StudentInfo from '../views/StudentInfo';
 import LessonList from '../views/LessonList';
 import Lesson from '../views/Lesson';
-import ScoreExercise from '../views/ScoreExercise';
-
 
 
 const MyCourse_Detail = createBottomTabNavigator(
@@ -47,13 +44,13 @@ const MyCourse_Detail = createBottomTabNavigator(
   }
 );
 
-const MyCourseDrawerItem = createStackNavigator(
+const ViewCourseDrawerItem = createStackNavigator(
   {
-    MyCourse: {
-      screen: MyCourse,
+    ViewCourse: {
+      screen: ViewCourse,
       path: '/',
       navigationOptions: ({ navigation }) => ({
-        title: 'Khóa học của tôi ',
+        title: 'Danh sách khóa học ',
         headerLeft: (
           <Icon
             name="menu"
@@ -85,19 +82,12 @@ const MyCourseDrawerItem = createStackNavigator(
       navigationOptions: {
         title: 'Nội dung bài học ',
       }
-    },
-    ScoreExercise: {
-      screen: ScoreExercise,
-      path: '/score-exercise',
-      navigationOptions: {
-        title: 'Chấm điểm bài tập ',
-      }
     }
   }
 );
 
-MyCourseDrawerItem.navigationOptions = {
-  drawerLabel: 'Khóa học của tôi ',
+ViewCourseDrawerItem.navigationOptions = {
+  drawerLabel: 'Danh sách khóa học ',
   drawerIcon: ({ tintColor }) => (
     <Icon
       name="book"
@@ -112,4 +102,4 @@ MyCourseDrawerItem.navigationOptions = {
   ),
 };
 
-export default MyCourseDrawerItem;
+export default ViewCourseDrawerItem;

@@ -7,14 +7,128 @@ const LOGO_IMAGE = require('../images/e-icon.png');
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
 class Dashboard extends Component {
-  handleAllCourse = () =>{
-    this.props.navigation.navigate('CourseList');
-  }
-  handleMyCourse = () =>{
-    this.props.navigation.navigate('MyCourse');
-  }
   render() {
-    const { name } = this.props.auth.user
+    const { name, role } = this.props.auth.user
+    var Content = null ;
+
+    switch (role) {
+      case 'student': 
+        Content = 
+          <View>
+            <Button
+              title="Xem khóa học hiện có"
+              titleStyle={{ fontWeight: '700', color: 'white' }}
+              buttonStyle={{
+                marginHorizontal: 52,
+                backgroundColor: 'grey',
+                borderRadius: 20,
+              }}
+              onPress={()=>this.props.navigation.navigate('CourseList')}
+            />
+            <Button
+              title="Xem khóa học của bạn"
+              titleStyle={{ fontWeight: '700', color: 'white' }}
+              buttonStyle={{
+                marginHorizontal: 52,
+                marginTop:20,
+                backgroundColor: 'grey',
+                borderRadius: 20
+              }}
+              onPress={()=>this.props.navigation.navigate('MyCourse')}
+            />
+          </View>
+        break;
+
+      case 'teacher': 
+        Content = 
+          <View>
+            <Button
+              title="Xem khóa học của bạn"
+              titleStyle={{ fontWeight: '700', color: 'white' }}
+              buttonStyle={{
+                marginHorizontal: 52,
+                marginTop:20,
+                backgroundColor: 'grey',
+                borderRadius: 20
+              }}
+              onPress={()=>this.props.navigation.navigate('MyCourse')}
+            />
+          </View>
+        break;
+
+      case 'advisor': 
+        Content = 
+          <View>
+            <Button
+              title="Danh sách khóa học"
+              titleStyle={{ fontWeight: '700', color: 'white' }}
+              buttonStyle={{
+                marginHorizontal: 52,
+                marginTop:20,
+                backgroundColor: 'grey',
+                borderRadius: 20
+              }}
+              onPress={()=>this.props.navigation.navigate('CourseList')}
+            />
+            <Button
+              title="Lịch sử điểm danh"
+              titleStyle={{ fontWeight: '700', color: 'white' }}
+              buttonStyle={{
+                marginHorizontal: 52,
+                marginTop:20,
+                backgroundColor: 'grey',
+                borderRadius: 20
+              }}
+              onPress={()=>this.props.navigation.navigate('ViewAttendance')}
+            />
+          </View>
+        break;
+
+      case 'ministry': 
+        Content = 
+          <View>
+            <Button
+              title="Quản lý khóa học"
+              titleStyle={{ fontWeight: '700', color: 'white' }}
+              buttonStyle={{
+                marginHorizontal: 52,
+                marginTop:20,
+                backgroundColor: 'grey',
+                borderRadius: 20
+              }}
+              onPress={()=>this.props.navigation.navigate('ManageCourses')}
+            />
+          </View>
+        break;
+
+      case 'admin': 
+        Content = 
+          <View>
+            <Button
+              title="Xem khóa học hiện có"
+              titleStyle={{ fontWeight: '700', color: 'white' }}
+              buttonStyle={{
+                marginHorizontal: 52,
+                backgroundColor: 'grey',
+                borderRadius: 20,
+              }}
+              onPress={()=>this.props.navigation.navigate('CourseList')}
+            />
+            <Button
+              title="Xem khóa học của bạn"
+              titleStyle={{ fontWeight: '700', color: 'white' }}
+              buttonStyle={{
+                marginHorizontal: 52,
+                marginTop:20,
+                backgroundColor: 'grey',
+                borderRadius: 20
+              }}
+              onPress={()=>this.props.navigation.navigate('MyCourse')}
+            />
+          </View>
+        break;
+      default: break;
+    }
 
     return (
       <View style={{ flex: 1, backgroundColor: 'rgba(241,240,241,1)' }}>
@@ -29,30 +143,10 @@ class Dashboard extends Component {
               style={{ width: 150, height: 150 }}
             />
           </View>
-          <View style={{marginHorizontal: 52, marginVertical: 20}}>
-            <Text style={{fontWeight:'bold', fontSize: 18}}>HỆ THỐNG QUẢN LÝ HỌC VIÊN</Text>
+          <View style={{ marginVertical: 20 }}>
+            <Text style={{fontWeight:'bold', fontSize: 18, textAlign: 'center'}}>HỆ THỐNG QUẢN LÝ HỌC VIÊN</Text>
           </View>
-          <Button
-            title="Xem khóa học hiện có"
-            titleStyle={{ fontWeight: '700', color: 'white' }}
-            buttonStyle={{
-              marginHorizontal: 52,
-              backgroundColor: 'grey',
-              borderRadius: 20,
-            }}
-            onPress={this.handleAllCourse.bind(this)}
-          />
-          <Button
-            title="Xem khóa học của bạn"
-            titleStyle={{ fontWeight: '700', color: 'white' }}
-            buttonStyle={{
-              marginHorizontal: 52,
-              marginTop:20,
-              backgroundColor: 'grey',
-              borderRadius: 20
-            }}
-            onPress={this.handleMyCourse.bind(this)}
-          />
+          {Content}
         </View>
       </View>
     );

@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, ScrollView, ActivityIndicator, Text, Dimensions } from 'react-native';
-import { SearchBar, Card, Divider, Image, Button, Overlay } from 'react-native-elements';
+import { SearchBar, Card, Divider, Image, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { getManageCourses } from '../actions/courseActions'; 
+import { NavigationEvents } from 'react-navigation';
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
+const SCREEN_WIDTH = Dimensions.get('window').width;
+
 class ManageCourses extends Component {
   constructor() {
     super();
@@ -54,6 +57,7 @@ class ManageCourses extends Component {
     let { managecourses, loading, search } = this.state;
     return (
       <View style={{ flex: 1 }}>
+        <NavigationEvents onDidFocus={() => this.componentDidMount()} />
       {
         loading
         ?
@@ -68,7 +72,7 @@ class ManageCourses extends Component {
             value={search} 
             onChangeText={this.onSearch}
           />
-          <ScrollView style={{height: SCREEN_HEIGHT - 160}}>
+          <ScrollView style={{height: SCREEN_HEIGHT - 160, width: SCREEN_WIDTH}}>
           <View>
             {
               managecourses.map(course =>

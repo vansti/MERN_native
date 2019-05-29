@@ -68,7 +68,6 @@ class Exercise extends Component {
   onSubmit = e => {
     e.preventDefault();
     this.props.clearErrors();
-
     const commentData = {
       text: this.state.text
     };
@@ -85,7 +84,7 @@ class Exercise extends Component {
         <Button
           title="Bình luận"
           buttonStyle={{
-            backgroundColor: 'black',
+            backgroundColor: 'grey',
             borderWidth: 2,
             borderColor: 'white',
             borderRadius: 30,
