@@ -67,28 +67,24 @@ class MyCourse extends Component {
                       marginHorizontal: 10,
                       marginTop: 10,
                       backgroundColor: 'white',
-                      borderRadius: 5
+                      borderRadius: 5,
+                      alignItems: 'center',
+                      flexDirection: 'row',
                     }}
                   >
-                    <View style={{ flex:2, flexDirection: 'row', alignItems: 'center' }}>
-                      <View style={{ marginLeft: 15 }}>
-                        <Image
-                          source={{ uri: course.coursePhoto }}
-                          style={{ width: 50, height: 50, borderColor:'#A9A9A9', borderWidth: 1, borderRadius: 5 }}
-                        />
-                      </View>
-                      <Text
-                        style={{
-                          fontSize: 15,
-                          marginLeft: 10,
-                          flex: 1, 
-                          flexWrap: 'wrap',
-                          color: '#2F4F4F',
-                        }}
-                      >
+                    <Image
+                      source={{ uri: course.coursePhoto }}
+                      style={{ width: 50, height: 50, borderColor:'rgba(241,240,241,1)', borderWidth: 1, borderRadius: 5, marginLeft:10 }}
+                    />
+                    <Text style={{flex: 1, flexWrap: 'wrap', marginLeft: 10}}>
+                      <Text style={{fontSize: 15, fontWeight: 'bold'}}>
+                        {course.code}
+                      </Text>
+                      {"\n"}
+                      <Text style={{fontSize: 15, color: 'gray'}} >
                         {course.title}
                       </Text>
-                    </View>
+                    </Text>
                   </View>
                 </TouchableOpacity>
               )

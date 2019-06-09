@@ -144,7 +144,7 @@ class Dashboard extends Component {
             />
           </View>
           <View style={{ marginVertical: 20 }}>
-            <Text style={{fontWeight:'bold', fontSize: 18, textAlign: 'center'}}>HỆ THỐNG QUẢN LÝ HỌC VIÊN</Text>
+            <Text style={{fontWeight:'bold', fontSize: 18, textAlign: 'center'}}>TRUNG TÂM ĐÀO TẠO</Text>
           </View>
           {Content}
         </View>

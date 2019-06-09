@@ -107,7 +107,13 @@ class StudentPointList extends Component {
                             <Text style={{color: 'black'}}> 
                               Tên bài làm: {" "} 
                             </Text>
-                            {element.test.title}
+                            {
+                              element.test
+                              ?
+                              element.test.title
+                              :
+                              'Chưa cập nhật'
+                            }
                           </Text>
                           <Text style={{ fontWeight: "bold",fontSize: 17, marginTop:10 }} >
                             Điểm: {" "} 

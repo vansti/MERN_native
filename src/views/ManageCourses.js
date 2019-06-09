@@ -37,7 +37,8 @@ class ManageCourses extends Component {
   onSearch = search =>{
     var updatedList = JSON.parse(JSON.stringify(this.state.intialManagecourses));
     updatedList = updatedList.filter((course)=>
-      course.title.toLowerCase().search(search.toLowerCase()) !== -1
+      course.title.toLowerCase().search(search.toLowerCase()) !== -1 ||
+      course.code.toLowerCase().search(search.toLowerCase()) !== -1
     );
     this.setState({ 
       managecourses: updatedList,
@@ -67,7 +68,7 @@ class ManageCourses extends Component {
         :
         <View >
           <SearchBar
-            placeholder="Tên khóa học ..."
+            placeholder="Mã hoặc Tên khóa học ..."
             platform="ios"
             value={search} 
             onChangeText={this.onSearch}
@@ -80,26 +81,25 @@ class ManageCourses extends Component {
                   <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Image
                       source={{ uri: course.coursePhoto }}
-                      style={{ width: 70, height: 70, borderColor:'rgba(241,240,241,1)', borderWidth: 1, borderRadius: 5 }}
+                      style={{ width: 50, height: 50, borderColor:'rgba(241,240,241,1)', borderWidth: 1, borderRadius: 5 }}
                     />
-                    <Text
-                      style={{
-                        fontSize: 20,
-                        marginLeft: 10,
-                        flex: 1, 
-                        flexWrap: 'wrap'
-                      }}
-                    >
-                      {course.title}
+                    <Text style={{flex: 1, flexWrap: 'wrap', marginLeft: 10}}>
+                      <Text style={{fontSize: 15, fontWeight: 'bold'}}>
+                        {course.code}
+                      </Text>
+                      {"\n"}
+                      <Text style={{fontSize: 15, color: 'gray'}} >
+                        {course.title} 
+                      </Text>
                     </Text>
                   </View>
                   <Divider style={{ backgroundColor: 'grey', marginTop: 10 }} />
-                  <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
-                    <Button
+                  <View style={{ alignItems: 'center', marginTop: 10 }}>
+                    {/* <Button
                       backgroundColor='#03A9F4'
                       onPress={this.handleClickApproveStudent.bind(this, course._id)}
                       title=' Quản lý học viên' 
-                    />
+                    /> */}
                     <Button
                       backgroundColor='#03A9F4'
                       onPress={this.handleClickApproveTeacher.bind(this, course._id)}

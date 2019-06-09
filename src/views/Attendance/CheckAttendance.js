@@ -141,6 +141,7 @@ class CheckAttendance extends Component {
       delete student._id
       delete student.name
       delete student.photo
+      delete student.code
       return student
     })
  
@@ -221,7 +222,7 @@ class CheckAttendance extends Component {
                 key={u._id}
                 leftAvatar={{ rounded: true, source: { uri: u.photo } }}
                 title={u.name}
-                subtitle={u.email}
+                subtitle={u.code}
                 containerStyle={{
                   borderRadius: 8,
                   marginTop: 10,
@@ -271,7 +272,7 @@ class CheckAttendance extends Component {
                 key={u._id}
                 leftAvatar={{ rounded: true, source: { uri: u.userId.photo } }}
                 title={u.userId.name}
-                subtitle={u.userId.email}
+                subtitle={u.userId.code}
                 containerStyle={{
                   borderRadius: 8,
                   marginTop: 10,

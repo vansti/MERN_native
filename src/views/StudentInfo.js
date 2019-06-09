@@ -92,6 +92,12 @@ class StudentInfo extends Component {
                 </Text>
                 <Text style={{ color: 'grey' }} >
                   <Text style={{color: 'black'}}> 
+                    Mã số:{" "} 
+                  </Text>
+                  {student.code}
+                </Text>
+                <Text style={{ color: 'grey' }} >
+                  <Text style={{color: 'black'}}> 
                     Email:{" "} 
                   </Text>
                   {student.email}
@@ -127,16 +133,14 @@ class StudentInfo extends Component {
                           style={{ width: 50, height: 50, borderColor:'grey', borderWidth: 1, borderRadius: 5 }}
                         />
                       </View>
-                      <Text
-                        style={{
-                          fontSize: 15,
-                          flex: 1, 
-                          flexWrap: 'wrap',
-                          marginLeft: 10,
-                          color: 'gray',
-                        }}
-                      >
-                        {course.title}
+                      <Text style={{flex: 1, flexWrap: 'wrap', marginLeft: 10}}>
+                        <Text style={{fontSize: 15, fontWeight: 'bold'}}>
+                          {course.code}
+                        </Text>
+                        {"\n"}
+                        <Text style={{fontSize: 15, color: 'gray'}} >
+                          {course.title}
+                        </Text>
                       </Text>
                     </View>
                     <Divider style={{ backgroundColor: 'grey', marginTop: 10 }} />

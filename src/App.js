@@ -62,7 +62,7 @@ const AppDrawer = createDrawerNavigator(
     }
   },
   {
-    initialRouteName: 'Dashboard',
+    initialRouteName: 'MyCourse',
     contentOptions: {
       activeTintColor: '#548ff7',
       activeBackgroundColor: 'transparent',

@@ -26,7 +26,7 @@ class LoginScreen1 extends Component {
 
     this.state = {
       fontLoaded: false,
-      email: '',
+      code: '',
       password: '',
       showLoading: false,
       errors: {}
@@ -61,7 +61,7 @@ class LoginScreen1 extends Component {
       showLoading: true,
     });
     const userData = {
-      email: this.state.email,
+      code: this.state.code,
       password: this.state.password
     };
     this.props.clearErrors();
@@ -69,7 +69,7 @@ class LoginScreen1 extends Component {
   }
 
   render() {
-    const { email, password, showLoading, errors } = this.state;
+    const { code, password, showLoading, errors } = this.state;
     return (
       <View style={styles.container}>
         <ImageBackground source={BG_IMAGE} style={styles.bgImage}>
@@ -88,17 +88,15 @@ class LoginScreen1 extends Component {
                         />
                       }
                       containerStyle={{ marginVertical: 10 }}
-                      onChangeText={email => this.setState({ email })}
-                      value={email}
+                      onChangeText={code => this.setState({ code })}
+                      value={code}
                       inputStyle={{ marginLeft: 10, color: 'white' }}
                       keyboardAppearance="light"
-                      placeholder="Email"
+                      placeholder="Mã đăng nhập"
                       autoFocus={false}
                       autoCapitalize="none"
                       autoCorrect={false}
-                      keyboardType="email-address"
                       returnKeyType="next"
-                      ref={input => (this.emailInput = input)}
                       onSubmitEditing={() => {
                         this.passwordInput.focus();
                       }}
@@ -106,7 +104,7 @@ class LoginScreen1 extends Component {
                       placeholderTextColor="white"
                       errorStyle={{ textAlign: 'center', fontSize: 12 }}
                       errorMessage={
-                        errors.email_login && errors.email_login
+                        errors.code && errors.code
                       }
                     />
                     <Input
@@ -129,12 +127,11 @@ class LoginScreen1 extends Component {
                       autoCorrect={false}
                       keyboardType="default"
                       returnKeyType="done"
-                      ref={input => (this.passwordInput = input)}
                       blurOnSubmit={true}
                       placeholderTextColor="white"
                       errorStyle={{ textAlign: 'center', fontSize: 12 }}
                       errorMessage={
-                        errors.password_login && errors.password_login
+                        errors.password && errors.password
                       }
                     />
                   </View>
@@ -158,14 +155,6 @@ class LoginScreen1 extends Component {
                 containerStyle={{ marginBottom: 100 }}
                 titleStyle={{ fontWeight: 'bold', color: 'white' }}
               />
-              <View style={styles.footerView}>
-                <Text style={{color:"rgba(171, 189, 219, 1)"}}>Đăng ký tài khoản</Text>
-                <Icon
-                  name='arrow-right'
-                  type='font-awesome'
-                  color="rgba(171, 189, 219, 1)"
-                  size={25} />
-              </View>
             </View>
           ) : (
             <Text>Loading...</Text>

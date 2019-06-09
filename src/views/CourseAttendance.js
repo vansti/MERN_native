@@ -42,7 +42,8 @@ class CourseAttendance extends Component {
   onSearch = search =>{
     var updatedList = JSON.parse(JSON.stringify(this.state.intialManagecourses));
     updatedList = updatedList.filter((course)=>
-      course.title.toLowerCase().search(search.toLowerCase()) !== -1
+      course.title.toLowerCase().search(search.toLowerCase()) !== -1 ||
+      course.code.toLowerCase().search(search.toLowerCase()) !== -1
     );
     this.setState({ 
       managecourses: updatedList,
@@ -69,7 +70,7 @@ class CourseAttendance extends Component {
           :
           <ScrollView style={{height: SCREEN_HEIGHT - 30}}>
             <SearchBar
-              placeholder="Tên khóa học ..."
+              placeholder="Mã hoặc Tên khóa học ..."
               platform="ios"
               value={search} 
               onChangeText={this.onSearch}
@@ -92,23 +93,19 @@ class CourseAttendance extends Component {
                       flexDirection: 'row',
                     }}
                   >
-                    <View style={{ flex: 2, flexDirection: 'row', alignItems: 'center' }}>
-                      <View style={{ marginLeft: 15 }}>
-                        <Image
-                          source={{ uri: course.coursePhoto }}
-                          style={{ width: 50, height: 50, borderColor:'rgba(241,240,241,1)', borderWidth: 1, borderRadius: 5 }}
-                        />
-                      </View>
-                      <Text
-                        style={{
-                          fontSize: 15,
-                          marginLeft: 10,
-                          color: 'gray',
-                        }}
-                      >
+                    <Image
+                      source={{ uri: course.coursePhoto }}
+                      style={{ width: 50, height: 50, borderColor:'rgba(241,240,241,1)', borderWidth: 1, borderRadius: 5, marginLeft:10 }}
+                    />
+                    <Text style={{flex: 1, flexWrap: 'wrap', marginLeft: 10}}>
+                      <Text style={{fontSize: 15, fontWeight: 'bold'}}>
+                        {course.code}
+                      </Text>
+                      {"\n"}
+                      <Text style={{fontSize: 15, color: 'gray'}} >
                         {course.title}
                       </Text>
-                    </View>
+                    </Text>
                   </View>
                 </TouchableOpacity>
               )

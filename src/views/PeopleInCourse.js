@@ -93,7 +93,7 @@ class PeopleInCourse extends Component {
                     <ListItem
                       leftAvatar={{ rounded: true, source: { uri: user.photo } }}
                       title={user.name}
-                      subtitle={user.email}
+                      subtitle={user.code}
                       containerStyle={{
                         borderWidth: 1,
                         borderColor: 'grey',
@@ -105,7 +105,7 @@ class PeopleInCourse extends Component {
                     <ListItem
                       leftAvatar={{ rounded: true, source: { uri: user.photo } }}
                       title={user.name}
-                      subtitle={user.email}
+                      subtitle={user.code}
                       onPress={this.handlePressStudentInfo.bind(this, user._id)}
                       containerStyle={{
                         borderWidth: 1,

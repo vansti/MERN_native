@@ -20,6 +20,7 @@ class Profile extends Component {
     phone: '',
     photo: null,
     file: null,
+    idCard: '',
     isLoading: false,
     errors:{},
     loading: true
@@ -79,7 +80,7 @@ class Profile extends Component {
 
     if (!isEmptyObj(nextProps.profile.profile)) {
       const { profile } = nextProps.profile
-      this.setState({name: profile.name, email: profile.email, phone: profile.phone, photo: profile.photo})
+      this.setState({name: profile.name, email: profile.email, phone: profile.phone, photo: profile.photo, idCard: profile.idCard})
     }
 
     if (nextProps.success.mes === "Thay đổi thành công") {
@@ -96,14 +97,15 @@ class Profile extends Component {
     const profileData = {
       name: this.state.name,
       email: this.state.email,
-      phone: this.state.phone
+      phone: this.state.phone,
+      idCard: this.state.idCard
     };
     this.props.editProfile(profileData, this.state.file);
     this.props.clearErrors();
   }
 
   render() {
-    const { email, name, phone, photo, isLoading, errors, loading } = this.state;
+    const { email, name, phone, photo, isLoading, errors, loading, idCard } = this.state;
     return (
       <ScrollView>
         <NavigationEvents onDidFocus={() => this.componentDidMount()} />
@@ -146,6 +148,22 @@ class Profile extends Component {
                 }}
                 errorMessage={
                   errors.name && errors.name
+                }
+              />
+              <Input
+                containerStyle={{ width: '90%' }}
+                label="Chứng minh nhân dân"
+                value={idCard}
+                onChangeText={idCard => this.setState({ idCard })}
+                labelStyle={{ marginTop: 16 }}
+                leftIcon={
+                  <Icon name="id-card" type="font-awesome" color="black" size={25} />
+                }
+                leftIconContainerStyle={{
+                  marginRight: 10,
+                }}
+                errorMessage={
+                  errors.idCard && errors.idCard
                 }
               />
               <Input

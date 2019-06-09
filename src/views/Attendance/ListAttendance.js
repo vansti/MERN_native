@@ -113,7 +113,7 @@ class ListAttendance extends Component {
   updateSearch = search => {
     var updatedList = JSON.parse(JSON.stringify(this.state.intialUsers));
     updatedList = updatedList.filter((user)=>
-      user.userId.email.toLowerCase().search(search.toLowerCase()) !== -1 ||
+      user.userId.code.toLowerCase().search(search.toLowerCase()) !== -1 ||
       user.userId.name.toLowerCase().search(search.toLowerCase()) !== -1
     );
     this.setState({
@@ -189,7 +189,7 @@ class ListAttendance extends Component {
                 :
                 <View style={{marginBottom:20}}>
                   <SearchBar
-                    placeholder="Email hoặc Họ Tên ..."
+                    placeholder="Mã số sinh viên hoặc Họ Tên ..."
                     platform="ios"
                     onChangeText={this.updateSearch}
                     value={search}
@@ -201,7 +201,7 @@ class ListAttendance extends Component {
                           key={user._id}
                           leftAvatar={{ rounded: true, source: { uri: user.userId.photo } }}
                           title={user.userId.name}
-                          subtitle={user.userId.email}
+                          subtitle={user.userId.code}
                           containerStyle={{
                             borderRadius: 8,
                             marginTop: 10,

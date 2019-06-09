@@ -1,3 +1,3 @@
 export default {
-  ADDRESS: "https://learning-management-system-sv.herokuapp.com"
+  ADDRESS: "http://192.168.1.104:5000"
 };
