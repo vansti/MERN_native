@@ -9,11 +9,14 @@ import MyCourseDrawerItem from './drawer/MyCourseDrawerItem';
 import ViewCourseDrawerItem from './drawer/ViewCourseDrawerItem';
 import AttendanceDrawerItem from './drawer/AttendanceDrawerItem';
 import ViewAttendanceDrawerItem from './drawer/ViewAttendanceDrawerItem';
-import CourseListDrawerItem from './drawer/CourseListDrawerItem';
 import ManageCoursesDrawerItem from './drawer/ManageCoursesDrawerItem';
 import DashboardDrawerItem from './drawer/DashboardDrawerItem';
 import MyInfoDrawerItem from './drawer/MyInfoDrawerItem';
 
+import { YellowBox } from 'react-native';
+YellowBox.ignoreWarnings([
+    'Unrecognized WebSocket connection option(s) `agent`, `perMessageDeflate`, `pfx`, `key`, `passphrase`, `cert`, `ca`, `ciphers`, `rejectUnauthorized`. Did you mean to put these under `headers`?'
+]);
 
 import Login from './views/Login';
 import LoadingScreen from './views/LoadingScreen';
@@ -40,10 +43,6 @@ const AppDrawer = createDrawerNavigator(
       path: '/view-course',
       screen: ViewCourseDrawerItem,
     },
-    CourseList:{
-      path: '/course-list',
-      screen: CourseListDrawerItem,
-    },
     ManageCourses:{
       path: '/manage-course',
       screen: ManageCoursesDrawerItem,
@@ -62,7 +61,7 @@ const AppDrawer = createDrawerNavigator(
     }
   },
   {
-    initialRouteName: 'MyCourse',
+    initialRouteName: 'Dashboard',
     contentOptions: {
       activeTintColor: '#548ff7',
       activeBackgroundColor: 'transparent',

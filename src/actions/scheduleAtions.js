@@ -4,6 +4,9 @@ import { GET_SUCCESS, GET_ERRORS, GET_SCHEDULE , SCHEDULE_LOADING, GET_EVENT_SCH
 
 import config from './config';
 
+import socketIOClient from "socket.io-client";
+var socket = socketIOClient(config.ADDRESS);
+
 // Add Schedule
 export const addSchedule= (newSchedule) => dispatch => {
   axios
@@ -25,20 +28,15 @@ export const addSchedule= (newSchedule) => dispatch => {
 // get Schedule
 export const getSchedule= (courseId) => dispatch => {
   dispatch(setScheduleLoading());
-  axios
-    .get(config.ADDRESS + '/api/schedule/get-schedule/'+ courseId)
-    .then(res =>{
+  socket.emit("schedule", courseId);
+  socket.on("get_schedule", 
+    res =>{
       dispatch({
         type: GET_SCHEDULE,
-        payload: res.data
+        payload: res
       })
-    })
-    .catch(err =>
-      dispatch({
-        type: GET_SCHEDULE,
-        payload: {}
-      })
-    );
+    }
+  );
 };
 
 // get Event Schedule

@@ -17,7 +17,6 @@ class CustomDrawerContentComponent extends Component {
           item => 
             item.key === "Dashboard" || 
             item.key === "Profile" || 
-            item.key === "CourseList" ||
             item.key === "MyInfo" ||
             item.key === "MyCourse"            
         );
@@ -30,7 +29,7 @@ class CustomDrawerContentComponent extends Component {
           item.key === "MyCourse"            
         );
         break;
-      case 'advisor': Items = 
+      case 'educator': Items = 
         items.filter(item => 
           item.key === "Dashboard" || 
           item.key === "Profile" || 

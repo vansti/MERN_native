@@ -28,10 +28,11 @@ class LessonList extends Component {
   componentWillReceiveProps(nextProps) {
     const { schedule, loading } = nextProps.schedule
     if(!isEmptyObj(schedule))
-      this.setState({ 
-        events: schedule.events,
-        loading 
-      });
+      if(schedule.courseId === this.state.courseId)
+        this.setState({ 
+          events: schedule.events,
+          loading
+        });
     this.setState({
       loading 
     });  
@@ -50,7 +51,6 @@ class LessonList extends Component {
 
     return (
       <View style={{ flex: 1 }}>
-        <NavigationEvents onDidFocus={() => this.componentDidMount()} />
       {
         loading
         ?

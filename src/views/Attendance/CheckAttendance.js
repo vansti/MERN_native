@@ -28,7 +28,8 @@ class CheckAttendance extends Component {
       loadingUserAttendance: true,
       courseId: null,
       loadingSubmit1: false,
-      loadingSubmit2: false
+      loadingSubmit2: false,
+      select: false
     };
   }
   
@@ -49,10 +50,11 @@ class CheckAttendance extends Component {
 
     const { schedule, loading } = nextProps.schedule
     if(!isEmptyObj(schedule))
-      this.setState({ 
-        events: schedule.events,
-        loadingEvent: loading
-      });
+      if(schedule.courseId === this.state.courseId)
+        this.setState({ 
+          events: schedule.events,
+          loadingEvent: loading
+        });
     this.setState({
       loadingEvent: loading 
     });  
@@ -72,20 +74,31 @@ class CheckAttendance extends Component {
 
     if (!isEmptyObj(nextProps.attendance)) {
       const { loading, today_attendance } = nextProps.attendance
-      if(!isEmptyObj(today_attendance))
+      if(today_attendance === null)
       {
+        if(this.state.select === true)
+          this.setState({
+            attendanceId: '',
+            userAttendance: [],
+            loadingUserAttendance: loading,
+            select: false
+          })
         this.setState({
-          attendanceId: today_attendance._id,
-          userAttendance: today_attendance.students,
-          loadingUserAttendance: loading
-        })
-      }else{
-        this.setState({
-          attendanceId: '',
-          userAttendance: [],
-          loadingUserAttendance: false
+          loadingUserAttendance: false,
+          select: false
         })
       }
+      else{
+        if(today_attendance.date === this.state.selectDate && today_attendance.courseId === this.state.courseId)
+          this.setState({
+            attendanceId: today_attendance._id,
+            userAttendance: today_attendance.students,
+            loadingUserAttendance: loading,
+            select: false
+          })
+      }
+      this.setState({ loadingUserAttendance: loading })
+
     }
 
     if (nextProps.success.data === "Điểm danh thành công") {
@@ -94,10 +107,7 @@ class CheckAttendance extends Component {
         'Điểm danh thành công'
       )
       this.props.clearSuccess();
-      var date = {
-        selectDate: this.state.selectDate
-      };
-      this.props.getTodayAttendance(this.state.courseId, date);      
+      this.props.getTodayAttendance(this.state.courseId, this.state.selectDate);      
       this.setState({ loadingSubmit1: false, loadingSubmit2: false })
     }
 
@@ -168,12 +178,12 @@ class CheckAttendance extends Component {
   }
 
   handleSelectDate(selectDate){
-    var date = {
-      selectDate
-    };
-    this.props.getTodayAttendance(this.state.courseId, date);
+    this.props.getTodayAttendance(this.state.courseId, selectDate);
     this.props.getUsers(this.state.courseId);
-    this.setState({selectDate})
+    this.setState({
+      selectDate,
+      select: true
+    })
   }
 
   back=()=>{
@@ -291,7 +301,6 @@ class CheckAttendance extends Component {
 
     return (
       <View style={{ flex: 1 , backgroundColor: 'rgba(241,240,241,1)'}}>    
-        <NavigationEvents onDidFocus={() => this.componentDidMount()} />
         <ScrollView>
           <View style={{marginBottom:20}}>
             <View style={styles.statusBar} />

@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Dimensions, KeyboardAvoidingView, ScrollView, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, Text, Dimensions, ScrollView, ActivityIndicator } from 'react-native';
 import { ListItem, Button, SearchBar } from 'react-native-elements';
 import { connect } from 'react-redux';
 import isEmptyObj from '../../validation/is-empty'; 
 import { Calendar } from 'react-native-calendars';
 import { getAttendance, getTodayAttendance } from '../../actions/attendanceActions';
 import { getSchedule } from '../../actions/scheduleAtions';
-import { NavigationEvents } from 'react-navigation';
 import 'moment/locale/vi';
 
 var moment = require('moment');
@@ -42,56 +41,83 @@ class ListAttendance extends Component {
 
     const { schedule, loading } = nextProps.schedule
     if(!isEmptyObj(schedule))
-      this.setState({ 
-        events: schedule.events,
-        loadingEvent: loading
-      });
+      if(schedule.courseId === this.state.courseId)
+        this.setState({ 
+          events: schedule.events,
+          loadingEvent: loading
+        });
     this.setState({
       loadingEvent: loading 
     });  
 
     if (!isEmptyObj(nextProps.attendance)) {
       const { loading, attendance } = nextProps.attendance
+      if(!isEmptyObj(attendance))
+      {
+        if(attendance.courseId === this.state.courseId)
+        {
+          this.setState({
+            attendance: attendance.attendance,
+            loadingAttendance: loading
+          })
+    
+          var dateList = {};
 
+          attendance.attendance.forEach(element => {
+            dateList[element.date] = {
+              customStyles: {
+                container: {
+                  backgroundColor: 'green',
+                },
+                text: {
+                  color: 'white',
+                  fontWeight: 'bold'
+                },
+              },
+            }
+          })
+  
+          this.setState({
+            highlightDates: dateList
+          })
+        }
+
+      }
       this.setState({
-        attendance,
         loadingAttendance: loading
       })
 
-      var dateList = {};
-      nextProps.attendance.attendance.forEach(element => {
-        dateList[element.date] = {
-          customStyles: {
-            container: {
-              backgroundColor: 'green',
-            },
-            text: {
-              color: 'white',
-              fontWeight: 'bold'
-            },
-          },
-        }
-      })
-      this.setState({
-        highlightDates: dateList
-      })
     }
 
     if (!isEmptyObj(nextProps.attendance)) {
       const { loading, today_attendance } = nextProps.attendance
 
       if(today_attendance === null)
+      {
+        if(this.state.select === true)
+          this.setState({
+            intialUsers: [],
+            users: [],
+            loadingUserAttendance: loading,
+            select: false
+          })
         this.setState({
-          intialUsers: [],
-          users: [],
-          loadingUserAttendance: loading
+          loadingUserAttendance: false,
+          select: false
         })
-      else
-        this.setState({
-          intialUsers: today_attendance.students,
-          users: today_attendance.students,
-          loadingUserAttendance: loading
-        })
+      }
+      else{
+        if(today_attendance.date === this.state.selectDate && today_attendance.courseId === this.state.courseId)
+        {
+          this.setState({
+            intialUsers: today_attendance.students,
+            users: today_attendance.students,
+            loadingUserAttendance: loading,
+            select: false
+          })
+        }
+      }
+      this.setState({ loadingUserAttendance: loading })
     }
   }
 
@@ -123,12 +149,10 @@ class ListAttendance extends Component {
   };
 
   handleSelectDate(selectDate) {
-    var date = {
-      selectDate
-    };
-    this.props.getTodayAttendance(this.state.courseId, date);
+    this.props.getTodayAttendance(this.state.courseId, selectDate);
     this.setState({
-      selectDate
+      selectDate,
+      select: true
     });
   }
   
@@ -148,7 +172,6 @@ class ListAttendance extends Component {
       const { loadingAttendance, highlightDates, selectDate, users, search, intialUsers, loadingEvent, events, loadingUserAttendance  } = this.state
     return (
       <View style={{ flex: 1 , backgroundColor: 'rgba(241,240,241,1)'}}>
-        <NavigationEvents onDidFocus={() => this.componentDidMount()} />
       {
         selectDate
         ?

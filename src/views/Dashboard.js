@@ -16,16 +16,6 @@ class Dashboard extends Component {
         Content = 
           <View>
             <Button
-              title="Xem khóa học hiện có"
-              titleStyle={{ fontWeight: '700', color: 'white' }}
-              buttonStyle={{
-                marginHorizontal: 52,
-                backgroundColor: 'grey',
-                borderRadius: 20,
-              }}
-              onPress={()=>this.props.navigation.navigate('CourseList')}
-            />
-            <Button
               title="Xem khóa học của bạn"
               titleStyle={{ fontWeight: '700', color: 'white' }}
               buttonStyle={{
@@ -56,20 +46,9 @@ class Dashboard extends Component {
           </View>
         break;
 
-      case 'advisor': 
+      case 'educator': 
         Content = 
           <View>
-            <Button
-              title="Danh sách khóa học"
-              titleStyle={{ fontWeight: '700', color: 'white' }}
-              buttonStyle={{
-                marginHorizontal: 52,
-                marginTop:20,
-                backgroundColor: 'grey',
-                borderRadius: 20
-              }}
-              onPress={()=>this.props.navigation.navigate('CourseList')}
-            />
             <Button
               title="Lịch sử điểm danh"
               titleStyle={{ fontWeight: '700', color: 'white' }}
@@ -104,16 +83,6 @@ class Dashboard extends Component {
       case 'admin': 
         Content = 
           <View>
-            <Button
-              title="Xem khóa học hiện có"
-              titleStyle={{ fontWeight: '700', color: 'white' }}
-              buttonStyle={{
-                marginHorizontal: 52,
-                backgroundColor: 'grey',
-                borderRadius: 20,
-              }}
-              onPress={()=>this.props.navigation.navigate('CourseList')}
-            />
             <Button
               title="Xem khóa học của bạn"
               titleStyle={{ fontWeight: '700', color: 'white' }}
