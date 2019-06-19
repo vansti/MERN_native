@@ -79,6 +79,7 @@ class LoginScreen1 extends Component {
                 <KeyboardAvoidingView behavior="position" >
                   <View style={styles.loginInput}>
                     <Input
+                      ref={input => (this.usernameInput = input)}
                       leftIcon={
                         <Icon
                           name="user-o"
@@ -97,17 +98,17 @@ class LoginScreen1 extends Component {
                       autoCapitalize="none"
                       autoCorrect={false}
                       returnKeyType="next"
-                      onSubmitEditing={() => {
-                        this.passwordInput.focus();
-                      }}
-                      blurOnSubmit={false}
                       placeholderTextColor="white"
                       errorStyle={{ textAlign: 'center', fontSize: 12 }}
                       errorMessage={
                         errors.code && errors.code
                       }
+                      onSubmitEditing={() => {
+                        this.passwordInput.focus();
+                      }}
                     />
                     <Input
+                      ref={input => (this.passwordInput = input)}
                       leftIcon={
                         <Icon
                           name="lock"

@@ -12,6 +12,7 @@ import ViewAttendanceDrawerItem from './drawer/ViewAttendanceDrawerItem';
 import ManageCoursesDrawerItem from './drawer/ManageCoursesDrawerItem';
 import DashboardDrawerItem from './drawer/DashboardDrawerItem';
 import MyInfoDrawerItem from './drawer/MyInfoDrawerItem';
+import CreateAccountDrawerItem from './drawer/CreateAccountDrawerItem';
 
 import { YellowBox } from 'react-native';
 YellowBox.ignoreWarnings([
@@ -58,6 +59,10 @@ const AppDrawer = createDrawerNavigator(
     MyInfo: {
       path: '/my-info',
       screen: MyInfoDrawerItem,
+    },
+    CreateAccount: {
+      path: '/create-account',
+      screen: CreateAccountDrawerItem,
     }
   },
   {

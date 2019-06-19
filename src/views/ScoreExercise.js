@@ -76,7 +76,6 @@ class ScoreExercise extends Component {
     const { loading, studentSubmission, isLoading } = this.state
     return (
       <View style={{ flex: 1, backgroundColor: 'rgba(241,240,241,1)' }}>
-        <NavigationEvents onDidFocus={() => this.componentDidMount()} />
         {
           loading
           ?

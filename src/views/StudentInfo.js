@@ -63,8 +63,7 @@ class StudentInfo extends Component {
       studentcourses,  
     } = this.state
     return (
-      <View style={{ flex: 1, backgroundColor: 'rgba(241,240,241,1)' }}>
-        <NavigationEvents onDidFocus={() => this.componentDidMount()} />        
+      <View style={{ flex: 1, backgroundColor: 'rgba(241,240,241,1)' }}>      
         {
           loadingStudent || loadingStudentCourse
           ?

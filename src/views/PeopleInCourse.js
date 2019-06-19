@@ -45,8 +45,7 @@ class PeopleInCourse extends Component {
     const { loading } = this.state
     const { role } = this.props.auth.user
     return (
-      <View style={{ flex: 1 }}>
-        <NavigationEvents onDidFocus={() => this.componentDidMount()} />        
+      <View style={{ flex: 1 }}>     
       {
         loading
         ?

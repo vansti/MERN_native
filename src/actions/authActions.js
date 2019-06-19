@@ -23,6 +23,24 @@ export const registerUser = (userData) => dispatch => {
     );
 };
 
+// Create User
+export const createUser = userData => dispatch => {
+  axios
+    .post(config.ADDRESS +'/api/users/register', userData)
+    .then(res =>{
+      dispatch({
+        type: GET_SUCCESS,
+        payload: res.data
+      })
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
 // Login - Get User Token
 export const loginUser = userData => dispatch => {
   axios

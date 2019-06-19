@@ -85,7 +85,6 @@ class Lesson extends Component {
     const { role } = this.props.auth.user
     return (
       <View style={{flex: 1}}>
-        <NavigationEvents onDidFocus={() => this.componentDidMount()} />
       {
         loading
         ?
@@ -179,26 +178,28 @@ class Lesson extends Component {
                             />
                           )
                         }
-                        <Divider style={{ backgroundColor: 'grey', marginTop: 10 }} />
                         {
                           role === 'teacher' || role === 'admin'
                           ?
-                          <Button
-                            title="Chấm điểm"
-                            buttonStyle={{
-                              backgroundColor: 'grey',
-                              borderWidth: 2,
-                              borderColor: 'white',
-                              borderRadius: 30,
-                            }}
-                            containerStyle={{ marginVertical: 10, height: 50 }}
-                            titleStyle={{ fontWeight: 'bold' }}
-                            onPress={this.handlePressScoreExercise.bind(this, e._id)}
-                          />
+                          <View>
+                            <Divider style={{ backgroundColor: 'grey', marginTop: 10 }} />
+                            <Button
+                              title="Chấm điểm"
+                              buttonStyle={{
+                                backgroundColor: 'grey',
+                                borderWidth: 2,
+                                borderColor: 'white',
+                                borderRadius: 30,
+                              }}
+                              containerStyle={{ marginVertical: 10, height: 50 }}
+                              titleStyle={{ fontWeight: 'bold' }}
+                              onPress={this.handlePressScoreExercise.bind(this, e._id)}
+                            />
+                            <Comment exercise={e}/>
+                          </View>
                           :
                           null
                         }
-                        <Comment exercise={e}/>
                       </View>
                     </Card>
                   </View>

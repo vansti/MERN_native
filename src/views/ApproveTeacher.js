@@ -66,7 +66,6 @@ class ApproveTeacher extends Component {
     let { approve_list_teacher, loading, isLoadingApprove, search }  = this.state;
     return (
       <View style={{ flex: 1, backgroundColor: 'rgba(241,240,241,1)' }}>
-        <NavigationEvents onDidFocus={() => this.componentDidMount()} />
         {
           loading
           ?

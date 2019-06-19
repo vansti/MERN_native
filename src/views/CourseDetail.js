@@ -69,7 +69,6 @@ class CourseDetail extends Component {
     const { role } = this.props.auth.user
     return (
       <View style={{flex: 1}}>
-        <NavigationEvents onDidFocus={() => this.componentDidMount()} />
       {
         loading
         ?

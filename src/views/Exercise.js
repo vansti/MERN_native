@@ -50,7 +50,6 @@ class Exercise extends Component {
     const { exercises, loading } = this.state
     return (
       <View style={{ flex: 1 }}>
-        <NavigationEvents onDidFocus={() => this.componentDidMount()} />
       {
         loading
         ?

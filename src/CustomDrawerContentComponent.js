@@ -33,15 +33,15 @@ class CustomDrawerContentComponent extends Component {
         items.filter(item => 
           item.key === "Dashboard" || 
           item.key === "Profile" || 
-          item.key === "ManageCourses" 
+          item.key === "ViewCourse" ||
+          item.key === "ViewAttendance" 
         );
         break;
       case 'ministry': Items =  
         items.filter(item => 
           item.key === "Dashboard" || 
           item.key === "Profile" || 
-          item.key === "ViewCourse" || 
-          item.key === "ViewAttendance" 
+          item.key === "ManageCourses" 
         );
         break;  
       case 'admin': Items =  
@@ -51,10 +51,18 @@ class CustomDrawerContentComponent extends Component {
           item.key === "ViewCourse" || 
           item.key === "ManageCourses" || 
           item.key === "Attendance" || 
-          item.key === "ViewAttendance" 
+          item.key === "ViewAttendance" ||
+          item.key === "CreateAccount"  
         );
         break;     
-      default: Items =  items;break;
+      case 'manager': Items = 
+        items.filter(item => 
+          item.key === "Dashboard" || 
+          item.key === "Profile" ||
+          item.key === "CreateAccount"           
+        );
+        break;
+      default : Items = items; break;
     }
 
     return (
