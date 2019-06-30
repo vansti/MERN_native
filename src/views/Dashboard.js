@@ -1,14 +1,45 @@
 import React, { Component } from 'react';
-import { Dimensions, StyleSheet, View, Text } from 'react-native';
+import { Dimensions, StyleSheet, View, Text, ActivityIndicator } from 'react-native';
 import { Image, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
-const LOGO_IMAGE = require('../images/e-icon.png');
+import { getSchool } from '../actions/schoolActions';
+import isEmptyObj from '../validation/is-empty';
+
+const LOGO_IMAGE = require('../images/Ai-Edu.png');
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
 class Dashboard extends Component {
+
+  constructor() {
+    super();
+    this.state = {
+      loading: true,
+      schoolName: ''
+    };
+  }
+
+  componentDidMount = () => {
+    this.props.getSchool();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { school, loading } = nextProps.school;
+    this.setState({
+      loading
+    })
+    if(!isEmptyObj(school))
+    {
+      this.setState({ 
+        schoolName: school.name
+      });
+    }
+  }
+
   render() {
     const { name, role } = this.props.auth.user
+    const { schoolName, loading } = this.state
+
     var Content = null ;
 
     switch (role) {
@@ -139,22 +170,32 @@ class Dashboard extends Component {
 
     return (
       <View style={{ flex: 1, backgroundColor: 'rgba(241,240,241,1)' }}>
-        <View style={styles.statusBar} />
-        <View style={styles.navBar}>
-          <Text style={styles.nameHeader}>Xin chào <Text style={{fontWeight:'bold'}}>{name},</Text></Text>
-        </View>
-        <View style={styles.center}>
-          <View style={{marginHorizontal:100}}>
-            <Image
-              source={LOGO_IMAGE}
-              style={{ width: 150, height: 150 }}
-            />
+        {
+          loading
+          ?
+          <View style={styles.container}> 
+            <ActivityIndicator size="large" />
           </View>
-          <View style={{ marginVertical: 20 }}>
-            <Text style={{fontWeight:'bold', fontSize: 18, textAlign: 'center'}}>TRUNG TÂM ĐÀO TẠO</Text>
+          :
+          <View> 
+            <View style={styles.statusBar} />
+            <View style={styles.navBar}>
+              <Text style={styles.nameHeader}>Xin chào <Text style={{fontWeight:'bold'}}>{name},</Text></Text>
+            </View>
+            <View style={styles.center}>
+              <View style={{marginHorizontal:100}}>
+                <Image
+                  source={LOGO_IMAGE}
+                  style={{ width: 150, height: 150 }}
+                />
+              </View>
+              <View style={{ marginVertical: 20 }}>
+                <Text style={{fontWeight:'bold', fontSize: 18, textAlign: 'center'}}>{schoolName}</Text>
+              </View>
+              {Content}
+            </View>
           </View>
-          {Content}
-        </View>
+        }
       </View>
     );
   }
@@ -183,6 +224,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  school: state.school
 });
-export default connect(mapStateToProps, {  })(Dashboard); 
+export default connect(mapStateToProps, { getSchool })(Dashboard); 

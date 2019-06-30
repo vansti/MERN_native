@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import { GET_USERS, USERS_LOADING, GET_APPROVE_LIST_STUDENT, GET_SUCCESS, GET_ERRORS, CLEAR_SUCCESS, GET_STUDENT, GET_APPROVE_LIST_TEACHER } from './types';
-import config from './config';
+import config from '../config';
 
 // Get a list of users
 export const getUsers = (courseid) => dispatch => {

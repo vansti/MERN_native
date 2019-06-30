@@ -3,7 +3,7 @@ import jwt_decode from 'jwt-decode';
 import setAuthToken from '../utils/setAuthToken';
 import { AsyncStorage, Platform } from 'react-native';
 import { GET_ERRORS, SET_CURRENT_USER, CLEAR_ERRORS, GET_SUCCESS, CLEAR_SUCCESS } from './types';
-import config from './config';
+import config from '../config';
 
 // Register User
 export const registerUser = (userData) => dispatch => {

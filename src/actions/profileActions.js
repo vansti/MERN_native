@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import { GET_ERRORS, GET_PROFILE, CLEAR_ERRORS, GET_SUCCESS, CLEAR_SUCCESS, PROFILE_LOADING } from './types';
 
-import config from './config';
+import config from '../config';
 
 // Edit Profle
 export const editProfile = (userData, photo) => dispatch => {

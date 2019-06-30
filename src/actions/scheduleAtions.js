@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import { GET_SUCCESS, GET_ERRORS, GET_SCHEDULE , SCHEDULE_LOADING, GET_EVENT_SCHEDULE, CLEAR_SUCCESS } from './types';
 
-import config from './config';
+import config from '../config';
 
 import socketIOClient from "socket.io-client";
 var socket = socketIOClient(config.ADDRESS);

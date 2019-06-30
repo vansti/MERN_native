@@ -13,7 +13,7 @@ import {
   GET_STUDENT_COURSES
 } from './types';
 
-import config from './config';
+import config from '../config';
 
 
 // get curent user courses

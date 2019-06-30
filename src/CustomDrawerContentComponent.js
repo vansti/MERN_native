@@ -72,7 +72,7 @@ class CustomDrawerContentComponent extends Component {
             style={{ marginTop: 40, justifyContent: 'center', alignItems: 'center' }}
           >
             <Image
-              source={require('./images/e-icon.png')}
+              source={require('./images/Ai-Edu.png')}
               style={{ width: 50, height: 50}}
               resizeMode="contain"
             />
