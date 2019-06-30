@@ -18,7 +18,7 @@ import isEmptyObj from '../../validation/is-empty'
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 
-const BG_IMAGE = require('../../images/Ai-Edu.png');
+const BG_IMAGE = require('../../../assets/images/e.png');
 
 class LoginScreen1 extends Component {
   constructor() {
