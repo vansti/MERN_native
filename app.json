@@ -9,7 +9,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
-    "icon": "./assets/icons/Ai-Edu.png",
+    "icon": "./assets/icons/logo.png",
     "splash": {
       "image": "./assets/icons/loading.png"
     },
@@ -24,7 +24,7 @@
       "package": "com.learning_management_system",
       "versionCode": 1,
       "permissions": [],
-      "icon": "./assets/icons/Ai-Edu.png"
+      "icon": "./assets/icons/logo.png"
     }
   }
 }

@@ -183,13 +183,13 @@ class Dashboard extends Component {
               <Text style={styles.nameHeader}>Xin chào <Text style={{fontWeight:'bold'}}>{name},</Text></Text>
             </View>
             <View style={styles.center}>
-              <View style={{marginHorizontal:100}}>
+              <View style={{marginHorizontal:85}}>
                 <Image
                   source={LOGO_IMAGE}
-                  style={{ width: 150, height: 150 }}
+                  style={{ width: 180, height: 150 }}
                 />
               </View>
-              <View style={{ marginVertical: 20 }}>
+              <View style={{ marginVertical: 30 }}>
                 <Text style={{fontWeight:'bold', fontSize: 18, textAlign: 'center'}}>{schoolName}</Text>
               </View>
               {Content}
