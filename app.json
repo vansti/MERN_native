@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "LMS Ai-Edu",
-    "slug": "LMS",
+    "slug": "Moodle",
     "description": "Learning management system",
     "privacy": "public",
     "sdkVersion": "32.0.0",
@@ -22,7 +22,7 @@
     },
     "android":{
       "package": "com.learning_management_system",
-      "versionCode": 4,
+      "versionCode": 5,
       "permissions": [],
       "icon": "./assets/icons/Ai-Edu.png"
     }
