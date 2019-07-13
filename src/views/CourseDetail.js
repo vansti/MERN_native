@@ -40,10 +40,10 @@ class CourseDetail extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (!isEmptyObj(nextProps.courses)) {
-      const { courseinfo, loading } = nextProps.courses
+      const { courseinfo, loadingCourseInfo } = nextProps.courses
       this.setState({
         courseinfo,
-        loading
+        loading: loadingCourseInfo
       })
     }
 

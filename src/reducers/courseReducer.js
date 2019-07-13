@@ -4,7 +4,8 @@ import {
   ALLCOURSE_LOADING,
   GET_COURSE_INFO,
   GET_MANAGE_COURSES,
-  GET_STUDENT_COURSES
+  GET_STUDENT_COURSES,
+  COURSE_INFO_LOADING
 } from '../actions/types';
 
 const initialState = {
@@ -16,7 +17,8 @@ const initialState = {
   currentcourses: [],
   studentcourses: [],
   managecourses: [],
-  loading: false
+  loading: false,
+  loadingCourseInfo: false
 };
 
 export default function(state = initialState, action) {
@@ -44,11 +46,16 @@ export default function(state = initialState, action) {
         ...state,
         loading: true
       };
+    case COURSE_INFO_LOADING:
+      return {
+        ...state,
+        loadingCourseInfo: true
+      };
     case GET_COURSE_INFO:
       return {
         ...state,
         courseinfo: action.payload,
-        loading: false
+        loadingCourseInfo: false
       };
     case GET_MANAGE_COURSES:
       return {

@@ -10,11 +10,14 @@ import {
   GET_ERRORS,
   GET_SUCCESS,
   GET_MANAGE_COURSES,
-  GET_STUDENT_COURSES
+  GET_STUDENT_COURSES,
+  COURSE_INFO_LOADING
 } from './types';
 
 import config from '../config';
 
+import socketIOClient from "socket.io-client";
+var socket = socketIOClient(config.ADDRESS);
 
 // get curent user courses
 export const getCurentCourse = () => dispatch => {
@@ -38,39 +41,36 @@ export const getCurentCourse = () => dispatch => {
 // lấy hết khóa học chưa hết hạn ghi danh
 export const getAllCourse = () => dispatch => {
   dispatch(setAllCourseLoading())
-  axios
-    .get(config.ADDRESS + '/api/courses/all-course')
-    .then(res =>
+  dispatch(setAllCourseLoading())
+  socket.emit("all_course");
+  socket.on("get_all_course", 
+    res =>{
       dispatch({
         type: GET_ALL_COURSES,
-        payload: res.data
+        payload: res
       })
-    )
-    .catch(err =>
-      dispatch({
-        type: GET_ALL_COURSES,
-        payload: {}
-      })
-    );
+    }
+  );
+};
+
+export const setCourseInfoLoading = () => {
+  return {
+    type: COURSE_INFO_LOADING
+  };
 };
 
 // lấy thông tin chi tiết của 1 khóa học
 export const getCourseInfo = (courseId) => dispatch => {
-  dispatch(setAllCourseLoading())
-  axios
-    .get(`${config.ADDRESS}/api/courses/course-info/${courseId}`)
-    .then(res =>
+  dispatch(setCourseInfoLoading())
+  socket.emit("course_info", courseId);
+  socket.on("get_course_info", 
+    res =>{
       dispatch({
         type: GET_COURSE_INFO,
-        payload: res.data
+        payload: res
       })
-    )
-    .catch(err =>
-      dispatch({
-        type: GET_COURSE_INFO,
-        payload: {}
-      })
-    );
+    }
+  );
 };
 
 // Enroll Course
@@ -114,20 +114,15 @@ export const unenrollCourse = (courseId) => dispatch => {
 // lấy tất cả các khóa học
 export const getManageCourses = () => dispatch => {
   dispatch(setAllCourseLoading())
-  axios
-    .get(`${config.ADDRESS}/api/courses/manage-courses`)
-    .then(res =>
+  socket.emit("manage_courses");
+  socket.on("get_manage_courses", 
+    res =>{
       dispatch({
         type: GET_MANAGE_COURSES,
-        payload: res.data
+        payload: res
       })
-    )
-    .catch(err =>
-      dispatch({
-        type: GET_MANAGE_COURSES,
-        payload: {}
-      })
-    );
+    }
+  );
 };
 
 // join course

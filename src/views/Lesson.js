@@ -1,26 +1,21 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, ScrollView, ActivityIndicator, Alert, Linking } from 'react-native';
 import { connect } from 'react-redux';
-import { Divider, Card, ListItem, Button } from 'react-native-elements';
+import { Divider, Card, ListItem } from 'react-native-elements';
 import isEmptyObj from '../validation/is-empty';
 import { getLessonIncourse } from '../actions/lessonActions'; 
 import moment from "moment";
 import HTML from 'react-native-render-html';
-import Comment from './Comment';
-import { NavigationEvents } from 'react-navigation';
 import { cacheFonts } from "../helpers/AssetsCaching";
-
+import ExerciseLesson from './ExerciseLesson';
+import QuizLesson from './QuizLesson';
 
 class Lesson extends Component {
   constructor(props) {
     super(props);
     this.state = {
       loading: true,
-      text: '',
-      content: '',
-      files: [],
-      exercises: [],
-      quizzes: []
+      courseId: ''
     };
     this.handleGoToUrl = this.handleGoToUrl.bind(this);
   }
@@ -34,6 +29,10 @@ class Lesson extends Component {
     const { navigation } = this.props;
     const courseId = navigation.getParam('courseId', 'NO-ID');
     const lessonId = navigation.getParam('lessonId', 'NO-ID');
+
+    this.setState({
+      courseId
+    })
     this.props.getLessonIncourse(courseId, lessonId)
   }
 
@@ -69,10 +68,6 @@ class Lesson extends Component {
     });
   }
 
-  handlePressScoreExercise(exerciseId){
-    this.props.navigation.navigate('ScoreExercise',{ exerciseId: exerciseId })
-  } 
-
   render() {
     const { 
       content, 
@@ -82,7 +77,6 @@ class Lesson extends Component {
       exercises,
       quizzes 
     } = this.state;
-    const { role } = this.props.auth.user
     return (
       <View style={{flex: 1}}>
       {
@@ -95,7 +89,7 @@ class Lesson extends Component {
         <ScrollView>
           <View style={{margin: 15}}>
             <View style={{ alignItems: 'center' }}>
-              <Text style={{ fontSize: 20, fontFamily: 'bold2', color: '#F08080'}}>
+              <Text style={{ fontSize: 20, fontWeight:'bold'}}>
                 {text}
               </Text>
             </View>
@@ -103,24 +97,44 @@ class Lesson extends Component {
             <View style={{ alignItems: 'center',  marginTop: 20 }}>
               <Text style={styles.title}>Nội dung bài học</Text>
             </View>
-            <View style={{ marginTop: 20, marginBottom:20 }}>
-            {
-              content
-              ?
-              <HTML html={content} />
-              :
-              <Text style={{ color: 'grey'}}>Chưa cập nhật nội dung bài học</Text>
-            }
-            </View>
-
-            <View style={{ alignItems: 'center' }}>
+              {
+                content
+                ?
+                <View
+                  style={{
+                    backgroundColor: 'white',
+                    borderRadius: 5,
+                    borderWidth: 1,
+                    borderColor: 'rgba(110, 120, 170, 1)'
+                  }}
+                >
+                  <View style={{marginLeft: 10}}>
+                    <HTML html={content} />
+                  </View>
+                </View>
+                :
+                <View
+                  style={styles.noinfo}
+                >
+                  <View style={{marginLeft: 10, marginTop: 30 }}>
+                    <Text style={{ color: 'grey'}}>Chưa cập nhật nội dung bài học</Text>
+                  </View>
+                </View>
+              }
+            <View style={{ alignItems: 'center', marginTop: 20 }}>
               <Text style={styles.title}>Tài liệu học</Text>
             </View>
-            <View style={{ marginTop: 20, marginBottom:20 }}>
+            <View style={{ marginBottom:20 }}>
               {
                 files.length === 0
                 ?
-                <Text style={{ color: 'grey'}}>Chưa có tài liệu học</Text>
+                <View
+                  style={styles.noinfo}
+                >
+                 <View style={{marginLeft: 10, marginTop: 30}}>
+                  <Text style={{ color: 'grey'}}>Chưa có tài liệu học</Text>
+                  </View>
+                </View>
                 :
                 <View>
                 {
@@ -150,58 +164,18 @@ class Lesson extends Component {
             {
               exercises.length === 0
               ?
-              <Text style={{ color: 'grey'}}>Chưa có bài tập</Text>
+              <View
+                style={styles.noinfo}
+              >
+              <View style={{marginLeft: 10, marginTop: 30}}>
+                <Text style={{ color: 'grey'}}>Chưa có bài tập</Text>
+                </View>
+              </View>
               :
               exercises.map((e, i) => {
                 return (
                   <View key={i} style={{marginTop:10}}>
-                    <Card title={e.title}>
-                      <View>
-                        <Text style={{color: 'grey'}}>{moment(e.created).format("[- Ngày đăng:] HH:mm [ngày] DD/MM/YYYY")}</Text>
-                        <Text style={{color: 'grey'}}>{moment(e.deadline).format("[- Hạn nộp:] HH:mm [ngày] DD/MM/YYYY")}</Text>
-                        <Divider style={{ backgroundColor: 'grey', marginTop: 10 }} />
-                        <Text style={{marginTop: 10}}>{e.text}</Text>
-                        {
-                          e.attachFiles.map(file=>
-                            <ListItem
-                              key={file.id}
-                              leftAvatar={{ rounded: false, source: { uri: file.thumbnail } }}
-                              title={file.name}
-                              titleStyle={{ color: 'blue', textDecorationLine: 'underline' }}
-                              onPress={this.handleGoToUrl.bind(this, file.url)}
-                              containerStyle={{
-                                borderWidth: 1,
-                                borderColor: 'rgba(110, 120, 170, 1)',
-                                borderRadius: 8,
-                                marginTop: 10
-                              }}
-                            />
-                          )
-                        }
-                        {
-                          role === 'teacher' || role === 'admin'
-                          ?
-                          <View>
-                            <Divider style={{ backgroundColor: 'grey', marginTop: 10 }} />
-                            <Button
-                              title="Chấm điểm"
-                              buttonStyle={{
-                                backgroundColor: 'grey',
-                                borderWidth: 2,
-                                borderColor: 'white',
-                                borderRadius: 30,
-                              }}
-                              containerStyle={{ marginVertical: 10, height: 50 }}
-                              titleStyle={{ fontWeight: 'bold' }}
-                              onPress={this.handlePressScoreExercise.bind(this, e._id)}
-                            />
-                            <Comment exercise={e}/>
-                          </View>
-                          :
-                          null
-                        }
-                      </View>
-                    </Card>
+                    <ExerciseLesson exercise={e}/>
                   </View>
                 );
               })
@@ -215,14 +189,18 @@ class Lesson extends Component {
             {
               quizzes.length === 0
               ?
-              <Text style={{ color: 'grey'}}>Chưa có bài trắc nghiệm</Text>
+              <View
+                style={styles.noinfo}
+              >
+              <View style={{marginLeft: 10, marginTop: 30}}>
+                <Text style={{ color: 'grey'}}>Chưa có bài trắc nghiệm</Text>
+                </View>
+              </View>
               :
               quizzes.map((quiz,index) =>{
                 return (
                   <View key={index} style={{marginTop:10}}>
-                    <Card title={quiz.quizId.title}>
-                      <Text>{moment(quiz.deadline).format("[- Hạn làm:] HH:mm [ngày] DD/MM/YYYY")}</Text>
-                    </Card>
+                    <QuizLesson courseId={this.state.courseId} quiz={quiz}/>
                   </View>
                 );
               })
@@ -246,6 +224,14 @@ const styles = StyleSheet.create({
     fontFamily: 'bold',
     color: '#4169E1',
     fontSize: 15
+  },
+  noinfo: {
+    alignItems: 'center',
+    height:80,
+    backgroundColor: 'white',
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: 'rgba(110, 120, 170, 1)'
   }
 });
 

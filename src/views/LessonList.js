@@ -29,10 +29,23 @@ class LessonList extends Component {
     const { schedule, loading } = nextProps.schedule
     if(!isEmptyObj(schedule))
       if(schedule.courseId === this.state.courseId)
+      {
+        const { events } = schedule
+        var now = new Date();
+        for(var i=0;i < events.length; i++)
+        {
+          var date = new Date(events[i].end);
+          if(date.getTime() >= now.getTime())
+          {
+            events[i].hilight = true;
+            break;
+          }
+        }
         this.setState({ 
-          events: schedule.events,
-          loading
+          events,
+          loading 
         });
+      }
     this.setState({
       loading 
     });  
@@ -65,22 +78,44 @@ class LessonList extends Component {
             ?
             <Text style={{marginTop: 10, textAlign:"center", fontSize:20}}>Chưa có ngày học</Text>
             :
-            events.map((e, i) => {
+            events.map(e => {
               return (
-                <View key={i} style={{marginTop:10}}>
-                  <Card title={this.capitalizeFirstLetter(moment(e.date).locale('vi').format("dddd, [ngày] DD [thg] MM, YYYY"))}>
-                    <View>
-                      <Text style={{fontWeight: 'bold'}}>- Bài học: {e.text}</Text>
-                      <Text style={{color: 'grey'}}>- Giờ học: {e.time[0]} - {e.time[1]}</Text>
-                      <Divider style={{ backgroundColor: 'grey', marginTop: 10 }} />
-                      <Button
-                        buttonStyle={{marginTop:10}}
-                        title="Xem nội dung bài học"
-                        type="outline"
-                        onPress={this.handleClickLesson.bind(this, this.state.courseId,  e.lessonId)}
-                      />
+                <View key={e._id}>
+                  {
+                    e.hilight
+                    ?
+                    <View style={{marginTop:10}}>
+                      <Card titleStyle={{backgroundColor:'#FFDEAD'}} title={this.capitalizeFirstLetter(moment(e.date).locale('vi').format("dddd, [ngày] DD [thg] MM, YYYY"))}>
+                        <View>
+                          <Text style={{fontWeight: 'bold'}}>- Bài học: {e.text}</Text>
+                          <Text style={{color: 'grey'}}>- Giờ học: {e.time[0]} - {e.time[1]}</Text>
+                          <Divider style={{ backgroundColor: 'grey', marginTop: 10 }} />
+                          <Button
+                            buttonStyle={{marginTop:10}}
+                            title="Xem nội dung bài học"
+                            type="outline"
+                            onPress={this.handleClickLesson.bind(this, this.state.courseId,  e.lessonId)}
+                          />
+                        </View>
+                      </Card>
                     </View>
-                  </Card>
+                    :
+                    <View style={{marginTop:10}}>
+                      <Card title={this.capitalizeFirstLetter(moment(e.date).locale('vi').format("dddd, [ngày] DD [thg] MM, YYYY"))}>
+                        <View>
+                          <Text style={{fontWeight: 'bold'}}>- Bài học: {e.text}</Text>
+                          <Text style={{color: 'grey'}}>- Giờ học: {e.time[0]} - {e.time[1]}</Text>
+                          <Divider style={{ backgroundColor: 'grey', marginTop: 10 }} />
+                          <Button
+                            buttonStyle={{marginTop:10}}
+                            title="Xem nội dung bài học"
+                            type="outline"
+                            onPress={this.handleClickLesson.bind(this, this.state.courseId,  e.lessonId)}
+                          />
+                        </View>
+                      </Card>
+                    </View>
+                  }
                 </View>
               );
             })
