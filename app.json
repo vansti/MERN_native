@@ -6,7 +6,7 @@
     "privacy": "public",
     "sdkVersion": "32.0.0",
     "platforms": ["ios", "android"],
-    "version": "1.0.2",
+    "version": "1.0.3",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
     "icon": "./assets/icons/Ai-Edu.png",
@@ -22,7 +22,7 @@
     },
     "android":{
       "package": "com.learning_management_system",
-      "versionCode": 5,
+      "versionCode": 6,
       "permissions": [],
       "icon": "./assets/icons/Ai-Edu.png"
     }

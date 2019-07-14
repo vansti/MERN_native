@@ -66,15 +66,13 @@ export const getCurrentProfile = () => dispatch => {
 };
 
 // Change Password
-export const changePassword = (passwordData, history) => dispatch => {
-  dispatch(clearErrors());
-  dispatch(clearSuccess());
+export const changePassword = (passwordData) => dispatch => {
   axios
     .post(config.ADDRESS + '/api/users/change-password', passwordData)
     .then(res =>{
       dispatch({
         type: GET_SUCCESS,
-        payload: {data: 'Thay đổi password thành công'}
+        payload: res.data
       })
     })
     .catch(err =>

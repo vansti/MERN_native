@@ -18,7 +18,8 @@ class CustomDrawerContentComponent extends Component {
             item.key === "Dashboard" || 
             item.key === "Profile" || 
             item.key === "MyInfo" ||
-            item.key === "MyCourse"            
+            item.key === "MyCourse" ||
+            item.key === "ChangePassword" 
         );
         break;
       case 'teacher': Items =  
@@ -26,7 +27,8 @@ class CustomDrawerContentComponent extends Component {
           item.key === "Dashboard" || 
           item.key === "Profile" || 
           item.key === "Attendance" ||
-          item.key === "MyCourse"            
+          item.key === "MyCourse" ||
+          item.key === "ChangePassword"             
         );
         break;
       case 'educator': Items = 
@@ -34,14 +36,16 @@ class CustomDrawerContentComponent extends Component {
           item.key === "Dashboard" || 
           item.key === "Profile" || 
           item.key === "ViewCourse" ||
-          item.key === "ViewAttendance" 
+          item.key === "ViewAttendance" ||
+          item.key === "ChangePassword" 
         );
         break;
       case 'ministry': Items =  
         items.filter(item => 
           item.key === "Dashboard" || 
           item.key === "Profile" || 
-          item.key === "ManageCourses" 
+          item.key === "ManageCourses" ||
+          item.key === "ChangePassword" 
         );
         break;  
       case 'admin': Items =  
@@ -52,14 +56,16 @@ class CustomDrawerContentComponent extends Component {
           item.key === "ManageCourses" || 
           item.key === "Attendance" || 
           item.key === "ViewAttendance" ||
-          item.key === "CreateAccount"  
+          item.key === "CreateAccount"  ||
+          item.key === "ChangePassword" 
         );
         break;     
       case 'manager': Items = 
         items.filter(item => 
           item.key === "Dashboard" || 
           item.key === "Profile" ||
-          item.key === "CreateAccount"           
+          item.key === "CreateAccount" ||
+          item.key === "ChangePassword"           
         );
         break;
       default : Items = items; break;

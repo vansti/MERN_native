@@ -13,6 +13,7 @@ import ManageCoursesDrawerItem from './drawer/ManageCoursesDrawerItem';
 import DashboardDrawerItem from './drawer/DashboardDrawerItem';
 import MyInfoDrawerItem from './drawer/MyInfoDrawerItem';
 import CreateAccountDrawerItem from './drawer/CreateAccountDrawerItem';
+import ChangePasswordDrawerItem from './drawer/ChangePasswordDrawerItem';
 
 import { YellowBox } from 'react-native';
 YellowBox.ignoreWarnings([
@@ -63,6 +64,10 @@ const AppDrawer = createDrawerNavigator(
     CreateAccount: {
       path: '/create-account',
       screen: CreateAccountDrawerItem,
+    },
+    ChangePassword: {
+      path: '/change-password',
+      screen: ChangePasswordDrawerItem,
     }
   },
   {
