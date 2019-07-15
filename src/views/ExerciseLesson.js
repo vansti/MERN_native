@@ -88,6 +88,15 @@ class ExerciseLesson extends Component {
                           Điểm: <Text style={{color: 'grey'}}> chưa có</Text>
                         </Text>
                       }
+                      {
+                        mysubmission.note
+                        ?
+                        <Text>
+                          Ghi chú: <Text style={{color: 'grey'}}> {mysubmission.note}</Text>
+                        </Text>
+                        :
+                        null
+                      }
                     </View>
                   }
                   {

@@ -77,7 +77,7 @@ class Exercise extends Component {
                         e.attachFiles.map(file=>
                           <ListItem
                             key={file.id}
-                            leftAvatar={{ rounded: false, source: { uri: file.thumbnail } }}
+                            leftAvatar={{ rounded: false, source: { uri: file.thumbnail ? file.thumbnail: null} }}
                             title={file.name}
                             titleStyle={{ color: 'blue', textDecorationLine: 'underline' }}
                             onPress={this.handleGoToUrl.bind(this, file.url)}
